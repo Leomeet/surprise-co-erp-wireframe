@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 100vh; background: #f8f9fa">
+  
+  <!-- Header -->
+  <div style="background: #fff; border-bottom: 1px solid #e0e0e0; padding: 20px 24px">
+    <div style="max-width: 1400px; margin: 0 auto">
+      <h1 style="font-size: 24px; font-weight: 600; color: #1a1a1a">Customer Order Upload</h1>
+      <p style="font-size: 14px; color: #666; margin-top: 4px">Upload quotations and manage order metadata</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div style="flex: 1; display: flex; overflow: hidden">
+    
+    <!-- LEFT: File Upload Section + File List -->
+    <div style="width: 40%; background: #fff; border-right: 1px solid #e0e0e0; display: flex; flex-direction: column; overflow: hidden">
+      
+      <!-- Upload Zone -->
+      <div style="padding: 24px; border-bottom: 1px solid #e0e0e0">
+        <h2 style="font-size: 14px; font-weight: 600; margin-bottom: 16px">Upload Quotations</h2>
+        
+        <div style="border: 2px dashed #2563eb; border-radius: 8px; padding: 32px 20px; text-align: center; background: #f0f7ff; cursor: pointer; transition: all 0.2s" 
+             onclick="{{ handleDragOver }}"
+             style-hover="background: #e7f0ff; border-color: #1d4ed8">
+          <div style="font-size: 32px; margin-bottom: 12px">📄</div>
+          <div style="font-size: 14px; font-weight: 600; color: #2563eb">Drop files here or click to upload</div>
+          <div style="font-size: 12px; color: #666; margin-top: 8px">Supports PDF, Excel (.xlsx, .xls)</div>
+          <input type="file" multiple accept=".pdf,.xlsx,.xls" style="display: none" id="fileInput" onchange="{{ handleFileSelect }}">
+        </div>
+      </div>
+
+      <!-- File List -->
+      <div style="flex: 1; overflow-y: auto; padding: 16px">
+        <h3 style="font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; margin-bottom: 12px">
+          Uploaded Files ({{ fileCount }})
+        </h3>
+        
+        <sc-for list="{{ files }}" as="file" hint-placeholder-count="3">
+          <div 
+            style="padding: 12px; margin-bottom: 8px; border-radius: 6px; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; transition: all 0.2s"
+            style-hover="background: #f5f5f5; border-color: #2563eb; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1)"
+            onclick="{{ selectFile }}"
+            data-file-id="{{ file.id }}">
+            
+            <div style="display: flex; align-items: center; gap: 12px">
+              <div style="font-size: 20px">
+                <sc-if value="{{ file.type === 'pdf' }}" hint-placeholder-val="{{ true }}">📕</sc-if>
+                <sc-if value="{{ file.type !== 'pdf' }}" hint-placeholder-val="{{ false }}">📊</sc-if>
+              </div>
+              
+              <div style="flex: 1; min-width: 0">
+                <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                  {{ file.name }}
+                </div>
+                <div style="font-size: 11px; color: #999; margin-top: 2px">
+                  {{ file.size }} • {{ file.uploadDate }}
+                </div>
+              </div>
+              
+              <button 
+                onclick="{{ deleteFile }}"
+                data-file-id="{{ file.id }}"
+                style="padding: 4px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 16px"
+                style-hover="color: #dc2626">
+                ✕
+              </button>
+            </div>
+          </div>
+        </sc-for>
+
+        <sc-if value="{{ noFiles }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align: center; padding: 32px 16px; color: #999">
+            <div style="font-size: 24px; margin-bottom: 8px">📭</div>
+            <div style="font-size: 12px">No files uploaded yet</div>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Metadata & Details Panel -->
+    <div style="width: 60%; display: flex; flex-direction: column; overflow: hidden">
+      
+      <sc-if value="{{ selectedFile }}" hint-placeholder-val="{{ false }}">
+        
+        <!-- File Header -->
+        <div style="background: #fff; border-bottom: 1px solid #e0e0e0; padding: 20px 24px">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px">
+            <div style="font-size: 28px">
+              <sc-if value="{{ selectedFile.type === 'pdf' }}" hint-placeholder-val="{{ true }}">📕</sc-if>
+              <sc-if value="{{ selectedFile.type !== 'pdf' }}" hint-placeholder-val="{{ false }}">📊</sc-if>
+            </div>
+            <div>
+              <h2 style="font-size: 18px; font-weight: 600; color: #1a1a1a">{{ selectedFile.name }}</h2>
+              <p style="font-size: 12px; color: #666; margin-top: 4px">Uploaded on {{ selectedFile.uploadDate }}</p>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px">
+            <div style="padding: 12px; background: #f8f9fa; border-radius: 6px">
+              <div style="font-size: 11px; color: #666; font-weight: 600">File Size</div>
+              <div style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-top: 4px">{{ selectedFile.size }}</div>
+            </div>
+            <div style="padding: 12px; background: #f8f9fa; border-radius: 6px">
+              <div style="font-size: 11px; color: #666; font-weight: 600">Total Items</div>
+              <div style="font-size: 16px; font-weight: 600; color: #2563eb; margin-top: 4px">{{ selectedFile.itemCount }}</div>
+            </div>
+            <div style="padding: 12px; background: #f8f9fa; border-radius: 6px">
+              <div style="font-size: 11px; color: #666; font-weight: 600">Status</div>
+              <div style="font-size: 14px; font-weight: 600; color: #16a34a; margin-top: 4px">✓ Processed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metadata Form -->
+        <div style="flex: 1; overflow-y: auto; padding: 24px">
+          <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 16px">Order Information</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            
+            <!-- Order Name -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">
+                Order Name <span style="color: #dc2626">*</span>
+              </label>
+              <input 
+                type="text"
+                placeholder="e.g., Customer ABC - Q2 Stock"
+                value="{{ selectedFile.orderName }}"
+                onchange="{{ updateOrderName }}"
+                style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit"
+                style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+            </div>
+
+            <!-- Expected Delivery -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">
+                Expected Delivery Date <span style="color: #dc2626">*</span>
+              </label>
+              <input 
+                type="date"
+                value="{{ selectedFile.deliveryDate }}"
+                onchange="{{ updateDeliveryDate }}"
+                style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit"
+                style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+            </div>
+
+            <!-- Payment Status -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">
+                Payment Status <span style="color: #dc2626">*</span>
+              </label>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px">
+                <button 
+                  onclick="{{ updatePaymentStatus }}"
+                  data-status="unpaid"
+                  style="padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s"
+                  style-hover="border-color: #ddd; background: #f5f5f5">
+                  💳 Unpaid
+                </button>
+                <button 
+                  onclick="{{ updatePaymentStatus }}"
+                  data-status="paid"
+                  style="padding: 10px; border: 2px solid #2563eb; border-radius: 6px; background: #e7f0ff; font-size: 13px; font-weight: 600; color: #2563eb; cursor: pointer; transition: all 0.2s"
+                  style-hover="background: #d7e8ff">
+                  ✓ Paid
+                </button>
+              </div>
+            </div>
+
+            <!-- Supplier -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">
+                Preferred Supplier
+              </label>
+              <select 
+                value="{{ selectedFile.supplier }}"
+                onchange="{{ updateSupplier }}"
+                style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fff"
+                style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+                <option value="">Select supplier...</option>
+                <option value="supplier-a">Supplier A</option>
+                <option value="supplier-b">Supplier B</option>
+                <option value="supplier-c">Supplier C</option>
+              </select>
+            </div>
+
+            <!-- Notes -->
+            <div>
+              <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">
+                Notes
+              </label>
+              <textarea 
+                placeholder="Add any special notes about this order..."
+                value="{{ selectedFile.notes }}"
+                onchange="{{ updateNotes }}"
+                style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; min-height: 100px; resize: vertical"
+                style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+              </textarea>
+            </div>
+
+          </div>
+
+          <!-- Divider -->
+          <div style="margin: 24px 0; height: 1px; background: #e0e0e0"></div>
+
+          <!-- File Details -->
+          <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 16px">Extraction Summary</h3>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px">
+            <div style="padding: 16px; background: #f8f9fa; border-radius: 6px">
+              <div style="font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase">Total Items in Quotation</div>
+              <div style="font-size: 24px; font-weight: 700; color: #1a1a1a; margin-top: 8px">{{ selectedFile.itemCount }}</div>
+            </div>
+            <div style="padding: 16px; background: #f8f9fa; border-radius: 6px">
+              <div style="font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase">Extracted Successfully</div>
+              <div style="font-size: 24px; font-weight: 700; color: #16a34a; margin-top: 8px">{{ selectedFile.extractedCount }}</div>
+            </div>
+          </div>
+
+          <!-- Items List with Expand -->
+          <div style="border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; background: #fff">
+            
+            <!-- List Header -->
+            <div style="display: grid; grid-template-columns: 80px 1fr 80px 100px 100px 100px; gap: 12px; padding: 12px 16px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0; font-size: 11px; font-weight: 600; color: #666; text-transform: uppercase">
+              <div>SKU</div>
+              <div>Description</div>
+              <div>Qty</div>
+              <div>Unit Price</div>
+              <div style="color: #16a34a">Available</div>
+              <div style="color: #dc2626">OOS</div>
+            </div>
+
+            <!-- Preview Items (max 3 visible) -->
+            <div style="position: relative">
+              <sc-for list="{{ itemsPreview }}" as="item" hint-placeholder-count="2">
+                <div style="display: grid; grid-template-columns: 80px 1fr 80px 100px 100px 100px; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; font-size: 12px; align-items: center">
+                  <div style="font-weight: 600; color: #2563eb">{{ item.sku }}</div>
+                  <div style="color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ item.description }}</div>
+                  <div style="color: #666; text-align: center">{{ item.qty }}</div>
+                  <div style="color: #666; text-align: right">₹{{ item.unitPrice }}</div>
+                  <div style="color: #16a34a; font-weight: 600; text-align: center">{{ item.inStockQty }}</div>
+                  <div style="color: #dc2626; font-weight: 600; text-align: center">{{ item.outStockQty }}</div>
+                </div>
+              </sc-for>
+
+              <!-- Fade Overlay (when collapsed) -->
+              <sc-if value="{{ !itemsExpanded }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 60%, rgba(255,255,255,1) 100%); pointer-events: none"></div>
+              </sc-if>
+            </div>
+
+            <!-- Expanded Items (hidden by default) -->
+            <sc-if value="{{ itemsExpanded }}" hint-placeholder-val="{{ false }}">
+              <sc-for list="{{ itemsRemaining }}" as="item" hint-placeholder-count="2">
+                <div style="display: grid; grid-template-columns: 80px 1fr 80px 100px 100px 100px; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f0f0f0; font-size: 12px; align-items: center; background: #f8f9fa">
+                  <div style="font-weight: 600; color: #2563eb">{{ item.sku }}</div>
+                  <div style="color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ item.description }}</div>
+                  <div style="color: #666; text-align: center">{{ item.qty }}</div>
+                  <div style="color: #666; text-align: right">₹{{ item.unitPrice }}</div>
+                  <div style="color: #16a34a; font-weight: 600; text-align: center">{{ item.inStockQty }}</div>
+                  <div style="color: #dc2626; font-weight: 600; text-align: center">{{ item.outStockQty }}</div>
+                </div>
+              </sc-for>
+            </sc-if>
+
+            <!-- Expand/Collapse Button -->
+            <button 
+              onclick="{{ toggleItemsExpand }}"
+              style="width: 100%; padding: 12px; border: none; border-top: 1px solid #e0e0e0; background: #f8f9fa; font-size: 12px; font-weight: 600; color: #2563eb; cursor: pointer; transition: all 0.2s"
+              style-hover="background: #f0f0f0">
+              <sc-if value="{{ itemsExpanded }}" hint-placeholder-val="{{ false }}">
+                ▲ Show Less ({{ itemsPreviewCount }} of {{ selectedFile.itemCount }})
+              </sc-if>
+              <sc-if value="{{ !itemsExpanded }}" hint-placeholder-val="{{ true }}">
+                ▼ Show All ({{ selectedFile.itemCount }} items)
+              </sc-if>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="background: #fff; border-top: 1px solid #e0e0e0; padding: 16px 24px; display: flex; gap: 12px">
+          <button 
+            style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 600; color: #333; cursor: pointer; transition: all 0.2s"
+            style-hover="background: #f5f5f5; border-color: #bbb">
+            Edit File
+          </button>
+          <button 
+            style="flex: 1; padding: 12px; border: none; border-radius: 6px; background: #2563eb; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: all 0.2s"
+            style-hover="background: #1d4ed8">
+            Review Items →
+          </button>
+        </div>
+
+      </sc-if>
+
+      <!-- Empty State -->
+      <sc-if value="{{ !selectedFile }}" hint-placeholder-val="{{ true }}">
+        <div style="flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #999">
+          <div style="font-size: 48px; margin-bottom: 16px">📋</div>
+          <div style="font-size: 16px; font-weight: 600; color: #666">No file selected</div>
+          <div style="font-size: 13px; margin-top: 8px">Upload or select a file from the list to view details</div>
+        </div>
+      </sc-if>
+
+    </div>
+
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    files: [
+      {
+        id: '1',
+        name: 'Q2-2026-Quotation.pdf',
+        type: 'pdf',
+        size: '2.4 MB',
+        uploadDate: '24 Jun 2026',
+        itemCount: 24,
+        extractedCount: 24,
+        orderName: 'Customer ABC - Q2 Stock',
+        deliveryDate: '2026-07-15',
+        paymentStatus: 'paid',
+        supplier: 'supplier-a',
+        notes: 'Rush delivery required. Contact supplier for expedited shipping.'
+      },
+      {
+        id: '2',
+        name: 'Bulk-Order-Items.xlsx',
+        type: 'xlsx',
+        size: '1.1 MB',
+        uploadDate: '23 Jun 2026',
+        itemCount: 56,
+        extractedCount: 56,
+        orderName: 'Bulk Order - Summer Campaign',
+        deliveryDate: '2026-08-01',
+        paymentStatus: 'unpaid',
+        supplier: 'supplier-b',
+        notes: ''
+      }
+    ],
+    selectedFileId: '1',
+    itemsExpanded: false
+  };
+
+  generateSampleItems = (count) => {
+    const items = [];
+    const descriptions = ['Steel Rod', 'Copper Wire', 'Aluminum Sheet', 'Plastic Pellets', 'Rubber Seal', 'Steel Bracket', 'Bolt M8', 'Washer', 'Cable Tie', 'Circuit Board'];
+    const skus = ['SKU-001', 'SKU-002', 'SKU-003', 'SKU-004', 'SKU-005', 'SKU-006', 'SKU-007', 'SKU-008', 'SKU-009', 'SKU-010'];
+    
+    for (let i = 0; i < count; i++) {
+      const totalQty = Math.floor(Math.random() * 100) + 10;
+      const inStockQty = Math.floor(Math.random() * totalQty);
+      const outStockQty = totalQty - inStockQty;
+      
+      items.push({
+        sku: skus[i % skus.length] + (Math.floor(i / skus.length) > 0 ? `-${Math.floor(i / skus.length)}` : ''),
+        description: descriptions[i % descriptions.length],
+        qty: totalQty,
+        unitPrice: (Math.random() * 500 + 10).toFixed(2),
+        inStockQty: inStockQty,
+        outStockQty: outStockQty
+      });
+    }
+    return items;
+  };
+
+  selectFile = (e) => {
+    const fileId = e.currentTarget.getAttribute('data-file-id');
+    this.setState({ selectedFileId: fileId });
+  };
+
+  deleteFile = (e) => {
+    e.stopPropagation();
+    const fileId = e.currentTarget.getAttribute('data-file-id');
+    this.setState(s => ({
+      files: s.files.filter(f => f.id !== fileId),
+      selectedFileId: s.selectedFileId === fileId ? null : s.selectedFileId
+    }));
+  };
+
+  handleFileSelect = (e) => {
+    const input = e.currentTarget;
+    const newFiles = Array.from(input.files).map((file, idx) => ({
+      id: String(this.state.files.length + idx + 1),
+      name: file.name,
+      type: file.name.endsWith('.pdf') ? 'pdf' : 'xlsx',
+      size: (file.size / 1024 / 1024).toFixed(1) + ' MB',
+      uploadDate: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
+      itemCount: Math.floor(Math.random() * 50) + 10,
+      extractedCount: Math.floor(Math.random() * 50) + 10,
+      orderName: '',
+      deliveryDate: '',
+      paymentStatus: 'unpaid',
+      supplier: '',
+      notes: ''
+    }));
+    
+    this.setState(s => ({
+      files: [...s.files, ...newFiles],
+      selectedFileId: newFiles[0].id
+    }));
+  };
+
+  handleDragOver = (e) => {
+    e.preventDefault();
+    document.getElementById('fileInput').click();
+  };
+
+  updateOrderName = (e) => {
+    const value = e.currentTarget.value;
+    this.setState(s => ({
+      files: s.files.map(f => 
+        f.id === s.selectedFileId ? { ...f, orderName: value } : f
+      )
+    }));
+  };
+
+  updateDeliveryDate = (e) => {
+    const value = e.currentTarget.value;
+    this.setState(s => ({
+      files: s.files.map(f => 
+        f.id === s.selectedFileId ? { ...f, deliveryDate: value } : f
+      )
+    }));
+  };
+
+  updatePaymentStatus = (e) => {
+    e.preventDefault();
+    const status = e.currentTarget.getAttribute('data-status');
+    this.setState(s => ({
+      files: s.files.map(f => 
+        f.id === s.selectedFileId ? { ...f, paymentStatus: status } : f
+      )
+    }));
+  };
+
+  updateSupplier = (e) => {
+    const value = e.currentTarget.value;
+    this.setState(s => ({
+      files: s.files.map(f => 
+        f.id === s.selectedFileId ? { ...f, supplier: value } : f
+      )
+    }));
+  };
+
+  updateNotes = (e) => {
+    const value = e.currentTarget.value;
+    this.setState(s => ({
+      files: s.files.map(f => 
+        f.id === s.selectedFileId ? { ...f, notes: value } : f
+      )
+    }));
+  };
+
+  toggleItemsExpand = () => {
+    this.setState(s => ({ itemsExpanded: !s.itemsExpanded }));
+  };
+
+  renderVals() {
+    const selectedFile = this.state.files.find(f => f.id === this.state.selectedFileId);
+    const allItems = selectedFile ? this.generateSampleItems(selectedFile.itemCount) : [];
+    const itemsPreviewCount = 3;
+    const itemsPreview = allItems.slice(0, itemsPreviewCount);
+    const itemsRemaining = allItems.slice(itemsPreviewCount);
+    
+    return {
+      files: this.state.files,
+      selectedFile,
+      fileCount: this.state.files.length,
+      noFiles: this.state.files.length === 0,
+      itemsPreview,
+      itemsRemaining,
+      itemsExpanded: this.state.itemsExpanded,
+      itemsPreviewCount,
+      selectFile: this.selectFile,
+      deleteFile: this.deleteFile,
+      handleFileSelect: this.handleFileSelect,
+      handleDragOver: this.handleDragOver,
+      updateOrderName: this.updateOrderName,
+      updateDeliveryDate: this.updateDeliveryDate,
+      updatePaymentStatus: this.updatePaymentStatus,
+      updateSupplier: this.updateSupplier,
+      updateNotes: this.updateNotes,
+      toggleItemsExpand: this.toggleItemsExpand
+    };
+  }
+}
+
+</script>
+</body>
+</html>

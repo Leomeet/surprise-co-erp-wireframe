@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <template id="__bundler_thumbnail" data-bg-color="#0f172a">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="120" fill="#0f172a"/>
+      <rect x="12" y="12" width="96" height="96" rx="8" fill="none" stroke="#60a5fa" stroke-width="2"/>
+      <rect x="18" y="18" width="84" height="16" rx="2" fill="#60a5fa" opacity="0.3"/>
+      <rect x="18" y="42" width="25" height="45" rx="2" fill="#60a5fa" opacity="0.2"/>
+      <rect x="50" y="42" width="52" height="45" rx="2" fill="#60a5fa" opacity="0.1"/>
+      <circle cx="30" cy="35" r="4" fill="#60a5fa"/>
+    </svg>
+  </template>
+  <style>
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { color: #1d4ed8; text-decoration: underline; }
+    .page { background: #fff; margin: 48px auto; max-width: 1440px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; }
+    .page-label { font-size: 15px; font-weight: 700; color: #666; padding: 22px 32px; background: #f9f9f9; border-bottom: 1px solid #eee; }
+    .nav-bar { background: #fff; border-bottom: 1px solid #e2e2e2; height: 68px; display: flex; align-items: center; padding: 0 32px; gap: 28px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+    .nav-logo { font-size: 17px; font-weight: 700; color: #1a1a1a; min-width: 150px; }
+    .nav-menu { display: flex; gap: 4px; flex: 1; }
+    .nav-item { padding: 22px 16px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; cursor: pointer; }
+    .nav-item.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .page-header { background: #fff; border-bottom: 1px solid #e2e2e2; padding: 28px 32px; }
+    .page-title { font-size: 26px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+    .page-subtitle { font-size: 14px; color: #666; }
+    .page-content { display: flex; min-height: auto; height: 100%; }
+    .sidebar { width: 30%; border-right: 1px solid #e2e2e2; padding: 28px; background: #fff; }
+    .main { width: 70%; padding: 28px 32px; background: #fff; }
+    .sidebar.full { width: 25%; }
+    .main.full { width: 75%; }
+    .section-title { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 16px; margin-top: 24px; }
+    .section-title:first-child { margin-top: 0; }
+    .info-box { background: #fff; border: 1px solid #e2e2e2; padding: 14px; margin-bottom: 12px; border-radius: 6px; font-size: 14px; }
+    .info-label { color: #888; font-size: 12px; margin-bottom: 4px; font-weight: 600; }
+    .info-value { font-weight: 600; font-size: 15px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .stat-chip { padding: 16px 12px; background: #fff; border: 1px solid #e2e2e2; border-radius: 6px; text-align: center; }
+    .stat-label { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 8px; }
+    .stat-value { font-size: 24px; font-weight: 700; color: #2563eb; }
+    .stat-value.green { color: #16a34a; }
+    .stat-value.red { color: #dc2626; }
+    .upload-box { background: #f0f7ff; border: 2px dashed #2563eb; padding: 32px; text-align: center; border-radius: 8px; margin-bottom: 16px; }
+    .upload-icon { font-size: 40px; margin-bottom: 12px; }
+    .upload-name { font-size: 15px; color: #2563eb; font-weight: 600; margin-bottom: 6px; }
+    .upload-status { font-size: 13px; color: #16a34a; font-weight: 600; }
+    .table-header { background: #f4f5f7; padding: 14px 16px; font-size: 13px; font-weight: 600; color: #555; display: grid; gap: 14px; margin-bottom: 4px; border-radius: 6px; align-items: center; }
+    .table-row { padding: 16px; font-size: 14px; display: grid; gap: 14px; border-bottom: 1px solid #f0f0f0; align-items: center; }
+    .table-row:nth-child(even) { background: #fafafa; }
+    .badge { font-weight: 700; padding: 5px 12px; border-radius: 12px; font-size: 12px; display: inline-block; }
+    .badge.available { background: #dcfce7; color: #16a34a; }
+    .badge.unavailable { background: #fee2e2; color: #dc2626; }
+    .badge.arrangeable { background: #fecaca; color: #7f1d1d; }
+    .badge.processing { background: #fef3c7; color: #f59e0b; }
+    .badge.delivered { background: #dcfce7; color: #16a34a; }
+    .badge.pending { background: #fee2e2; color: #dc2626; }
+    .arrange-cell { display: flex; align-items: center; gap: 10px; min-height: 34px; flex-wrap: wrap; }
+    .arrange-preview { padding: 7px 14px; background: #d97706; color: #fff; border: none; border-radius: 5px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .arrange-stub { padding: 5px 10px; background: #f9fafb; border: 1px dashed #cbd5e1; border-radius: 5px; font-size: 12px; font-weight: 600; color: #94a3b8; letter-spacing: 0.5px; }
+    .avatar-stack { display: flex; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; margin-left: -8px; }
+    .order-card { background: #fff; border: 1px solid #e2e2e2; border-radius: 8px; padding: 22px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .order-grid { display: grid; grid-template-columns: 1fr 1.4fr 0.8fr 1fr 1fr; gap: 20px; align-items: center; }
+    .order-label { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.03em; }
+    .order-value { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .order-id { color: #2563eb; }
+    .order-footer { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px; align-items: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid #f0f0f0; font-size: 13px; color: #666; }
+    .footer-link { text-align: right; color: #2563eb; font-weight: 600; }
+    .timeline { border: 1px solid #e2e2e2; padding: 32px; background: #fafafa; border-radius: 8px; max-width: 640px; }
+    .timeline-item { display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+    .timeline-label { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+    .timeline-date { font-size: 13px; color: #888; }
+    .btn { padding: 11px 20px; border: 1px solid #d1d5db; border-radius: 6px; background: #f5f5f5; font-size: 14px; font-weight: 600; color: #333; cursor: pointer; }
+    .btn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .btn-group { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+    .action-bar { display: flex; gap: 12px; justify-content: flex-end; padding: 20px 32px; border-top: 1px solid #e2e2e2; background: #fff; }
+    .status-legend { font-size: 13px; color: #666; margin-bottom: 18px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 7px; }
+    .legend-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .summary-box { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 10px 12px; border-radius: 2px; margin-bottom: 12px; }
+    .summary-title { font-size: 9px; color: #92400e; font-weight: 700; margin-bottom: 5px; }
+    .summary-item { font-size: 9px; color: #666; margin-bottom: 3px; }
+    .summary-highlight { color: #2563eb; font-weight: 700; }
+    .receipt-stat { border: 1px solid #e2e2e2; padding: 18px; background: #fafafa; margin-bottom: 14px; border-radius: 8px; }
+    .receipt-stat.success { background: #e0f7e0; border-color: #bbf7d0; }
+    .receipt-label { font-size: 13px; color: #888; font-weight: 600; margin-bottom: 8px; }
+    .receipt-label.success { color: #16a34a; }
+    .receipt-value { font-size: 30px; font-weight: 700; color: #333; }
+    .receipt-value.success { color: #16a34a; }
+  
+
+  body { background: #eef0f3; }
+  .site-hero { background: #0f172a; color: #fff; padding: 72px 32px 60px; text-align: center; }
+  .site-hero .eyebrow { font-size: 14px; font-weight: 700; letter-spacing: 0.18em; color: #60a5fa; text-transform: uppercase; margin-bottom: 18px; }
+  .site-hero h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .site-hero p { font-size: 18px; color: #cbd5e1; max-width: 640px; margin: 0 auto; line-height: 1.6; }
+  .flow-section { max-width: 1500px; margin: 0 auto; padding: 72px 32px; border-bottom: 1px solid #e2e5ea; }
+  .flow-section:last-of-type { border-bottom: none; }
+  .section-head { max-width: 1440px; margin: 0 auto 28px; }
+  .section-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #2563eb; text-transform: uppercase; margin-bottom: 10px; }
+  .section-title-lg { font-size: 34px; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .section-sub { font-size: 16px; color: #64748b; max-width: 680px; line-height: 1.6; }
+  .carousel { max-width: 1440px; margin: 0 auto; }
+  .c-topbar { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #d8dce2; border-bottom: none; border-radius: 12px 12px 0 0; padding: 16px 24px; }
+  .c-topbar .c-screen { font-size: 17px; font-weight: 700; color: #1a1a1a; }
+  .c-topbar .c-count { font-size: 14px; font-weight: 700; color: #94a3b8; letter-spacing: 0.03em; }
+  .c-stage { border-left: 1px solid #d8dce2; border-right: 1px solid #d8dce2; background: #f4f5f7; padding: 28px; overflow: hidden; }
+  .c-slide { display: none; }
+  .c-slide.active { display: block; }
+  .c-slide .frame { background: #fff; border-radius: 10px; box-shadow: 0 8px 30px rgba(15,23,42,0.12); overflow: hidden; min-height: 600px; }
+  .c-slide .frame > .nav-bar { border-radius: 0; }
+  .c-bottombar { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid #d8dce2; border-top: none; border-radius: 0 0 12px 12px; padding: 16px 24px; }
+  .navbtn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; font-size: 15px; font-weight: 600; color: #374151; cursor: pointer; transition: all .15s; }
+  .navbtn:hover:not(:disabled) { background: #f9fafb; border-color: #2563eb; color: #2563eb; }
+  .navbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .navbtn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .navbtn.primary:hover:not(:disabled) { background: #1d4ed8; color: #fff; }
+  .c-dots { display: flex; gap: 8px; }
+  .c-dots .dot { width: 9px; height: 9px; border-radius: 50%; background: #cbd5e1; cursor: pointer; transition: all .15s; }
+  .c-dots .dot.active { background: #2563eb; transform: scale(1.25); }
+  .site-foot { text-align: center; padding: 40px; color: #94a3b8; font-size: 13px; }
+  /* Full-screen showcase */
+  .c-controls { display: flex; align-items: center; gap: 16px; }
+  .c-fs-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 15px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; font-size: 13px; font-weight: 600; color: #374151; cursor: pointer; transition: all .15s; }
+  .c-fs-btn:hover { border-color: #2563eb; color: #2563eb; background: #f0f7ff; }
+  .fs-overlay { position: absolute; left: 0; width: 100%; background: #0f172a; z-index: 2000; display: none; flex-direction: column; }
+  .fs-overlay.open { display: flex; }
+  .fs-bar { height: 60px; flex-shrink: 0; background: #0b1220; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; border-bottom: 1px solid #1e293b; }
+  .fs-bar .fs-title { font-size: 16px; font-weight: 700; }
+  .fs-bar .fs-hint { font-size: 12px; color: #64748b; }
+  .fs-close { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border: 1px solid #334155; border-radius: 8px; background: transparent; color: #e2e8f0; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .15s; }
+  .fs-close:hover { background: #1e293b; border-color: #475569; }
+  .fs-body { flex: 1; overflow: auto; padding: 0; display: block; }
+  .fs-body .frame { width: 100%; height: 100%; max-width: none; background: #fff; border-radius: 0; box-shadow: none; overflow: visible; }
+  .fs-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2010; width: 52px; height: 52px; border-radius: 50%; border: none; background: rgba(15,23,42,0.55); color: #fff; font-size: 24px; font-weight: 700; cursor: pointer; display: none; align-items: center; justify-content: center; transition: all .15s; backdrop-filter: blur(4px); }
+  .fs-overlay.open .fs-arrow { display: flex; }
+  .fs-arrow:hover:not(:disabled) { background: #2563eb; }
+  .fs-arrow:disabled { opacity: 0.25; cursor: not-allowed; }
+  .fs-arrow.left { left: 22px; }
+  .fs-arrow.right { right: 22px; }
+
+  </style>
+</head>
+<body>
+
+<div class="site-hero">
+  <div class="eyebrow">ERP System</div>
+  <h1>Product Walkthrough</h1>
+  <p>Explore each workflow of the ERP platform — grouped by role, from customer quotations through stock check-in.</p>
+</div>
+
+  <section class="flow-section">
+    <div class="section-head">
+      <div class="section-eyebrow">FLOW 01</div>
+      <h2 class="section-title-lg">Quotation Management</h2>
+      <p class="section-sub">Upload, edit, and arrange customer quotations before they become orders.</p>
+    </div>
+    <div class="carousel" data-carousel="1" data-total="1">
+      <div class="c-topbar">
+        <span class="c-screen" data-role="title">Quotation Management</span>
+        <span class="c-count"><span data-role="cur">1</span> / 1</span>
+      </div>
+      <div class="c-stage">
+      <div class="c-slide active" data-i="0" data-title="Quotation Management">
+        <div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item active">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div class="page-header">
+    <div class="page-title">Quotation Management</div>
+    <div class="page-subtitle">Upload, edit, and arrange quotation items before saving</div>
+  </div>
+  <div class="page-content">
+    <div class="sidebar">
+      <div class="section-title">Upload Quotation</div>
+      <div class="upload-box">
+        <div class="upload-icon">📄</div>
+        <div class="upload-name">quotation_2024_06.xlsx</div>
+        <div class="upload-status">✓ Uploaded successfully</div>
+      </div>
+
+      <div class="section-title">Order Information</div>
+      <div class="info-box">
+        <div class="info-label">Order Name</div>
+        <div class="info-value">Q2 2024 Stock Replenishment</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Expected Delivery</div>
+        <div class="info-value">July 15, 2024</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Payment Status</div>
+        <div class="info-value" style="color: #16a34a;">Paid</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 16px;">
+        <div class="stat-chip"><div class="stat-label">Total Items</div><div class="stat-value">6</div></div>
+        <div class="stat-chip"><div class="stat-label">Available</div><div class="stat-value green">2</div></div>
+        <div class="stat-chip"><div class="stat-label">To Arrange</div><div class="stat-value red">3</div></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;">Quotation Items</div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Edit items below, then save changes</div>
+
+      <div class="status-legend">
+        <span class="legend-item"><span class="legend-dot" style="background: #16a34a;"></span>Available (in stock)</span>
+        <span class="legend-item"><span class="legend-dot" style="background: #dc2626;"></span>Unavailable (not in stock)</span>
+        <span class="legend-item"><span class="legend-dot" style="background: #fca5a5;"></span>Arrangeable <span class="legend-dot" style="background: #fbbf24;"></span></span>
+      </div>
+
+      <div class="table-header" style="grid-template-columns: 0.5fr 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div>Urgent</div><div>SKU</div><div>Description</div><div style="text-align: center;">Qty</div><div style="text-align: right;">Price</div><div>Status &amp; Arrange</div><div style="text-align: center;">Action</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.5fr 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div><button class="urgent-toggle" data-sku="sku-001" style="cursor: pointer; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; background: white; transition: all 0.2s;" data-urgent="false"></button></div>
+        <div style="font-weight: 600;">SKU-001</div>
+        <div>Electronic Component A</div>
+        <div style="text-align: center;">12</div>
+        <div style="text-align: right;">₹850</div>
+        <div><span class="badge available">Available</span></div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.5fr 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div><button class="urgent-toggle" data-sku="sku-002" style="cursor: pointer; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #dc2626; background: #dc2626; transition: all 0.2s;" data-urgent="true"></button></div>
+        <div style="font-weight: 600;">SKU-002</div>
+        <div>Mechanical Part B</div>
+        <div style="text-align: center;">10</div>
+        <div style="text-align: right;">₹1,200</div>
+        <div><span class="badge unavailable">Unavailable</span></div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.5fr 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr; position: relative;" data-arrange-row="sku-003">
+        <div><button class="urgent-toggle" data-sku="sku-003" style="cursor: pointer; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #dc2626; background: #dc2626; transition: all 0.2s;" data-urgent="true"></button></div>
+        <div style="font-weight: 600;">SKU-003</div>
+        <div>Assembly Kit C</div>
+        <div style="text-align: center;">2</div>
+        <div style="text-align: right;">₹2,500</div>
+        <div class="arrange-cell">
+          <span class="badge arrangeable">Arrangeable <span style="width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; display: inline-block; margin-left: 4px;"></span></span>
+          <span class="arrange-stub" data-arrange-display="sku-003">ORD..</span>
+          <div class="avatar-stack" data-arrange-avatars="sku-003">
+            <div class="avatar" style="background: #2563eb;">AB</div>
+            <div class="avatar" style="background: #7c3aed; margin-left: -5px;">JK</div>
+            <div class="avatar" style="background: #0891b2; margin-left: -5px;">SM</div>
+          </div>
+          <button class="arrange-preview" onclick="openArrangeDropdown('sku-003', event)">Preview →</button>
+        </div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.5fr 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div><button class="urgent-toggle" data-sku="sku-004" style="cursor: pointer; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; background: white; transition: all 0.2s;" data-urgent="false"></button></div>
+        <div style="font-weight: 600;">SKU-004</div>
+        <div>Connector Module D</div>
+        <div style="text-align: center;">5</div>
+        <div style="text-align: right;">₹3,100</div>
+        <div><span class="badge available">Available</span></div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.5fr 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr; position: relative;" data-arrange-row="sku-005">
+        <div><button class="urgent-toggle" data-sku="sku-005" style="cursor: pointer; width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; background: white; transition: all 0.2s;" data-urgent="false"></button></div>
+        <div style="font-weight: 600;">SKU-005</div>
+        <div>Sensor Array E</div>
+        <div style="text-align: center;">3</div>
+        <div style="text-align: right;">₹4,750</div>
+        <div class="arrange-cell">
+          <span class="badge arrangeable">Arrangeable <span style="width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; display: inline-block; margin-left: 4px;"></span></span>
+          <span class="arrange-stub" data-arrange-display="sku-005">ORD..</span>
+          <div class="avatar-stack" data-arrange-avatars="sku-005">
+            <div class="avatar" style="background: #2563eb;">AB</div>
+            <div class="avatar" style="background: #7c3aed; margin-left: -5px;">JK</div>
+          </div>
+          <button class="arrange-preview" onclick="openArrangeDropdown('sku-005', event)">Preview →</button>
+        </div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn">Discard Changes</button>
+        <button class="btn primary">Save Order</button>
+      </div>
+    </div>
+  </div></div>
+      </div>
+      </div>
+      <div class="c-bottombar">
+        <button class="navbtn" data-role="prev" disabled>← Previous</button>
+        <span class="c-dots" data-role="dots"></span>
+        <button class="navbtn primary" data-role="next" disabled>Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow-section">
+    <div class="section-head">
+      <div class="section-eyebrow">FLOW 02</div>
+      <h2 class="section-title-lg">Order Management</h2>
+      <p class="section-sub">Track every customer order from placement through delivery.</p>
+    </div>
+    <div class="carousel" data-carousel="2" data-total="2">
+      <div class="c-topbar">
+        <span class="c-screen" data-role="title">Customer Orders</span>
+        <span class="c-count"><span data-role="cur">1</span> / 2</span>
+      </div>
+      <div class="c-stage">
+      <div class="c-slide active" data-i="0" data-title="Customer Orders">
+        <div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item active">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <div class="page-title">Customer Orders</div>
+      <div class="page-subtitle">View and manage all customer quotation orders</div>
+    </div>
+    <button class="btn primary" style="padding: 8px 16px;">+ New Order</button>
+  </div>
+  <div style="padding: 16px 24px; background: #fff; border-bottom: 1px solid #ccc; display: flex; gap: 12px;">
+    <input type="text" placeholder="Search orders..." style="flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; background: #f9f9f9;" />
+    <select style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; background: #fff; cursor: pointer;">
+      <option>Sort: Date (Latest)</option>
+      <option>Sort: Order ID</option>
+      <option>Sort: Status</option>
+    </select>
+  </div>
+  <div style="padding: 16px 24px; background: #f5f5f5;">
+    <div class="order-card">
+      <div class="order-grid">
+        <div><div class="order-label">ORDER ID</div><div class="order-value order-id">ORD-2024-0562</div></div>
+        <div><div class="order-label">ORDER NAME</div><div class="order-value">Q2 2024 Stock Replenishment</div></div>
+        <div><div class="order-label">ITEMS</div><div class="order-value">24 items</div></div>
+        <div><div class="order-label">STATUS</div><div class="badge processing">Processing</div></div>
+        <div><div class="order-label">AMOUNT</div><div class="order-value">₹34,500</div></div>
+      </div>
+      <div class="order-footer">
+        <div>Date: Jun 20, 2024</div>
+        <div>Payment: Paid</div>
+        <div>Available: 18 / 24</div>
+        <div>Expected: Jul 15, 2024</div>
+        <div class="footer-link">View Details →</div>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-grid">
+        <div><div class="order-label">ORDER ID</div><div class="order-value order-id">ORD-2024-0451</div></div>
+        <div><div class="order-label">ORDER NAME</div><div class="order-value">Q1 2024 Stock Refresh</div></div>
+        <div><div class="order-label">ITEMS</div><div class="order-value">35 items</div></div>
+        <div><div class="order-label">STATUS</div><div class="badge delivered">Delivered</div></div>
+        <div><div class="order-label">AMOUNT</div><div class="order-value">₹52,800</div></div>
+      </div>
+      <div class="order-footer">
+        <div>Date: May 10, 2024</div>
+        <div>Payment: Paid</div>
+        <div>Available: 35 / 35</div>
+        <div>Expected: Jun 5, 2024</div>
+        <div class="footer-link">View Details →</div>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-grid">
+        <div><div class="order-label">ORDER ID</div><div class="order-value order-id">ORD-2024-0398</div></div>
+        <div><div class="order-label">ORDER NAME</div><div class="order-value">Urgent Line Parts</div></div>
+        <div><div class="order-label">ITEMS</div><div class="order-value">12 items</div></div>
+        <div><div class="order-label">STATUS</div><div class="badge pending">Pending</div></div>
+        <div><div class="order-label">AMOUNT</div><div class="order-value">₹18,200</div></div>
+      </div>
+      <div class="order-footer">
+        <div>Date: Jul 2, 2024</div>
+        <div>Payment: Unpaid</div>
+        <div>Available: 4 / 12</div>
+        <div>Expected: Aug 2, 2024</div>
+        <div class="footer-link">View Details →</div>
+      </div>
+    </div>
+  </div></div>
+      </div>
+      <div class="c-slide" data-i="1" data-title="Order Tracking">
+        <div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item active">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">Order Status &amp; Timeline Tracking</div>
+  <div style="padding: 24px; background: #fff;">
+    <div style="font-size: 12px; font-weight: 600; color: #333; margin-bottom: 16px;">Order Timeline · ORD-2024-0562</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #16a34a;">✓</div>
+        <div>
+          <div class="timeline-label">Order Confirmed</div>
+          <div class="timeline-date">June 20, 2024</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #f59e0b;">⟳</div>
+        <div>
+          <div class="timeline-label">Processing at Supplier</div>
+          <div class="timeline-date">June 21, 2024</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #f59e0b;">⟳</div>
+        <div>
+          <div class="timeline-label">In Transit</div>
+          <div class="timeline-date">June 28, 2024</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #ccc;">○</div>
+        <div>
+          <div class="timeline-label">Delivered</div>
+          <div class="timeline-date">Expected July 15, 2024</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+      </div>
+      </div>
+      <div class="c-bottombar">
+        <button class="navbtn" data-role="prev" >← Previous</button>
+        <span class="c-dots" data-role="dots"></span>
+        <button class="navbtn primary" data-role="next" >Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow-section">
+    <div class="section-head">
+      <div class="section-eyebrow">FLOW 03</div>
+      <h2 class="section-title-lg">Procurement</h2>
+      <p class="section-sub">Raise and manage purchase orders with suppliers to cover shortfalls.</p>
+    </div>
+    <div class="carousel" data-carousel="3" data-total="1">
+      <div class="c-topbar">
+        <span class="c-screen" data-role="title">Supplier Purchase Order</span>
+        <span class="c-count"><span data-role="cur">1</span> / 1</span>
+      </div>
+      <div class="c-stage">
+      <div class="c-slide active" data-i="0" data-title="Supplier Purchase Order">
+        <div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item active">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">Create &amp; Manage Supplier Purchase Orders</div>
+  <div class="page-content">
+    <div class="sidebar full">
+      <div class="section-title">Supplier Details</div>
+      <div class="info-box">
+        <div class="info-label">Supplier Name</div>
+        <div class="info-value">TechParts International Ltd</div>
+      </div>
+      <div style="border: 1px solid #ccc; padding: 10px; background: #f9f9f9; border-radius: 2px;">
+        <div class="info-label">Total Items</div>
+        <div style="font-size: 18px; font-weight: 700; color: #2563eb;">6</div>
+      </div>
+    </div>
+
+    <div class="main full">
+      <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;">PO Line Items</div>
+
+      <div class="table-header" style="grid-template-columns: 1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;">
+        <div>SKU</div><div>Item</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;">
+        <div style="font-weight: 600;">SKU-002</div>
+        <div>Mechanical Part B</div>
+        <div style="text-align: center; color: #666;">4</div>
+        <div style="text-align: right; color: #666;">₹1,200</div>
+        <div style="font-weight: 600; text-align: right;">₹4,800</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;">
+        <div style="font-weight: 600;">SKU-007</div>
+        <div>Circuit Board X7</div>
+        <div style="text-align: center; color: #666;">10</div>
+        <div style="text-align: right; color: #666;">₹1,850</div>
+        <div style="font-weight: 600; text-align: right;">₹18,500</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+    </div>
+  </div></div>
+      </div>
+      </div>
+      <div class="c-bottombar">
+        <button class="navbtn" data-role="prev" disabled>← Previous</button>
+        <span class="c-dots" data-role="dots"></span>
+        <button class="navbtn primary" data-role="next" disabled>Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow-section">
+    <div class="section-head">
+      <div class="section-eyebrow">FLOW 04</div>
+      <h2 class="section-title-lg">Inventory & Stock Check-in</h2>
+      <p class="section-sub">Manage stock levels and check in incoming goods against expected quantities.</p>
+    </div>
+    <div class="carousel" data-carousel="4" data-total="2">
+      <div class="c-topbar">
+        <span class="c-screen" data-role="title">Inventory Management</span>
+        <span class="c-count"><span data-role="cur">1</span> / 2</span>
+      </div>
+      <div class="c-stage">
+      <div class="c-slide active" data-i="0" data-title="Inventory Management">
+        <div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item active">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">Manage Inventory — Path A Update Existing Item</div>
+  <div class="page-content">
+    <div class="sidebar" style="padding: 20px;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <div style="width: 32px; height: 32px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">1</div>
+        <div>
+          <div style="font-size: 14px; font-weight: 600; color: #1a1a1a;">Search Focused</div>
+          <div style="font-size: 11px; color: #888;">Find SKU or item name</div>
+        </div>
+      </div>
+      <input type="text" placeholder="Search SKU or item name..." id="invSearchInput" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; margin-bottom: 12px;">
+      <div style="font-size: 11px; color: #999; margin-bottom: 20px;">+ Add Item to create new</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="inv-item" data-sku="SKU-001" style="padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer; background: #fff; transition: all 0.2s;">
+          <div style="font-weight: 600; font-size: 12px; color: #2563eb;">SKU-001</div>
+          <div style="font-size: 11px; color: #666; margin-top: 2px;">Electronic Component A</div>
+          <div style="font-size: 10px; color: #999; margin-top: 4px;">12 units in stock</div>
+        </div>
+        <div class="inv-item" data-sku="SKU-002" style="padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer; background: #fff; transition: all 0.2s;">
+          <div style="font-weight: 600; font-size: 12px; color: #2563eb;">SKU-002</div>
+          <div style="font-size: 11px; color: #666; margin-top: 2px;">Mechanical Part B</div>
+          <div style="font-size: 10px; color: #999; margin-top: 4px;">6 units in stock</div>
+        </div>
+        <div class="inv-item" data-sku="SKU-003" style="padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer; background: #fff; transition: all 0.2s;">
+          <div style="font-weight: 600; font-size: 12px; color: #2563eb;">SKU-003</div>
+          <div style="font-size: 11px; color: #666; margin-top: 2px;">Assembly Kit C</div>
+          <div style="font-size: 10px; color: #999; margin-top: 4px;">2 units in stock</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main" style="padding: 20px; display: flex; flex-direction: column;">
+      <div id="invStep1" style="display: none;">
+        <div style="text-align: center; padding: 80px 40px; color: #999;">
+          <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
+          <div style="font-size: 14px; font-weight: 600; color: #ccc; margin-bottom: 8px;">No item selected</div>
+          <div style="font-size: 12px; color: #bbb;">Search for a SKU or item name on the left to view and update its stock</div>
+        </div>
+      </div>
+
+      <div id="invStep2" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+          <div style="width: 32px; height: 32px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">2</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: #1a1a1a;">Item Selected</div>
+            <div style="font-size: 11px; color: #888;">Current stock, unsaved inactive</div>
+          </div>
+        </div>
+        <div id="invSelectedItem"></div>
+      </div>
+
+      <div id="invStep3" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+          <div style="width: 32px; height: 32px; background: #fbbf24; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">3</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: #1a1a1a;">Editing Count</div>
+            <div style="font-size: 11px; color: #888;">Adjust quantity and price</div>
+          </div>
+        </div>
+        <div id="invEditingItem"></div>
+      </div>
+
+      <div id="invStep4" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+          <div style="width: 32px; height: 32px; background: #f97316; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">4</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: #1a1a1a;">Confirm Changes</div>
+            <div style="font-size: 11px; color: #888;">Review before applying</div>
+          </div>
+        </div>
+        <div id="invConfirmItem"></div>
+      </div>
+
+      <div id="invStep5" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
+          <div style="width: 32px; height: 32px; background: #16a34a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;">✓</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: #1a1a1a;">Updated — View Resets</div>
+            <div style="font-size: 11px; color: #888;">Changes applied successfully</div>
+          </div>
+        </div>
+        <div id="invUpdatedItem"></div>
+      </div>
+    </div>
+  </div></div>
+      </div>
+      <div class="c-slide" data-i="1" data-title="Inventory Receiving · Stock Check-in">
+        <div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item active">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">O3 — Inventory Workflow Variations</div>
+  <div style="padding: 20px; background: #f5f5f5; font-size: 13px; font-weight: 600; color: #333;">Path A — Update Existing Item</div>
+  <div style="padding: 16px; display: flex; gap: 16px; overflow-x: auto; background: #fff;">
+    <!-- Step 1: Search Focused -->
+    <div style="flex-shrink: 0; width: 260px; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px; background: #f9f9f9;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <div style="width: 28px; height: 28px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">1</div>
+        <div style="font-size: 13px; font-weight: 600; color: #1a1a1a;">Search Focused</div>
+      </div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Start with SKU or item name search</div>
+      <input type="text" placeholder="Search SKU or item name..." style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; margin-bottom: 12px;">
+      <div style="font-size: 11px; color: #666; line-height: 1.4;">
+        SKU-001 · Electronic Component A<br>12 units in stock<br><br>SKU-002 · Mechanical Part B<br>8 units in stock
+      </div>
+    </div>
+    
+    <!-- Step 2: Item Selected -->
+    <div style="flex-shrink: 0; width: 260px; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px; background: #f9f9f9;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <div style="width: 28px; height: 28px; background: #2563eb; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">2</div>
+        <div style="font-size: 13px; font-weight: 600; color: #1a1a1a;">Item Selected</div>
+      </div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Item name, current stock, unsaved inactive</div>
+      <input type="text" placeholder="Search SKU or item name..." value="SKU-001 — Electronic Component A" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; margin-bottom: 12px;" readonly>
+      <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 11px;">
+        <div style="margin-bottom: 8px;"><strong>CURRENT STOCK</strong></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
+          <div><div style="font-size: 12px; font-weight: 600; color: #2563eb;">12</div><div style="font-size: 10px; color: #666;">units</div></div>
+          <div><div style="font-size: 12px; font-weight: 600;">₹850</div><div style="font-size: 10px; color: #666;">unit price</div></div>
+          <div><div style="font-size: 12px; font-weight: 600;">₹10,200</div><div style="font-size: 10px; color: #666;">total value</div></div>
+        </div>
+      </div>
+      <button style="width: 100%; margin-top: 12px; padding: 8px; background: #fff; border: 1px solid #2563eb; border-radius: 6px; color: #2563eb; font-size: 12px; font-weight: 600; cursor: pointer;">↓ Edit Stock & Price</button>
+    </div>
+    
+    <!-- Step 3: Editing Count -->
+    <div style="flex-shrink: 0; width: 260px; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px; background: #f9f9f9;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <div style="width: 28px; height: 28px; background: #fbbf24; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">3</div>
+        <div style="font-size: 13px; font-weight: 600; color: #1a1a1a;">Editing Count</div>
+      </div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Search & edit before unsaved (after unit shown</div>
+      <input type="text" placeholder="Search SKU or item name..." value="SKU-001 — Electronic Component A" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; margin-bottom: 12px;" readonly>
+      <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 11px; margin-bottom: 12px;">
+        <div style="margin-bottom: 8px;"><strong>CURRENT STOCK</strong></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; margin-bottom: 12px;">
+          <div><div style="font-size: 12px; font-weight: 600;">12</div><div style="font-size: 10px; color: #666;">units</div></div>
+          <div><div style="font-size: 12px; font-weight: 600;">₹850</div><div style="font-size: 10px; color: #666;">unit price</div></div>
+          <div><div style="font-size: 12px; font-weight: 600;">₹10,200</div><div style="font-size: 10px; color: #666;">total value</div></div>
+        </div>
+        <div style="text-align: center; font-size: 11px; color: #888; margin-bottom: 8px;">↓ Edit Stock & Price</div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <button style="flex: 0; padding: 4px 8px; border: 1px solid #d1d5db; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 11px;">−</button>
+          <input type="text" value="15" style="flex: 1; text-align: center; border: 1px solid #d1d5db; border-radius: 4px; padding: 4px; font-size: 12px;">
+          <button style="flex: 0; padding: 4px 8px; border: 1px solid #d1d5db; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 11px;">+</button>
+        </div>
+        <div style="font-size: 10px; color: #666; margin-bottom: 8px;">Before: 12 units &nbsp;&nbsp;&nbsp; After: 15 units</div>
+        <input type="text" value="800" style="width: 100%; padding: 6px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 11px;">
+        <div style="font-size: 10px; color: #666; margin-top: 4px;">Before: ₹850 • ₹800</div>
+      </div>
+      <button style="width: 100%; padding: 8px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">↓ Save Changes →</button>
+    </div>
+    
+    <!-- Step 4: Confirm Changes -->
+    <div style="flex-shrink: 0; width: 260px; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px; background: #f9f9f9;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <div style="width: 28px; height: 28px; background: #f97316; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">4</div>
+        <div style="font-size: 13px; font-weight: 600; color: #1a1a1a;">Confirm Changes</div>
+      </div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Search & confirm before applying in Step 4</div>
+      <input type="text" placeholder="Search SKU or item name..." value="SKU-001 — Electronic Component A" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; margin-bottom: 12px;" readonly>
+      <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e5e7eb; font-size: 11px; margin-bottom: 12px;">
+        <div style="margin-bottom: 8px;"><strong>CURRENT STOCK</strong></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; margin-bottom: 12px;">
+          <div><div style="font-size: 12px; font-weight: 600;">12</div><div style="font-size: 10px; color: #666;">units</div></div>
+          <div><div style="font-size: 12px; font-weight: 600;">₹850</div><div style="font-size: 10px; color: #666;">unit price</div></div>
+          <div><div style="font-size: 12px; font-weight: 600;">₹10,200</div><div style="font-size: 10px; color: #666;">total value</div></div>
+        </div>
+        <div style="text-align: center; font-size: 11px; color: #888; margin-bottom: 8px;">↓ Edit Stock & Price</div>
+        <div style="padding: 10px; background: #fff9e6; border-radius: 6px; border-left: 3px solid #f97316; font-size: 10px; margin-bottom: 8px;">
+          <strong style="display: block; margin-bottom: 6px; color: #92400e;">▲ CHANGE SUMMARY</strong>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; margin-bottom: 6px; font-size: 10px;">
+            <div><div style="color: #666;">Field</div><div style="font-weight: 600; color: #1a1a1a;">Before</div></div>
+            <div><div style="color: #666;">After</div></div>
+          </div>
+          <div style="color: #666; font-size: 9px;">Quantity</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; text-align: center; margin-bottom: 4px; font-size: 10px; font-weight: 600;">
+            <div>12 units</div>
+            <div>15 units</div>
+          </div>
+          <div style="border-top: 1px solid #fbbf24; padding-top: 6px; font-size: 9px; color: #666;">New Total: ₹13,500 cost ₹10,200</div>
+        </div>
+      </div>
+      <button style="width: 100%; padding: 8px; background: #16a34a; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">✓ Confirm & Apply Changes</button>
+    </div>
+    
+    <!-- Step 5: Updated -->
+    <div style="flex-shrink: 0; width: 260px; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px; background: #f9f9f9;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <div style="width: 28px; height: 28px; background: #16a34a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">✓</div>
+        <div style="font-size: 13px; font-weight: 600; color: #1a1a1a;">Updated — View Resets</div>
+      </div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Confirm, system in fresh selected state with updated data</div>
+      <div style="padding: 12px; background: #dcfce7; border-radius: 6px; border: 1px solid #16a34a; margin-bottom: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: #166534; margin-bottom: 8px;">✓ Stock updated successfully</div>
+        <input type="text" placeholder="Search SKU or item name..." value="SKU-001 — Electronic Component A" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; margin-bottom: 12px;" readonly>
+        <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #16a34a; font-size: 11px;">
+          <div style="margin-bottom: 8px;"><strong>UPDATED STOCK</strong></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; margin-bottom: 8px;">
+            <div><div style="font-size: 12px; font-weight: 600; color: #16a34a;">15</div><div style="font-size: 10px; color: #666;">units</div></div>
+            <div><div style="font-size: 12px; font-weight: 600;">₹800</div><div style="font-size: 10px; color: #666;">unit price</div></div>
+            <div><div style="font-size: 12px; font-weight: 600;">₹12,000</div><div style="font-size: 10px; color: #666;">total value</div></div>
+          </div>
+          <button style="width: 100%; padding: 6px; background: transparent; border: 1px solid #16a34a; border-radius: 4px; color: #16a34a; font-size: 11px; font-weight: 600; cursor: pointer;">↓ Edit Stock & Price</button>
+        </div>
+      </div>
+    </div>
+  </div></div>
+      </div>
+      </div>
+      <div class="c-bottombar">
+        <button class="navbtn" data-role="prev" >← Previous</button>
+        <span class="c-dots" data-role="dots"></span>
+        <button class="navbtn primary" data-role="next" >Next →</button>
+      </div>
+    </div>
+  </section>
+
+<div class="site-foot">ERP System · Product design walkthrough</div>
+
+<div class="fs-overlay" id="fsOverlay">
+  <div class="fs-bar">
+    <span class="fs-title" id="fsTitle">Screen</span>
+    <span class="fs-hint">Interactive preview · press Esc to exit</span>
+    <button class="fs-close" id="fsClose">✕ Exit full screen</button>
+  </div>
+  <div class="fs-body" id="fsBody"></div>
+  <button class="fs-arrow left" id="fsPrev" aria-label="Previous">‹</button>
+  <button class="fs-arrow right" id="fsNext" aria-label="Next">›</button>
+</div>
+
+<script>
+  // ----- Arrange dropdown logic -----
+  let activeArrangeRow = null;
+  let arrangeDropdown = null;
+  
+  const arrangeData = {
+    'sku-003': { orders: [
+      { id: 'ORD-2024-0001', name: 'Q1 Stock A', avatar: 'AB', color: '#2563eb' },
+      { id: 'ORD-2024-0002', name: 'Q2 Stock B', avatar: 'JK', color: '#7c3aed' },
+      { id: 'ORD-2024-0003', name: 'Q3 Stock C', avatar: 'SM', color: '#0891b2' }
+    ]},
+    'sku-005': { orders: [
+      { id: 'ORD-2024-0001', name: 'Q1 Stock A', avatar: 'AB', color: '#2563eb' },
+      { id: 'ORD-2024-0002', name: 'Q2 Stock B', avatar: 'JK', color: '#7c3aed' }
+    ]}
+  };
+  
+  function closeArrangeDropdown() {
+    if (arrangeDropdown) arrangeDropdown.remove();
+    arrangeDropdown = null;
+    activeArrangeRow = null;
+  }
+  
+  function openArrangeDropdown(skuId, event) {
+    event.stopPropagation();
+    closeArrangeDropdown();
+    
+    const row = document.querySelector(`[data-arrange-row="${skuId}"]`);
+    const data = arrangeData[skuId];
+    if (!row || !data) return;
+    
+    activeArrangeRow = skuId;
+    
+    // Build dropdown
+    const dd = document.createElement('div');
+    const rect = row.getBoundingClientRect();
+    dd.style.cssText = `
+      position: fixed;
+      top: ${rect.bottom}px;
+      left: ${rect.left}px;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      z-index: 10000;
+      min-width: 380px;
+      max-width: 450px;
+      max-height: 400px;
+      overflow-y: auto;
+    `;
+    
+    // Tab bar
+    const tabBar = document.createElement('div');
+    tabBar.style.cssText = `
+      display: flex;
+      border-bottom: 1px solid #e5e7eb;
+      background: #fafafa;
+      border-radius: 8px 8px 0 0;
+    `;
+    
+    const tabs = [
+      { id: 'status', label: 'Status', active: true },
+      { id: 'arrange', label: 'Arrange', active: false }
+    ];
+    
+    tabs.forEach(tab => {
+      const tabBtn = document.createElement('button');
+      tabBtn.style.cssText = `
+        flex: 1;
+        padding: 12px;
+        border: none;
+        background: transparent;
+        font-size: 13px;
+        font-weight: 600;
+        color: ${tab.active ? '#2563eb' : '#888'};
+        cursor: pointer;
+        border-bottom: ${tab.active ? '2px solid #2563eb' : '2px solid transparent'};
+        transition: all 0.15s;
+      `;
+      tabBtn.textContent = tab.label;
+      tabBtn.onclick = () => {
+        document.querySelectorAll('[data-dd-tab]').forEach(t => {
+          t.style.display = 'none';
+          t.style.borderBottom = '2px solid transparent';
+          t.style.color = '#888';
+        });
+        document.querySelectorAll(`[data-dd-content="${tab.id}"]`).forEach(c => c.style.display = 'block');
+        tabs.forEach(t => {
+          const btn = tabBar.querySelector(`[data-tab-id="${t.id}"]`);
+          if (t.id === tab.id) {
+            btn.style.color = '#2563eb';
+            btn.style.borderBottom = '2px solid #2563eb';
+          } else {
+            btn.style.color = '#888';
+            btn.style.borderBottom = '2px solid transparent';
+          }
+        });
+      };
+      tabBtn.setAttribute('data-tab-id', tab.id);
+      tabBar.appendChild(tabBtn);
+    });
+    dd.appendChild(tabBar);
+    
+    // Status tab content
+    const statusContent = document.createElement('div');
+    statusContent.setAttribute('data-dd-content', 'status');
+    statusContent.style.cssText = 'padding: 16px; display: block;';
+    statusContent.innerHTML = `
+      <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 12px;">Item Status</div>
+      <div style="display: grid; gap: 10px;">
+        <div style="padding: 10px; background: #dcfce7; border-radius: 6px; border-left: 3px solid #16a34a;">
+          <div style="font-size: 12px; font-weight: 600; color: #166534;">Status: Arrangeable</div>
+          <div style="font-size: 11px; color: #16a34a; margin-top: 4px;">This item is in stock but assigned to another order</div>
+        </div>
+        <div style="padding: 10px; background: #f5f5f5; border-radius: 6px;">
+          <div style="font-size: 12px; color: #666; margin-bottom: 6px;"><strong>Current Qty:</strong> 2 units</div>
+          <div style="font-size: 12px; color: #666;"><strong>Unit Price:</strong> ₹2,500</div>
+        </div>
+      </div>
+    `;
+    dd.appendChild(statusContent);
+    
+    // Arrange tab content
+    const arrangeContent = document.createElement('div');
+    arrangeContent.setAttribute('data-dd-content', 'arrange');
+    arrangeContent.style.cssText = 'padding: 16px; display: none;';
+    
+    const arrangeTitle = document.createElement('div');
+    arrangeTitle.style.cssText = 'font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 12px;';
+    arrangeTitle.textContent = 'Select order to arrange from:';
+    arrangeContent.appendChild(arrangeTitle);
+    
+    const list = document.createElement('div');
+    list.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
+    
+    data.orders.forEach(ord => {
+      const item = document.createElement('div');
+      item.style.cssText = `
+        padding: 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      `;
+      item.onmouseover = () => item.style.borderColor = '#2563eb';
+      item.onmouseout = () => item.style.borderColor = '#e5e7eb';
+      
+      const avatar = document.createElement('div');
+      avatar.style.cssText = `
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: ${ord.color};
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+        flex-shrink: 0;
+      `;
+      avatar.textContent = ord.avatar;
+      
+      const info = document.createElement('div');
+      info.style.cssText = 'flex: 1;';
+      info.innerHTML = `<div style="font-size: 13px; font-weight: 600; color: #1a1a1a;">${ord.name}</div><div style="font-size: 12px; color: #888; margin-top: 2px;">${ord.id}</div>`;
+      
+      item.appendChild(avatar);
+      item.appendChild(info);
+      item.onclick = () => confirmArrange(skuId, ord);
+      list.appendChild(item);
+    });
+    arrangeContent.appendChild(list);
+    dd.appendChild(arrangeContent);
+    
+    // Close button
+    const closeBtn = document.createElement('button');
+    closeBtn.style.cssText = `
+      width: calc(100% - 32px);
+      margin: 12px 16px 16px;
+      padding: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #f5f5f5;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+    `;
+    closeBtn.textContent = 'Cancel';
+    closeBtn.onclick = closeArrangeDropdown;
+    dd.appendChild(closeBtn);
+    
+    arrangeDropdown = dd;
+    document.body.appendChild(dd);
+  }
+  
+  function confirmArrange(skuId, order) {
+    // Show confirmation dialog
+    const confirmDialog = document.createElement('div');
+    confirmDialog.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+    `;
+    
+    const dialogBox = document.createElement('div');
+    dialogBox.style.cssText = `
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    `;
+    
+    dialogBox.innerHTML = `
+      <div style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 12px;">Confirm Arrangement</div>
+      <div style="font-size: 14px; color: #666; margin-bottom: 20px;">
+        Arrange from <strong>${order.name}</strong> (${order.id})?
+      </div>
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button id="cancelConfirm" style="padding: 10px 20px; border: 1px solid #d1d5db; border-radius: 8px; background: #f5f5f5; font-size: 14px; font-weight: 600; color: #333; cursor: pointer;">Cancel</button>
+        <button id="confirmArrange" style="padding: 10px 20px; border: none; border-radius: 8px; background: #2563eb; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;">Confirm</button>
+      </div>
+    `;
+    
+    confirmDialog.appendChild(dialogBox);
+    document.body.appendChild(confirmDialog);
+    
+    document.getElementById('cancelConfirm').onclick = () => {
+      confirmDialog.remove();
+    };
+    
+    document.getElementById('confirmArrange').onclick = () => {
+      confirmDialog.remove();
+      
+      const stub = document.querySelector(`[data-arrange-display="${skuId}"]`);
+      const avatars = document.querySelector(`[data-arrange-avatars="${skuId}"]`);
+      
+      if (stub && avatars) {
+        // Update stub to show order ID prefix + ..
+        const prefix = order.id.split('-')[2]; // e.g. "0001"
+        stub.textContent = prefix.slice(0, 2) + '..';
+        stub.style.background = order.color;
+        stub.style.color = '#fff';
+        stub.style.borderColor = order.color;
+        stub.style.borderStyle = 'solid';
+        
+        // Replace avatars with single selected one
+        avatars.innerHTML = `<div class="avatar" style="background: ${order.color};">${order.avatar}</div>`;
+      }
+      
+      closeArrangeDropdown();
+    };
+  }
+  
+  // Close dropdown on outside click
+  document.addEventListener('click', (e) => {
+    if (arrangeDropdown && !arrangeDropdown.contains(e.target) && !e.target.closest('.arrange-preview')) {
+      closeArrangeDropdown();
+    }
+  });
+
+  // ----- Inventory Management Path A -----
+  const invData = {
+    'SKU-001': { name: 'Electronic Component A', qty: 12, price: 850 },
+    'SKU-002': { name: 'Mechanical Part B', qty: 6, price: 1200 },
+    'SKU-003': { name: 'Assembly Kit C', qty: 2, price: 2500 }
+  };
+  
+  let selectedSku = null;
+  let editQty, editPrice;
+  
+  function renderStep(step) {
+    document.getElementById('invStep1').style.display = step === 1 ? 'block' : 'none';
+    document.getElementById('invStep2').style.display = step === 2 ? 'block' : 'none';
+    document.getElementById('invStep3').style.display = step === 3 ? 'block' : 'none';
+    document.getElementById('invStep4').style.display = step === 4 ? 'block' : 'none';
+    document.getElementById('invStep5').style.display = step === 5 ? 'block' : 'none';
+  }
+  
+  function renderItemSelected() {
+    const data = invData[selectedSku];
+    const total = data.qty * data.price;
+    document.getElementById('invSelectedItem').innerHTML = `
+      <div style="padding: 20px; background: #f5f5f5; border-radius: 8px; margin-bottom: 20px;">
+        <div style="font-weight: 600; font-size: 13px; color: #2563eb; margin-bottom: 12px;">${selectedSku}</div>
+        <div style="font-size: 12px; color: #666; margin-bottom: 16px;">${data.name}</div>
+        <div style="padding: 12px; background: #fff; border-radius: 6px; border: 1px solid #e5e7eb; margin-bottom: 16px;">
+          <div style="font-size: 11px; font-weight: 600; color: #1a1a1a; margin-bottom: 12px;">CURRENT STOCK</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center;">
+            <div><div style="font-size: 13px; font-weight: 600; color: #2563eb;">${data.qty}</div><div style="font-size: 10px; color: #666;">units</div></div>
+            <div><div style="font-size: 13px; font-weight: 600;">₹${data.price}</div><div style="font-size: 10px; color: #666;">unit price</div></div>
+            <div><div style="font-size: 13px; font-weight: 600;">₹${total.toLocaleString()}</div><div style="font-size: 10px; color: #666;">total value</div></div>
+          </div>
+        </div>
+        <button onclick="window.invGoToStep(3)" style="width: 100%; padding: 10px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">↓ Edit Stock & Price</button>
+      </div>
+    `;
+  }
+  
+  function renderItemEditing() {
+    const data = invData[selectedSku];
+    editQty = data.qty;
+    editPrice = data.price;
+    const newTotal = editQty * editPrice;
+    document.getElementById('invEditingItem').innerHTML = `
+      <div style="padding: 20px; background: #f5f5f5; border-radius: 8px; margin-bottom: 20px;">
+        <div style="font-weight: 600; font-size: 13px; color: #2563eb; margin-bottom: 12px;">${selectedSku}</div>
+        <div style="font-size: 12px; color: #666; margin-bottom: 16px;">${data.name}</div>
+        <div style="padding: 12px; background: #fff; border-radius: 6px; border: 1px solid #e5e7eb; margin-bottom: 16px;">
+          <div style="font-size: 11px; font-weight: 600; color: #1a1a1a; margin-bottom: 12px;">EDITING STOCK</div>
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 11px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;">Quantity</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button onclick="window.invDecQty()" style="padding: 6px 12px; border: 1px solid #d1d5db; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px;">−</button>
+              <input type="number" id="invQtyInput" value="${editQty}" style="flex: 1; text-align: center; padding: 6px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 12px;">
+              <button onclick="window.invIncQty()" style="padding: 6px 12px; border: 1px solid #d1d5db; background: #f5f5f5; border-radius: 4px; cursor: pointer; font-size: 12px;">+</button>
+            </div>
+            <div style="font-size: 10px; color: #999; margin-top: 6px;">Before: ${data.qty} units &nbsp;&nbsp; After: <span id="invQtyAfter">${editQty}</span> units</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;">Unit Price (₹)</div>
+            <input type="number" id="invPriceInput" value="${editPrice}" onchange="window.invUpdateTotal()" style="width: 100%; padding: 6px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 12px;">
+            <div style="font-size: 10px; color: #999; margin-top: 6px;">Before: ₹${data.price} &nbsp;&nbsp; After: ₹<span id="invPriceAfter">${editPrice}</span></div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button onclick="window.invGoToStep(2)" style="flex: 1; padding: 10px; background: #f5f5f5; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; font-weight: 600; color: #333; cursor: pointer;">← Back</button>
+          <button onclick="window.invGoToStep(4)" style="flex: 1; padding: 10px; background: #2563eb; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">↓ Save Changes →</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderItemConfirm() {
+    const data = invData[selectedSku];
+    editQty = parseInt(document.getElementById('invQtyInput')?.value) || data.qty;
+    editPrice = parseInt(document.getElementById('invPriceInput')?.value) || data.price;
+    const newTotal = editQty * editPrice;
+    const oldTotal = data.qty * data.price;
+    document.getElementById('invConfirmItem').innerHTML = `
+      <div style="padding: 20px; background: #f5f5f5; border-radius: 8px; margin-bottom: 20px;">
+        <div style="font-weight: 600; font-size: 13px; color: #f97316; margin-bottom: 12px;">${selectedSku}</div>
+        <div style="font-size: 12px; color: #666; margin-bottom: 16px;">${data.name}</div>
+        <div style="padding: 12px; background: #fff9e6; border-radius: 6px; border: 1px solid #fbbf24; margin-bottom: 16px;">
+          <div style="font-size: 11px; font-weight: 600; color: #92400e; margin-bottom: 12px;">▲ CHANGE SUMMARY</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center; font-size: 11px; margin-bottom: 12px;">
+            <div><div style="color: #666; margin-bottom: 4px;">Field</div><div style="font-weight: 600; color: #1a1a1a;">Before</div></div>
+            <div><div style="color: #666; margin-bottom: 4px;">After</div></div>
+          </div>
+          <div style="padding-bottom: 12px; border-bottom: 1px solid #fbbf24; margin-bottom: 12px;">
+            <div style="font-size: 10px; color: #666; margin-bottom: 8px;">Quantity</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center; font-size: 11px; font-weight: 600;">
+              <div>${data.qty}</div>
+              <div>→</div>
+              <div style="color: #f97316;">${editQty}</div>
+            </div>
+          </div>
+          <div style="padding-bottom: 12px; margin-bottom: 12px;">
+            <div style="font-size: 10px; color: #666; margin-bottom: 8px;">Unit Price</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center; font-size: 11px; font-weight: 600;">
+              <div>₹${data.price}</div>
+              <div>→</div>
+              <div style="color: #f97316;">₹${editPrice}</div>
+            </div>
+          </div>
+          <div style="font-size: 10px; color: #92400e; font-weight: 600;">New Total: ₹${newTotal.toLocaleString()} (was ₹${oldTotal.toLocaleString()})</div>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button onclick="window.invGoToStep(3)" style="flex: 1; padding: 10px; background: #f5f5f5; border: 1px solid #d1d5db; border-radius: 6px; font-size: 12px; font-weight: 600; color: #333; cursor: pointer;">← Back</button>
+          <button onclick="window.invConfirmApply()" style="flex: 1; padding: 10px; background: #16a34a; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">✓ Confirm & Apply</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  function renderItemUpdated() {
+    const data = invData[selectedSku];
+    const newTotal = editQty * editPrice;
+    document.getElementById('invUpdatedItem').innerHTML = `
+      <div style="padding: 16px; background: #dcfce7; border-radius: 8px; border: 1px solid #16a34a; margin-bottom: 20px;">
+        <div style="font-size: 12px; font-weight: 600; color: #166534; margin-bottom: 12px;">✓ Stock updated successfully</div>
+        <div style="padding: 12px; background: #fff; border-radius: 6px; border: 1px solid #16a34a;">
+          <div style="font-weight: 600; font-size: 13px; color: #2563eb; margin-bottom: 8px;">${selectedSku}</div>
+          <div style="font-size: 12px; color: #666; margin-bottom: 12px;">${data.name}</div>
+          <div style="font-size: 11px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;">UPDATED STOCK</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; text-align: center; margin-bottom: 12px;">
+            <div><div style="font-size: 12px; font-weight: 600; color: #16a34a;">${editQty}</div><div style="font-size: 10px; color: #666;">units</div></div>
+            <div><div style="font-size: 12px; font-weight: 600;">₹${editPrice}</div><div style="font-size: 10px; color: #666;">unit price</div></div>
+            <div><div style="font-size: 12px; font-weight: 600;">₹${newTotal.toLocaleString()}</div><div style="font-size: 10px; color: #666;">total value</div></div>
+          </div>
+          <button onclick="window.invGoToStep(2)" style="width: 100%; padding: 8px; background: transparent; border: 1px solid #16a34a; border-radius: 6px; color: #16a34a; font-size: 11px; font-weight: 600; cursor: pointer;">↓ Edit Stock & Price</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  window.invGoToStep = (step) => {
+    if (!selectedSku) return;
+    renderStep(step);
+    if (step === 2) renderItemSelected();
+    else if (step === 3) renderItemEditing();
+    else if (step === 4) renderItemConfirm();
+    else if (step === 5) renderItemUpdated();
+  };
+  
+  window.invDecQty = () => {
+    const input = document.getElementById('invQtyInput');
+    let val = parseInt(input.value) || 0;
+    if (val > 1) {
+      input.value = val - 1;
+      document.getElementById('invQtyAfter').textContent = val - 1;
+    }
+  };
+  
+  window.invIncQty = () => {
+    const input = document.getElementById('invQtyInput');
+    let val = parseInt(input.value) || 0;
+    input.value = val + 1;
+    document.getElementById('invQtyAfter').textContent = val + 1;
+  };
+  
+  window.invUpdateTotal = () => {
+    const priceInput = document.getElementById('invPriceInput');
+    document.getElementById('invPriceAfter').textContent = priceInput.value;
+  };
+  
+  window.invConfirmApply = () => {
+    const qtyInput = document.getElementById('invQtyInput');
+    const priceInput = document.getElementById('invPriceInput');
+    editQty = parseInt(qtyInput.value);
+    editPrice = parseInt(priceInput.value);
+    invData[selectedSku].qty = editQty;
+    invData[selectedSku].price = editPrice;
+    window.invGoToStep(5);
+  };
+  
+  // Initialize Step 1
+  renderStep(1);
+  
+  // Item selection
+  document.querySelectorAll('.inv-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.inv-item').forEach(i => i.style.background = '#fff');
+      item.style.background = '#e0f2fe';
+      selectedSku = item.dataset.sku;
+      window.invGoToStep(2);
+    });
+  });
+
+  // ----- Urgent toggle buttons -----
+  document.querySelectorAll('.urgent-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isUrgent = btn.dataset.urgent === 'true';
+      btn.dataset.urgent = !isUrgent;
+      btn.style.background = isUrgent ? 'white' : '#dc2626';
+      btn.style.borderColor = isUrgent ? '#ccc' : '#dc2626';
+    });
+  });
+
+  // ----- Full-screen showcase -----
+  const fsOverlay = document.getElementById('fsOverlay');
+  const fsBody = document.getElementById('fsBody');
+  const fsTitle = document.getElementById('fsTitle');
+  const fsPrev = document.getElementById('fsPrev');
+  const fsNext = document.getElementById('fsNext');
+  let fsReturn = null;
+  let fsApi = null;
+  function mountActiveFrame() {
+    const frame = fsApi.getActiveFrame();
+    fsReturn = { parent: frame.parentNode, next: frame.nextSibling, node: frame };
+    fsBody.appendChild(frame);
+    fsBody.scrollTop = 0;
+    fsTitle.textContent = fsApi.getTitle();
+    fsPrev.disabled = fsApi.getIdx() === 0;
+    fsNext.disabled = fsApi.getIdx() === fsApi.total - 1;
+  }
+  function restoreFrame() {
+    if (!fsReturn) return;
+    if (fsReturn.next) fsReturn.parent.insertBefore(fsReturn.node, fsReturn.next);
+    else fsReturn.parent.appendChild(fsReturn.node);
+    fsReturn = null;
+  }
+  function openFs(api) {
+    fsApi = api;
+    // Anchor overlay to the current viewport (robust even when an ancestor is
+    // transformed/scaled, which breaks position:fixed inside the editor).
+    fsOverlay.style.top = window.scrollY + 'px';
+    fsOverlay.style.height = window.innerHeight + 'px';
+    mountActiveFrame();
+    fsOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if (fsOverlay.requestFullscreen) fsOverlay.requestFullscreen().catch(() => {});
+  }
+  function fsGo(dir) {
+    if (!fsApi) return;
+    restoreFrame();
+    fsApi.navigate(dir);
+    mountActiveFrame();
+  }
+  function closeFs() {
+    restoreFrame();
+    fsApi = null;
+    fsOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  }
+  fsPrev.addEventListener('click', () => fsGo(-1));
+  fsNext.addEventListener('click', () => fsGo(1));
+  document.getElementById('fsClose').addEventListener('click', closeFs);
+  document.addEventListener('keydown', e => {
+    if (!fsOverlay.classList.contains('open')) return;
+    if (e.key === 'Escape') closeFs();
+    else if (e.key === 'ArrowLeft') fsGo(-1);
+    else if (e.key === 'ArrowRight') fsGo(1);
+  });
+  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && fsOverlay.classList.contains('open')) closeFs(); });
+
+  document.querySelectorAll('[data-carousel]').forEach(car => {
+    const total = +car.dataset.total;
+    const slides = car.querySelectorAll('.c-slide');
+    const prev = car.querySelector('[data-role="prev"]');
+    const next = car.querySelector('[data-role="next"]');
+    const cur = car.querySelector('[data-role="cur"]');
+    const titleEl = car.querySelector('[data-role="title"]');
+    const dotsWrap = car.querySelector('[data-role="dots"]');
+    // add full-screen button to the top bar
+    const topbar = car.querySelector('.c-topbar');
+    const controls = document.createElement('div');
+    controls.className = 'c-controls';
+    const countEl = car.querySelector('.c-count');
+    const fsBtn = document.createElement('button');
+    fsBtn.className = 'c-fs-btn';
+    fsBtn.innerHTML = '⛶ Full screen';
+    controls.appendChild(countEl);
+    controls.appendChild(fsBtn);
+    topbar.appendChild(controls);
+    let idx = 0;
+    // build dots
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => { idx = i; render(); });
+      dotsWrap.appendChild(d);
+    }
+    const dots = dotsWrap.querySelectorAll('.dot');
+    function render() {
+      slides.forEach(s => s.classList.toggle('active', +s.dataset.i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      cur.textContent = idx + 1;
+      titleEl.textContent = slides[idx].dataset.title;
+      if (prev) prev.disabled = idx === 0;
+      if (next) next.disabled = idx === total - 1;
+    }
+    if (prev) prev.addEventListener('click', () => { idx = Math.max(0, idx - 1); render(); });
+    if (next) next.addEventListener('click', () => { idx = Math.min(total - 1, idx + 1); render(); });
+    const api = {
+      total,
+      getIdx: () => idx,
+      getTitle: () => slides[idx].dataset.title,
+      getActiveFrame: () => slides[idx].querySelector('.frame'),
+      navigate: (dir) => { idx = Math.max(0, Math.min(total - 1, idx + dir)); render(); }
+    };
+    fsBtn.addEventListener('click', () => openFs(api));
+    render();
+  });
+</script>
+
+</body>
+</html>

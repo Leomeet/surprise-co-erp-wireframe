@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { color: #1d4ed8; text-decoration: underline; }
+    .page { background: #fff; margin: 48px auto; max-width: 1440px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; }
+    .page-label { font-size: 15px; font-weight: 700; color: #666; padding: 22px 32px; background: #f9f9f9; border-bottom: 1px solid #eee; }
+    .nav-bar { background: #fff; border-bottom: 1px solid #e2e2e2; height: 68px; display: flex; align-items: center; padding: 0 32px; gap: 28px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+    .nav-logo { font-size: 17px; font-weight: 700; color: #1a1a1a; min-width: 150px; }
+    .nav-menu { display: flex; gap: 4px; flex: 1; }
+    .nav-item { padding: 22px 16px; font-size: 14px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; cursor: pointer; }
+    .nav-item.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .page-header { background: #fff; border-bottom: 1px solid #e2e2e2; padding: 28px 32px; }
+    .page-title { font-size: 26px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+    .page-subtitle { font-size: 14px; color: #666; }
+    .page-content { display: flex; min-height: 640px; }
+    .sidebar { width: 30%; border-right: 1px solid #e2e2e2; padding: 28px; overflow-y: auto; background: #fff; }
+    .main { width: 70%; padding: 28px 32px; overflow-y: auto; background: #fff; }
+    .sidebar.full { width: 25%; }
+    .main.full { width: 75%; }
+    .section-title { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 16px; margin-top: 24px; }
+    .section-title:first-child { margin-top: 0; }
+    .info-box { background: #fff; border: 1px solid #e2e2e2; padding: 14px; margin-bottom: 12px; border-radius: 6px; font-size: 14px; }
+    .info-label { color: #888; font-size: 12px; margin-bottom: 4px; font-weight: 600; }
+    .info-value { font-weight: 600; font-size: 15px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .stat-chip { padding: 16px 12px; background: #fff; border: 1px solid #e2e2e2; border-radius: 6px; text-align: center; }
+    .stat-label { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 8px; }
+    .stat-value { font-size: 24px; font-weight: 700; color: #2563eb; }
+    .stat-value.green { color: #16a34a; }
+    .stat-value.red { color: #dc2626; }
+    .upload-box { background: #f0f7ff; border: 2px dashed #2563eb; padding: 32px; text-align: center; border-radius: 8px; margin-bottom: 16px; }
+    .upload-icon { font-size: 40px; margin-bottom: 12px; }
+    .upload-name { font-size: 15px; color: #2563eb; font-weight: 600; margin-bottom: 6px; }
+    .upload-status { font-size: 13px; color: #16a34a; font-weight: 600; }
+    .table-header { background: #f4f5f7; padding: 14px 16px; font-size: 13px; font-weight: 600; color: #555; display: grid; gap: 14px; margin-bottom: 4px; border-radius: 6px; align-items: center; }
+    .table-row { padding: 16px; font-size: 14px; display: grid; gap: 14px; border-bottom: 1px solid #f0f0f0; align-items: center; }
+    .table-row:nth-child(even) { background: #fafafa; }
+    .badge { font-weight: 700; padding: 5px 12px; border-radius: 12px; font-size: 12px; display: inline-block; }
+    .badge.available { background: #dcfce7; color: #16a34a; }
+    .badge.unavailable { background: #fee2e2; color: #dc2626; }
+    .badge.arrangeable { background: #fecaca; color: #7f1d1d; }
+    .badge.processing { background: #fef3c7; color: #f59e0b; }
+    .badge.delivered { background: #dcfce7; color: #16a34a; }
+    .badge.pending { background: #fee2e2; color: #dc2626; }
+    .arrange-cell { display: flex; align-items: center; gap: 10px; min-height: 34px; flex-wrap: wrap; }
+    .arrange-preview { padding: 7px 14px; background: #d97706; color: #fff; border: none; border-radius: 5px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .arrange-stub { padding: 5px 10px; background: #f9fafb; border: 1px dashed #cbd5e1; border-radius: 5px; font-size: 12px; font-weight: 600; color: #94a3b8; letter-spacing: 0.5px; }
+    .avatar-stack { display: flex; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; margin-left: -8px; }
+    .order-card { background: #fff; border: 1px solid #e2e2e2; border-radius: 8px; padding: 22px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .order-grid { display: grid; grid-template-columns: 1fr 1.4fr 0.8fr 1fr 1fr; gap: 20px; align-items: center; }
+    .order-label { font-size: 12px; color: #888; font-weight: 600; margin-bottom: 6px; letter-spacing: 0.03em; }
+    .order-value { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+    .order-id { color: #2563eb; }
+    .order-footer { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 20px; align-items: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid #f0f0f0; font-size: 13px; color: #666; }
+    .footer-link { text-align: right; color: #2563eb; font-weight: 600; }
+    .timeline { border: 1px solid #e2e2e2; padding: 32px; background: #fafafa; border-radius: 8px; max-width: 640px; }
+    .timeline-item { display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+    .timeline-label { font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+    .timeline-date { font-size: 13px; color: #888; }
+    .btn { padding: 11px 20px; border: 1px solid #d1d5db; border-radius: 6px; background: #f5f5f5; font-size: 14px; font-weight: 600; color: #333; cursor: pointer; }
+    .btn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .btn-group { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+    .action-bar { display: flex; gap: 12px; justify-content: flex-end; padding: 20px 32px; border-top: 1px solid #e2e2e2; background: #fff; }
+    .status-legend { font-size: 13px; color: #666; margin-bottom: 18px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 7px; }
+    .legend-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .summary-box { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 10px 12px; border-radius: 2px; margin-bottom: 12px; }
+    .summary-title { font-size: 9px; color: #92400e; font-weight: 700; margin-bottom: 5px; }
+    .summary-item { font-size: 9px; color: #666; margin-bottom: 3px; }
+    .summary-highlight { color: #2563eb; font-weight: 700; }
+    .receipt-stat { border: 1px solid #e2e2e2; padding: 18px; background: #fafafa; margin-bottom: 14px; border-radius: 8px; }
+    .receipt-stat.success { background: #e0f7e0; border-color: #bbf7d0; }
+    .receipt-label { font-size: 13px; color: #888; font-weight: 600; margin-bottom: 8px; }
+    .receipt-label.success { color: #16a34a; }
+    .receipt-value { font-size: 30px; font-weight: 700; color: #333; }
+    .receipt-value.success { color: #16a34a; }
+  
+
+  html, body { height: 100%; }
+  body { background: #e5e7eb; overflow: hidden; }
+  .stage { position: fixed; top: 64px; bottom: 68px; left: 0; right: 0; display: flex; align-items: flex-start; justify-content: center; overflow: auto; padding: 32px; }
+  .slide { display: none; width: 100%; max-width: 1440px; }
+  .slide.active { display: block; }
+  .frame { background: #fff; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.18); overflow: hidden; }
+  /* neutralize old .page framing since content now lives directly in .frame */
+  .frame > .page-content, .frame > .nav-bar { border-radius: 0; }
+  /* Top title bar */
+  .topbar { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #fff; border-bottom: 1px solid #d1d5db; display: flex; align-items: center; padding: 0 28px; gap: 14px; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .topbar .tb-num { font-size: 20px; font-weight: 800; color: #2563eb; letter-spacing: 0.02em; }
+  .topbar .tb-name { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+  .topbar .tb-sep { color: #d1d5db; font-size: 18px; }
+  .topbar .tb-var { font-size: 14px; font-weight: 600; color: #6b7280; background: #f3f4f6; padding: 5px 12px; border-radius: 14px; }
+  /* Bottom bar */
+  .bottombar { position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: #fff; border-top: 1px solid #d1d5db; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; z-index: 100; box-shadow: 0 -1px 4px rgba(0,0,0,0.06); }
+  .navbtn { display: flex; align-items: center; gap: 8px; padding: 11px 22px; border: 1px solid #d1d5db; border-radius: 8px; background: #fff; font-size: 15px; font-weight: 600; color: #374151; cursor: pointer; transition: all .15s; }
+  .navbtn:hover:not(:disabled) { background: #f9fafb; border-color: #2563eb; color: #2563eb; }
+  .navbtn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .navbtn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .navbtn.primary:hover:not(:disabled) { background: #1d4ed8; color: #fff; }
+  .counter { font-size: 15px; font-weight: 700; color: #374151; letter-spacing: 0.03em; }
+  .counter .cur { color: #2563eb; }
+  /* Variation placeholder */
+  .var-placeholder { min-height: 520px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; background: repeating-linear-gradient(45deg, #fafafa, #fafafa 12px, #f4f4f5 12px, #f4f4f5 24px); }
+  .var-badge { font-size: 13px; font-weight: 700; color: #d97706; background: #fef3c7; padding: 6px 16px; border-radius: 16px; margin-bottom: 20px; letter-spacing: 0.04em; }
+  .var-title { font-size: 24px; font-weight: 700; color: #374151; margin-bottom: 12px; }
+  .var-sub { font-size: 15px; color: #9ca3af; line-height: 1.7; }
+
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="tb-num" id="tbNum">01</span>
+  <span class="tb-name" id="tbName">Quotation Management</span>
+  <span class="tb-sep">·</span>
+  <span class="tb-var" id="tbVar">Base View</span>
+</div>
+
+<div class="stage">
+  <div class="slide active" data-i="0">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item active">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div class="page-header">
+    <div class="page-title">Quotation Management</div>
+    <div class="page-subtitle">Upload, edit, and arrange quotation items before saving</div>
+  </div>
+  <div class="page-content">
+    <div class="sidebar">
+      <div class="section-title">Upload Quotation</div>
+      <div class="upload-box">
+        <div class="upload-icon">📄</div>
+        <div class="upload-name">quotation_2024_06.xlsx</div>
+        <div class="upload-status">✓ Uploaded successfully</div>
+      </div>
+
+      <div class="section-title">Order Information</div>
+      <div class="info-box">
+        <div class="info-label">Order Name</div>
+        <div class="info-value">Q2 2024 Stock Replenishment</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Expected Delivery</div>
+        <div class="info-value">July 15, 2024</div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">Payment Status</div>
+        <div class="info-value" style="color: #16a34a;">Paid</div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 16px;">
+        <div class="stat-chip"><div class="stat-label">Total Items</div><div class="stat-value">6</div></div>
+        <div class="stat-chip"><div class="stat-label">Available</div><div class="stat-value green">2</div></div>
+        <div class="stat-chip"><div class="stat-label">To Arrange</div><div class="stat-value red">3</div></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;">Quotation Items</div>
+      <div style="font-size: 11px; color: #666; margin-bottom: 12px;">Edit items below, then save changes</div>
+
+      <div class="status-legend">
+        <span class="legend-item"><span class="legend-dot" style="background: #16a34a;"></span>Available (in stock)</span>
+        <span class="legend-item"><span class="legend-dot" style="background: #dc2626;"></span>Unavailable (not in stock)</span>
+        <span class="legend-item"><span class="legend-dot" style="background: #fca5a5;"></span>Arrangeable <span class="legend-dot" style="background: #fbbf24;"></span></span>
+      </div>
+
+      <div class="table-header" style="grid-template-columns: 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div>SKU</div><div>Description</div><div style="text-align: center;">Qty</div><div style="text-align: right;">Price</div><div>Status &amp; Arrange</div><div style="text-align: center;">Action</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div style="font-weight: 600;">SKU-001</div>
+        <div>Electronic Component A</div>
+        <div style="text-align: center;">12</div>
+        <div style="text-align: right;">₹850</div>
+        <div><span class="badge available">Available</span></div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div style="font-weight: 600;">SKU-002</div>
+        <div>Mechanical Part B</div>
+        <div style="text-align: center;">10</div>
+        <div style="text-align: right;">₹1,200</div>
+        <div><span class="badge unavailable">Unavailable</span></div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div style="font-weight: 600;">SKU-003</div>
+        <div>Assembly Kit C</div>
+        <div style="text-align: center;">2</div>
+        <div style="text-align: right;">₹2,500</div>
+        <div class="arrange-cell">
+          <span class="badge arrangeable">Arrangeable <span style="width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; display: inline-block; margin-left: 4px;"></span></span>
+          <span class="arrange-stub">ORD..</span>
+          <div class="avatar-stack">
+            <div class="avatar" style="background: #2563eb;">AB</div>
+            <div class="avatar" style="background: #7c3aed; margin-left: -5px;">JK</div>
+            <div class="avatar" style="background: #0891b2; margin-left: -5px;">SM</div>
+          </div>
+          <button class="arrange-preview">Preview →</button>
+        </div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div style="font-weight: 600;">SKU-004</div>
+        <div>Connector Module D</div>
+        <div style="text-align: center;">5</div>
+        <div style="text-align: right;">₹3,100</div>
+        <div><span class="badge available">Available</span></div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;">
+        <div style="font-weight: 600;">SKU-005</div>
+        <div>Sensor Array E</div>
+        <div style="text-align: center;">3</div>
+        <div style="text-align: right;">₹4,750</div>
+        <div class="arrange-cell">
+          <span class="badge arrangeable">Arrangeable <span style="width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; display: inline-block; margin-left: 4px;"></span></span>
+          <span class="arrange-stub">ORD..</span>
+          <div class="avatar-stack">
+            <div class="avatar" style="background: #2563eb;">AB</div>
+            <div class="avatar" style="background: #7c3aed; margin-left: -5px;">JK</div>
+          </div>
+          <button class="arrange-preview">Preview →</button>
+        </div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn">Discard Changes</button>
+        <button class="btn primary">Save Order</button>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <div class="slide" data-i="1">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item active">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div><div class="var-placeholder"><div class="var-badge">Variation 1</div><div class="var-title">Quotation Management — Variation</div><div class="var-sub">Placeholder for an alternate layout of this page.<br>Describe the variation you want and it will be built here.</div></div></div>
+  </div>
+  <div class="slide" data-i="2">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item active">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+      <div class="page-title">Customer Orders</div>
+      <div class="page-subtitle">View and manage all customer quotation orders</div>
+    </div>
+    <button class="btn primary" style="padding: 8px 16px;">+ New Order</button>
+  </div>
+  <div style="padding: 16px 24px; background: #fff; border-bottom: 1px solid #ccc; display: flex; gap: 12px;">
+    <input type="text" placeholder="Search orders..." style="flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; background: #f9f9f9;" />
+    <select style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; background: #fff; cursor: pointer;">
+      <option>Sort: Date (Latest)</option>
+      <option>Sort: Order ID</option>
+      <option>Sort: Status</option>
+    </select>
+  </div>
+  <div style="padding: 16px 24px; background: #f5f5f5;">
+    <div class="order-card">
+      <div class="order-grid">
+        <div><div class="order-label">ORDER ID</div><div class="order-value order-id">ORD-2024-0562</div></div>
+        <div><div class="order-label">ORDER NAME</div><div class="order-value">Q2 2024 Stock Replenishment</div></div>
+        <div><div class="order-label">ITEMS</div><div class="order-value">24 items</div></div>
+        <div><div class="order-label">STATUS</div><div class="badge processing">Processing</div></div>
+        <div><div class="order-label">AMOUNT</div><div class="order-value">₹34,500</div></div>
+      </div>
+      <div class="order-footer">
+        <div>Date: Jun 20, 2024</div>
+        <div>Payment: Paid</div>
+        <div>Available: 18 / 24</div>
+        <div>Expected: Jul 15, 2024</div>
+        <div class="footer-link">View Details →</div>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-grid">
+        <div><div class="order-label">ORDER ID</div><div class="order-value order-id">ORD-2024-0451</div></div>
+        <div><div class="order-label">ORDER NAME</div><div class="order-value">Q1 2024 Stock Refresh</div></div>
+        <div><div class="order-label">ITEMS</div><div class="order-value">35 items</div></div>
+        <div><div class="order-label">STATUS</div><div class="badge delivered">Delivered</div></div>
+        <div><div class="order-label">AMOUNT</div><div class="order-value">₹52,800</div></div>
+      </div>
+      <div class="order-footer">
+        <div>Date: May 10, 2024</div>
+        <div>Payment: Paid</div>
+        <div>Available: 35 / 35</div>
+        <div>Expected: Jun 5, 2024</div>
+        <div class="footer-link">View Details →</div>
+      </div>
+    </div>
+
+    <div class="order-card">
+      <div class="order-grid">
+        <div><div class="order-label">ORDER ID</div><div class="order-value order-id">ORD-2024-0398</div></div>
+        <div><div class="order-label">ORDER NAME</div><div class="order-value">Urgent Line Parts</div></div>
+        <div><div class="order-label">ITEMS</div><div class="order-value">12 items</div></div>
+        <div><div class="order-label">STATUS</div><div class="badge pending">Pending</div></div>
+        <div><div class="order-label">AMOUNT</div><div class="order-value">₹18,200</div></div>
+      </div>
+      <div class="order-footer">
+        <div>Date: Jul 2, 2024</div>
+        <div>Payment: Unpaid</div>
+        <div>Available: 4 / 12</div>
+        <div>Expected: Aug 2, 2024</div>
+        <div class="footer-link">View Details →</div>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <div class="slide" data-i="3">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item active">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div><div class="var-placeholder"><div class="var-badge">Variation 1</div><div class="var-title">Customer Orders — Variation</div><div class="var-sub">Placeholder for an alternate layout of this page.<br>Describe the variation you want and it will be built here.</div></div></div>
+  </div>
+  <div class="slide" data-i="4">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item active">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div class="page-content">
+    <div class="sidebar">
+      <div class="page-header" style="border: none; padding: 16px 0; margin: -16px -16px 0 -16px; padding-left: 16px; padding-top: 16px;">
+        <div class="page-title" style="font-size: 18px;">Manage Inventory</div>
+        <div class="page-subtitle">Search, add, or update inventory items</div>
+      </div>
+
+      <div class="section-title">Search by SKU or Item Name</div>
+      <div style="width: 100%; min-height: 40px; padding: 6px 10px; border: 1px solid #ccc; border-radius: 2px; background: #fff; display: flex; align-items: center; gap: 8px;">
+        <span style="font-size: 12px;">🔍</span>
+        <span style="color: #bbb; font-size: 12px;">Search SKU or item name…</span>
+      </div>
+      <div style="font-size: 10px; color: #bbb; margin-top: 6px;">Search to select &amp; update an item · <span style="color: #2563eb; font-weight: 600;">+ Add Item</span> to create new</div>
+
+      <div style="padding-top: 24px; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        <div style="width: 48px; height: 48px; border: 2px solid #e5e5e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 20px; color: #ccc;">🔍</div>
+        <div style="font-size: 13px; font-weight: 600; color: #ccc; margin-bottom: 6px;">No item selected</div>
+        <div style="font-size: 11px; color: #ddd; line-height: 1.6;">Search for a SKU or item name above<br>to view and update its stock</div>
+      </div>
+    </div>
+
+    <div class="main" style="padding-left: 24px; padding-right: 24px;">
+      <div class="page-header" style="border: none; padding: 0; margin: -16px -24px 16px -24px; padding-left: 24px; padding-top: 16px;">
+        <div class="page-title" style="font-size: 18px;">Current Inventory</div>
+        <div class="page-subtitle">Total Items: 3 | Total Value: ₹22,400</div>
+      </div>
+
+      <div class="table-header" style="grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;">
+        <div>SKU</div><div>Item Name</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;">
+        <div style="font-weight: 600; color: #2563eb;">SKU-001</div>
+        <div>Electronic Component A</div>
+        <div style="text-align: center; color: #666;">12</div>
+        <div style="text-align: right; color: #666;">₹850</div>
+        <div style="text-align: right; font-weight: 600;">₹10,200</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;">
+        <div style="font-weight: 600; color: #2563eb;">SKU-002</div>
+        <div>Mechanical Part B</div>
+        <div style="text-align: center; color: #666;">6</div>
+        <div style="text-align: right; color: #666;">₹1,200</div>
+        <div style="text-align: right; font-weight: 600;">₹7,200</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;">
+        <div style="font-weight: 600; color: #2563eb;">SKU-003</div>
+        <div>Assembly Kit C</div>
+        <div style="text-align: center; color: #666;">2</div>
+        <div style="text-align: right; color: #666;">₹2,500</div>
+        <div style="text-align: right; font-weight: 600;">₹5,000</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div style="background: #f9f9f9; border-top: 1px solid #ccc; margin-left: -24px; margin-right: -24px; margin-top: 16px; padding: 12px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+        <div style="text-align: center; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 2px;"><div class="stat-label">Total Items</div><div class="stat-value">3</div></div>
+        <div style="text-align: center; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 2px;"><div class="stat-label">Units</div><div class="stat-value">20</div></div>
+        <div style="text-align: center; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 2px;"><div class="stat-label">Total Value</div><div class="stat-value">₹22,400</div></div>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <div class="slide" data-i="5">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item active">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div><div class="var-placeholder"><div class="var-badge">Variation 1</div><div class="var-title">Inventory Management — Variation</div><div class="var-sub">Placeholder for an alternate layout of this page.<br>Describe the variation you want and it will be built here.</div></div></div>
+  </div>
+  <div class="slide" data-i="6">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item active">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">Create &amp; Manage Supplier Purchase Orders</div>
+  <div class="page-content">
+    <div class="sidebar full">
+      <div class="section-title">Supplier Details</div>
+      <div class="info-box">
+        <div class="info-label">Supplier Name</div>
+        <div class="info-value">TechParts International Ltd</div>
+      </div>
+      <div style="border: 1px solid #ccc; padding: 10px; background: #f9f9f9; border-radius: 2px;">
+        <div class="info-label">Total Items</div>
+        <div style="font-size: 18px; font-weight: 700; color: #2563eb;">6</div>
+      </div>
+    </div>
+
+    <div class="main full">
+      <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;">PO Line Items</div>
+
+      <div class="table-header" style="grid-template-columns: 1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;">
+        <div>SKU</div><div>Item</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;">
+        <div style="font-weight: 600;">SKU-002</div>
+        <div>Mechanical Part B</div>
+        <div style="text-align: center; color: #666;">4</div>
+        <div style="text-align: right; color: #666;">₹1,200</div>
+        <div style="font-weight: 600; text-align: right;">₹4,800</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;">
+        <div style="font-weight: 600;">SKU-007</div>
+        <div>Circuit Board X7</div>
+        <div style="text-align: center; color: #666;">10</div>
+        <div style="text-align: right; color: #666;">₹1,850</div>
+        <div style="font-weight: 600; text-align: right;">₹18,500</div>
+        <div style="text-align: center; color: #999;">✕</div>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <div class="slide" data-i="7">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item active">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div><div class="var-placeholder"><div class="var-badge">Variation 1</div><div class="var-title">Supplier Purchase Order — Variation</div><div class="var-sub">Placeholder for an alternate layout of this page.<br>Describe the variation you want and it will be built here.</div></div></div>
+  </div>
+  <div class="slide" data-i="8">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item active">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">Order Status &amp; Timeline Tracking</div>
+  <div style="padding: 24px; background: #fff;">
+    <div style="font-size: 12px; font-weight: 600; color: #333; margin-bottom: 16px;">Order Timeline · ORD-2024-0562</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #16a34a;">✓</div>
+        <div>
+          <div class="timeline-label">Order Confirmed</div>
+          <div class="timeline-date">June 20, 2024</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #f59e0b;">⟳</div>
+        <div>
+          <div class="timeline-label">Processing at Supplier</div>
+          <div class="timeline-date">June 21, 2024</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #f59e0b;">⟳</div>
+        <div>
+          <div class="timeline-label">In Transit</div>
+          <div class="timeline-date">June 28, 2024</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-icon" style="background: #ccc;">○</div>
+        <div>
+          <div class="timeline-label">Delivered</div>
+          <div class="timeline-date">Expected July 15, 2024</div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <div class="slide" data-i="9">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item">Inventory</div>
+      <div class="nav-item active">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div><div class="var-placeholder"><div class="var-badge">Variation 1</div><div class="var-title">Order Tracking — Variation</div><div class="var-sub">Placeholder for an alternate layout of this page.<br>Describe the variation you want and it will be built here.</div></div></div>
+  </div>
+  <div class="slide" data-i="10">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item active">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div>
+  <div style="padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9;">Receive Stock &amp; Update Inventory</div>
+  <div class="page-content">
+    <div class="sidebar full">
+      <div class="section-title">Receipt Details</div>
+      <div class="receipt-stat">
+        <div class="receipt-label">Total Expected</div>
+        <div class="receipt-value">24</div>
+      </div>
+      <div class="receipt-stat success">
+        <div class="receipt-label success">Total Received</div>
+        <div class="receipt-value success">20</div>
+      </div>
+    </div>
+
+    <div class="main full">
+      <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;">Received Items</div>
+
+      <div class="table-header" style="grid-template-columns: 1.2fr 2fr 1fr 1fr 1fr 1fr;">
+        <div>SKU</div><div>Item Description</div><div>Expected</div><div>Received</div><div>Variance</div><div>Status</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1fr 1fr 1fr; background: #e0f7e0;">
+        <div style="font-weight: 600;">SKU-001</div>
+        <div>Electronic Component A</div>
+        <div style="color: #666;">12</div>
+        <div style="color: #16a34a; font-weight: 600;">12</div>
+        <div style="color: #16a34a;">✓ 0</div>
+        <div style="color: #16a34a; font-weight: 600;">Complete</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1fr 1fr 1fr; background: #fef3c7;">
+        <div style="font-weight: 600;">SKU-002</div>
+        <div>Mechanical Part B</div>
+        <div style="color: #666;">12</div>
+        <div style="color: #92400e; font-weight: 600;">8</div>
+        <div style="color: #dc2626;">−4</div>
+        <div style="color: #92400e; font-weight: 600;">Partial</div>
+      </div>
+
+      <div class="table-row" style="grid-template-columns: 1.2fr 2fr 1fr 1fr 1fr 1fr;">
+        <div style="font-weight: 600;">SKU-003</div>
+        <div>Assembly Kit C</div>
+        <div style="color: #666;">2</div>
+        <div style="color: #666;">0</div>
+        <div style="color: #dc2626;">−2</div>
+        <div style="color: #666; font-weight: 600;">Pending</div>
+      </div>
+    </div>
+  </div></div>
+  </div>
+  <div class="slide" data-i="11">
+<div class="frame"><div class="nav-bar">
+    <div class="nav-logo">ERP System</div>
+    <div class="nav-menu">
+      <div class="nav-item">Orders</div>
+      <div class="nav-item">Quotations</div>
+      <div class="nav-item">Purchase Orders</div>
+      <div class="nav-item active">Inventory</div>
+      <div class="nav-item">Tracking</div>
+    </div>
+    <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 11px;">JD</div>
+  </div><div class="var-placeholder"><div class="var-badge">Variation 1</div><div class="var-title">Inventory Receiving — Variation</div><div class="var-sub">Placeholder for an alternate layout of this page.<br>Describe the variation you want and it will be built here.</div></div></div>
+  </div>
+</div>
+
+<div class="bottombar">
+  <button class="navbtn" id="prevBtn" onclick="go(-1)">← Previous</button>
+  <span class="counter"><span class="cur" id="curNum">1</span> / 12</span>
+  <button class="navbtn primary" id="nextBtn" onclick="go(1)">Next →</button>
+</div>
+
+<script>
+  const titles = [{"num":"01","name":"Quotation Management","variation":"Base View"},{"num":"01","name":"Quotation Management","variation":"Variation 1"},{"num":"02","name":"Customer Orders","variation":"Base View"},{"num":"02","name":"Customer Orders","variation":"Variation 1"},{"num":"03","name":"Inventory Management","variation":"Base View"},{"num":"03","name":"Inventory Management","variation":"Variation 1"},{"num":"04","name":"Supplier Purchase Order","variation":"Base View"},{"num":"04","name":"Supplier Purchase Order","variation":"Variation 1"},{"num":"05","name":"Order Tracking","variation":"Base View"},{"num":"05","name":"Order Tracking","variation":"Variation 1"},{"num":"06","name":"Inventory Receiving","variation":"Base View"},{"num":"06","name":"Inventory Receiving","variation":"Variation 1"}];
+  const total = 12;
+  let idx = 0;
+  const slides = document.querySelectorAll('.slide');
+  const stage = document.querySelector('.stage');
+  function render() {
+    slides.forEach(s => s.classList.toggle('active', +s.dataset.i === idx));
+    const t = titles[idx];
+    document.getElementById('tbNum').textContent = t.num;
+    document.getElementById('tbName').textContent = t.name;
+    document.getElementById('tbVar').textContent = t.variation;
+    document.getElementById('curNum').textContent = idx + 1;
+    document.getElementById('prevBtn').disabled = idx === 0;
+    document.getElementById('nextBtn').disabled = idx === total - 1;
+    stage.scrollTop = 0;
+  }
+  function go(dir) {
+    idx = Math.max(0, Math.min(total - 1, idx + dir));
+    render();
+  }
+  render();
+</script>
+
+</body>
+</html>

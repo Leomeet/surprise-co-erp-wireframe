@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; margin: 0; }
+      a { color: #2563eb; }
+      a:hover { color: #1d4ed8; }
+    </style>
+  </helmet>
+
+  <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080" hint-size="100%,100%">
+
+    <!-- SLIDE 1: Quotation Management (with Arrange feature) -->
+    <section data-label="Quotation Management" data-screen-label="Quotation Management" data-speaker-notes="Core screen. Show the three item statuses and the arrange flow: click Preview on an arrangeable row to pull stock from another order." style="background:#ccc;display:flex;flex-direction:column;">
+      <!-- Nav bar -->
+      <div style="background:#fff;border-bottom:1px solid #ccc;height:56px;display:flex;align-items:center;padding:0 20px;gap:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);flex-shrink:0;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a;min-width:140px;">ERP System</div>
+        <div style="display:flex;flex:1;">
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;border-bottom:3px solid transparent;">Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#2563eb;border-bottom:3px solid #2563eb;">Quotations</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;border-bottom:3px solid transparent;">Purchase Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;border-bottom:3px solid transparent;">Inventory</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;border-bottom:3px solid transparent;">Tracking</div>
+        </div>
+        <div style="width:28px;height:28px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;">JD</div>
+      </div>
+
+      <!-- Header -->
+      <div style="background:#fff;border-bottom:1px solid #ccc;padding:16px 24px;flex-shrink:0;">
+        <div style="font-size:20px;font-weight:600;color:#1a1a1a;margin-bottom:6px;">Quotation Management</div>
+        <div style="font-size:12px;color:#666;">Upload, edit, and arrange quotation items before saving</div>
+      </div>
+
+      <!-- Main content -->
+      <div style="flex:1;display:flex;overflow:hidden;background:#fff;position:relative;">
+        <!-- Left panel -->
+        <div style="width:30%;border-right:1px solid #ccc;display:flex;flex-direction:column;">
+          <div style="padding:16px;border-bottom:1px solid #ccc;">
+            <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px;">Upload Quotation</div>
+            <div style="background:#f0f7ff;border:2px dashed #2563eb;padding:20px;text-align:center;border-radius:4px;">
+              <div style="font-size:28px;margin-bottom:8px;">📄</div>
+              <div style="font-size:12px;color:#2563eb;font-weight:600;margin-bottom:4px;">quotation_2024_06.xlsx</div>
+              <div style="font-size:10px;color:#16a34a;font-weight:600;">✓ Uploaded successfully</div>
+            </div>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:16px;border-bottom:1px solid #ccc;">
+            <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px;">Order Information</div>
+            <div style="background:#fff;border:1px solid #ccc;padding:8px;margin-bottom:8px;border-radius:2px;font-size:11px;"><div style="color:#666;font-size:9px;margin-bottom:2px;">Order Name</div><div style="font-weight:600;">Q2 2024 Stock Replenishment</div></div>
+            <div style="background:#fff;border:1px solid #ccc;padding:8px;margin-bottom:8px;border-radius:2px;font-size:11px;"><div style="color:#666;font-size:9px;margin-bottom:2px;">Expected Delivery</div><div style="font-weight:600;">July 15, 2024</div></div>
+            <div style="background:#fff;border:1px solid #ccc;padding:8px;border-radius:2px;font-size:11px;"><div style="color:#666;font-size:9px;margin-bottom:2px;">Payment Status</div><div style="font-weight:600;color:#16a34a;">Paid</div></div>
+          </div>
+          <div style="padding:12px;background:#f9f9f9;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+            <div style="padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;text-align:center;"><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">Total</div><div style="font-size:16px;font-weight:700;color:#2563eb;">6</div></div>
+            <div style="padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;text-align:center;"><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">Available</div><div style="font-size:16px;font-weight:700;color:#16a34a;">2</div></div>
+            <div style="padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;text-align:center;"><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">To Arrange</div><div style="font-size:16px;font-weight:700;color:#dc2626;">3</div></div>
+          </div>
+        </div>
+
+        <!-- Right panel: items table -->
+        <div style="width:70%;padding:12px 16px;overflow-y:auto;display:flex;flex-direction:column;">
+          <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Quotation Items</div>
+          <div style="font-size:11px;color:#666;margin-bottom:10px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:9px;height:9px;border-radius:50%;background:#16a34a;"></span>Available (in stock)</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:9px;height:9px;border-radius:50%;background:#dc2626;"></span>Unavailable (not in stock)</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:9px;height:9px;border-radius:50%;background:#fca5a5;"></span>Arrangeable <span style="width:7px;height:7px;border-radius:50%;background:#fbbf24;"></span></span>
+          </div>
+
+          <!-- Column header -->
+          <div style="background:#f0f0f0;padding:9px 10px;font-size:10px;font-weight:600;color:#333;display:grid;grid-template-columns:0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;gap:10px;margin-bottom:4px;border-radius:2px;align-items:center;">
+            <div>SKU</div><div>Description</div><div style="text-align:center;">Qty</div><div style="text-align:right;">Price</div><div>Status &amp; Arrange</div><div style="text-align:center;">Action</div>
+          </div>
+
+          <!-- Rows -->
+          <sc-for list="{{ tableRows }}" as="row" hint-placeholder-count="6">
+            <div style="background:{{ row.rowBg }};padding:9px 10px;font-size:11px;display:grid;grid-template-columns:0.8fr 1.6fr 0.5fr 0.7fr 2.4fr 0.5fr;gap:10px;border-bottom:1px solid #f0f0f0;align-items:center;">
+              <div style="font-weight:600;">{{ row.sku }}</div>
+              <div style="color:#444;">{{ row.description }}</div>
+              <div style="text-align:center;">{{ row.qty }}</div>
+              <div style="text-align:right;">₹{{ row.price }}</div>
+
+              <!-- Status & Arrange cell -->
+              <div style="display:flex;align-items:center;gap:8px;min-height:26px;">
+                <!-- Available -->
+                <sc-if value="{{ row.isAvailable }}" hint-placeholder-val="{{ true }}">
+                  <span style="background:#dcfce7;color:#16a34a;font-weight:700;padding:3px 10px;border-radius:12px;font-size:10px;">Available</span>
+                </sc-if>
+                <!-- Unavailable -->
+                <sc-if value="{{ row.isUnavailable }}" hint-placeholder-val="{{ false }}">
+                  <span style="background:#fee2e2;color:#dc2626;font-weight:700;padding:3px 10px;border-radius:12px;font-size:10px;">Unavailable</span>
+                </sc-if>
+                <!-- Arrangeable -->
+                <sc-if value="{{ row.isArrangeable }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="display:inline-flex;align-items:center;gap:5px;background:#fecaca;color:#7f1d1d;font-weight:700;padding:3px 10px;border-radius:12px;font-size:10px;">Arrangeable<span style="width:7px;height:7px;border-radius:50%;background:#fbbf24;"></span></span>
+
+                    <!-- Not yet confirmed: blank order id slot + avatars + preview -->
+                    <sc-if value="{{ row.notConfirmed }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:flex;align-items:center;gap:7px;padding-left:8px;border-left:1px solid #e5e7eb;">
+                        <div style="padding:3px 8px;background:#f9fafb;border:1px dashed #cbd5e1;border-radius:3px;font-size:10px;font-weight:600;color:#94a3b8;letter-spacing:0.5px;">{{ row.orderIdStub }}..</div>
+                        <div style="display:flex;">
+                          <sc-for list="{{ row.avatars }}" as="av" hint-placeholder-count="3">
+                            <div style="width:20px;height:20px;border-radius:50%;background:{{ av.color }};color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff;margin-left:-7px;">{{ av.initials }}</div>
+                          </sc-for>
+                        </div>
+                        <button onClick="{{ row.openArrange }}" style="padding:4px 11px;background:#d97706;color:#fff;border:none;border-radius:3px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;">Preview →</button>
+                      </div>
+                    </sc-if>
+
+                    <!-- Confirmed: order number + single full avatar -->
+                    <sc-if value="{{ row.confirmed }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;gap:7px;padding-left:8px;border-left:1px solid #e5e7eb;">
+                        <span style="color:#16a34a;font-weight:700;font-size:11px;">✓</span>
+                        <div style="padding:3px 9px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:3px;font-size:10px;font-weight:700;color:#2563eb;letter-spacing:0.5px;">{{ row.confirmedOrderNum }}</div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                          <div style="width:22px;height:22px;border-radius:50%;background:{{ row.confirmedAvatarColor }};color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;">{{ row.confirmedAvatarInitials }}</div>
+                          <span style="font-size:10px;font-weight:600;color:#1a1a1a;">{{ row.confirmedName }}</span>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
+
+              <div style="text-align:center;color:#999;cursor:pointer;">✕</div>
+            </div>
+          </sc-for>
+
+          <!-- Action bar -->
+          <div style="margin-top:auto;padding:14px 0 4px;display:flex;gap:10px;justify-content:flex-end;">
+            <button style="padding:8px 16px;border:1px solid #ccc;border-radius:2px;background:#f5f5f5;font-size:12px;font-weight:600;color:#333;cursor:pointer;">Discard Changes</button>
+            <button style="padding:8px 16px;border:1px solid #2563eb;border-radius:2px;background:#2563eb;font-size:12px;font-weight:600;color:#fff;cursor:pointer;">Save Order</button>
+          </div>
+        </div>
+
+        <!-- Arrange dropdown (absolute within slide, not fixed) -->
+        <sc-if value="{{ arrangeOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;right:24px;top:16px;width:300px;background:#fff;border:1px solid #d1d5db;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.18);z-index:50;overflow:hidden;">
+            <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;">
+              <span style="font-size:12px;font-weight:700;color:#111827;">Arrange · {{ arrangeSku }}</span>
+              <button onClick="{{ closeArrange }}" style="background:none;border:none;font-size:15px;color:#9ca3af;cursor:pointer;padding:0;width:20px;height:20px;display:flex;align-items:center;justify-content:center;">✕</button>
+            </div>
+            <div style="padding:10px 12px;border-bottom:1px solid #eee;">
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #2563eb;border-radius:4px;background:#f0f7ff;">
+                <span style="font-size:13px;">🔍</span>
+                <input type="text" placeholder="Search orders..." style="flex:1;border:none;background:none;font-size:12px;outline:none;color:#374151;" />
+              </div>
+            </div>
+            <div style="padding:9px 12px 4px;font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;">Orders holding this stock</div>
+            <sc-for list="{{ arrangeOrders }}" as="order" hint-placeholder-count="3">
+              <div onClick="{{ order.select }}" style="display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:pointer;background:{{ order.bg }};border-left:3px solid {{ order.accent }};">
+                <div style="width:30px;height:30px;border-radius:50%;background:{{ order.color }};color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ order.initials }}</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:11px;font-weight:600;color:#111827;">{{ order.name }}</div>
+                  <div style="font-size:10px;color:#9ca3af;">{{ order.orderNum }} · {{ order.date }}</div>
+                </div>
+                <span style="font-size:9px;font-weight:700;background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:10px;flex-shrink:0;">{{ order.qty }} units</span>
+                <div style="width:15px;height:15px;border-radius:50%;border:2px solid {{ order.radioBorder }};background:{{ order.radioBg }};flex-shrink:0;"></div>
+              </div>
+            </sc-for>
+            <div style="padding:12px;border-top:1px solid #eee;">
+              <sc-if value="{{ hasSelection }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ confirmArrange }}" style="width:100%;padding:9px;background:#d97706;color:#fff;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer;">✓ Confirm arrange from {{ selectedName }}</button>
+              </sc-if>
+              <sc-if value="{{ noSelection }}" hint-placeholder-val="{{ true }}">
+                <button style="width:100%;padding:9px;background:#f3f4f6;color:#9ca3af;border:1px solid #e5e7eb;border-radius:4px;font-size:11px;font-weight:600;cursor:default;">Select an order above</button>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: Customer Orders List -->
+    <section data-label="Customer Orders" data-screen-label="Customer Orders" data-speaker-notes="Card-based list of all quotation orders with search, sort, and status." style="background:#ccc;display:flex;flex-direction:column;">
+      <div style="background:#fff;border-bottom:1px solid #ccc;height:56px;display:flex;align-items:center;padding:0 20px;gap:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);flex-shrink:0;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a;min-width:140px;">ERP System</div>
+        <div style="display:flex;flex:1;">
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#2563eb;border-bottom:3px solid #2563eb;">Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Quotations</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Purchase Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Inventory</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Tracking</div>
+        </div>
+        <div style="width:28px;height:28px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;">JD</div>
+      </div>
+
+      <div style="background:#fff;border-bottom:1px solid #ccc;padding:20px 24px;flex-shrink:0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div>
+            <div style="font-size:20px;font-weight:600;color:#1a1a1a;">Customer Orders</div>
+            <div style="font-size:12px;color:#666;">View and manage all customer quotation orders</div>
+          </div>
+          <button style="padding:8px 16px;background:#2563eb;color:#fff;border:none;border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;">+ New Order</button>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div style="flex:1;padding:8px 12px;border:1px solid #ccc;border-radius:2px;font-size:12px;background:#f9f9f9;color:#999;">Search orders...</div>
+          <div style="padding:8px 12px;border:1px solid #ccc;border-radius:2px;font-size:12px;background:#fff;color:#666;">Sort: Date (Latest) ▾</div>
+        </div>
+      </div>
+
+      <div style="flex:1;overflow-y:auto;padding:16px 24px;background:#f5f5f5;">
+        <sc-for list="{{ orderCards }}" as="o" hint-placeholder-count="3">
+          <div style="background:#fff;border:1px solid #ccc;border-radius:2px;padding:16px;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1.4fr 0.8fr 1fr 1fr;gap:16px;align-items:center;">
+              <div><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">ORDER ID</div><div style="font-size:13px;font-weight:600;color:#2563eb;">{{ o.id }}</div></div>
+              <div><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">ORDER NAME</div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">{{ o.name }}</div></div>
+              <div><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">ITEMS</div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">{{ o.items }} items</div></div>
+              <div><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">STATUS</div><div style="font-size:12px;font-weight:600;color:{{ o.statusColor }};background:{{ o.statusBg }};padding:4px 8px;border-radius:2px;width:fit-content;">{{ o.status }}</div></div>
+              <div><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px;">AMOUNT</div><div style="font-size:13px;font-weight:600;color:#1a1a1a;">{{ o.amount }}</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;font-size:11px;color:#666;">
+              <div>Date: {{ o.date }}</div><div>Payment: {{ o.payment }}</div><div>Available: {{ o.avail }}</div><div>Expected: {{ o.expected }}</div><div style="text-align:right;color:#2563eb;font-weight:600;">View Details →</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Inventory Management -->
+    <section data-label="Inventory Management" data-screen-label="Inventory Management" data-speaker-notes="Search-first inventory. Left = search/add; right = current inventory table." style="background:#ccc;display:flex;flex-direction:column;">
+      <div style="background:#fff;border-bottom:1px solid #ccc;height:56px;display:flex;align-items:center;padding:0 20px;gap:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);flex-shrink:0;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a;min-width:140px;">ERP System</div>
+        <div style="display:flex;flex:1;">
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Quotations</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Purchase Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#2563eb;border-bottom:3px solid #2563eb;">Inventory</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Tracking</div>
+        </div>
+        <div style="width:28px;height:28px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;">JD</div>
+      </div>
+
+      <div style="flex:1;display:flex;overflow:hidden;background:#fff;">
+        <div style="width:35%;border-right:1px solid #ccc;display:flex;flex-direction:column;">
+          <div style="border-bottom:1px solid #ccc;padding:20px 24px;">
+            <div style="font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Manage Inventory</div>
+            <div style="font-size:12px;color:#666;">Search, add, or update inventory items</div>
+          </div>
+          <div style="padding:24px;border-bottom:1px solid #ccc;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-size:11px;font-weight:600;color:#333;">Search by SKU or Item Name</span>
+              <span style="font-size:11px;font-weight:600;color:#2563eb;">+ Add Item</span>
+            </div>
+            <div style="width:100%;min-height:40px;padding:6px 10px;border:1px solid #ccc;border-radius:2px;background:#fff;display:flex;align-items:center;gap:6px;">
+              <span style="font-size:12px;color:#bbb;">🔍</span><span style="color:#bbb;font-size:12px;">Search SKU or item name…</span>
+            </div>
+            <div style="font-size:10px;color:#bbb;margin-top:6px;">Search to select &amp; update an item · <span style="color:#2563eb;font-weight:600;">+ Add Item</span> to create new</div>
+          </div>
+          <div style="padding:24px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+            <div style="width:48px;height:48px;border:2px solid #e5e5e5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;color:#ccc;">🔍</div>
+            <div style="font-size:13px;font-weight:600;color:#ccc;margin-bottom:6px;">No item selected</div>
+            <div style="font-size:11px;color:#ddd;line-height:1.6;">Search for a SKU or item name above<br>to view and update its stock</div>
+          </div>
+        </div>
+
+        <div style="width:65%;display:flex;flex-direction:column;">
+          <div style="border-bottom:1px solid #ccc;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Current Inventory</div><div style="font-size:12px;color:#666;">Total Items: 3 | Total Value: ₹22,400</div></div>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:16px 12px;">
+            <div style="background:#f0f0f0;padding:10px;font-size:10px;font-weight:600;color:#333;display:grid;grid-template-columns:1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;gap:8px;margin-bottom:4px;border-radius:2px;">
+              <div>SKU</div><div>Item Name</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+            </div>
+            <sc-for list="{{ inventoryRows }}" as="inv" hint-placeholder-count="3">
+              <div style="background:{{ inv.bg }};padding:10px;font-size:10px;display:grid;grid-template-columns:1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;gap:8px;margin-bottom:2px;border-bottom:1px solid #f0f0f0;border-radius:2px;">
+                <div style="font-weight:600;color:#2563eb;">{{ inv.sku }}</div><div style="color:#1a1a1a;">{{ inv.name }}</div><div style="text-align:center;color:#666;">{{ inv.qty }}</div><div style="text-align:right;color:#666;">₹{{ inv.price }}</div><div style="text-align:right;font-weight:600;">₹{{ inv.total }}</div><div style="text-align:center;color:#999;">✕</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:#f9f9f9;border-top:1px solid #ccc;padding:12px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+            <div style="text-align:center;padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;"><div style="font-size:9px;color:#666;font-weight:600;margin-bottom:4px;">Total Items</div><div style="font-size:14px;font-weight:700;color:#2563eb;">3</div></div>
+            <div style="text-align:center;padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;"><div style="font-size:9px;color:#666;font-weight:600;margin-bottom:4px;">Units</div><div style="font-size:14px;font-weight:700;color:#2563eb;">20</div></div>
+            <div style="text-align:center;padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;"><div style="font-size:9px;color:#666;font-weight:600;margin-bottom:4px;">Total Value</div><div style="font-size:14px;font-weight:700;color:#2563eb;">₹22,400</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Supplier Purchase Order -->
+    <section data-label="Supplier Purchase Order" data-screen-label="Supplier Purchase Order" data-speaker-notes="Create and manage supplier POs for out-of-stock items." style="background:#ccc;display:flex;flex-direction:column;">
+      <div style="background:#fff;border-bottom:1px solid #ccc;height:56px;display:flex;align-items:center;padding:0 20px;gap:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);flex-shrink:0;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a;min-width:140px;">ERP System</div>
+        <div style="display:flex;flex:1;">
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Quotations</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#2563eb;border-bottom:3px solid #2563eb;">Purchase Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Inventory</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Tracking</div>
+        </div>
+        <div style="width:28px;height:28px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;">JD</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid #ccc;font-size:14px;font-weight:600;background:#f9f9f9;">Create &amp; Manage Supplier Purchase Orders</div>
+      <div style="flex:1;display:flex;overflow:hidden;background:#fff;">
+        <div style="width:30%;border-right:1px solid #ccc;padding:16px;overflow-y:auto;">
+          <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px;">Supplier Details</div>
+          <div style="background:#fff;border:1px solid #ccc;padding:8px;margin-bottom:8px;border-radius:2px;font-size:11px;"><div style="color:#666;font-size:9px;margin-bottom:2px;">Supplier Name</div><div style="font-weight:600;">TechParts International Ltd</div></div>
+          <div style="border:1px solid #ccc;padding:10px;background:#f9f9f9;border-radius:2px;"><div style="font-size:10px;color:#666;margin-bottom:4px;">Total Items</div><div style="font-size:18px;font-weight:700;color:#2563eb;">6</div></div>
+        </div>
+        <div style="width:70%;padding:12px 16px;overflow-y:auto;">
+          <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:8px;">PO Line Items</div>
+          <div style="background:#f0f0f0;padding:8px;font-size:11px;font-weight:600;color:#333;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;gap:12px;margin-bottom:4px;border-radius:2px;">
+            <div>SKU</div><div>Item</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+          </div>
+          <div style="background:#fff;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;gap:12px;border-bottom:1px solid #f0f0f0;">
+            <div style="font-weight:600;">SKU-002</div><div>Mechanical Part B</div><div style="text-align:center;color:#666;">4</div><div style="text-align:right;color:#666;">₹1,200</div><div style="font-weight:600;text-align:right;">₹4,800</div><div style="text-align:center;color:#999;">✕</div>
+          </div>
+          <div style="background:#f9f9f9;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;gap:12px;border-bottom:1px solid #f0f0f0;">
+            <div style="font-weight:600;">SKU-007</div><div>Circuit Board X7</div><div style="text-align:center;color:#666;">10</div><div style="text-align:right;color:#666;">₹1,850</div><div style="font-weight:600;text-align:right;">₹18,500</div><div style="text-align:center;color:#999;">✕</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: Order Tracking -->
+    <section data-label="Order Tracking" data-screen-label="Order Tracking" data-speaker-notes="Timeline view of an order from confirmation through delivery." style="background:#ccc;display:flex;flex-direction:column;">
+      <div style="background:#fff;border-bottom:1px solid #ccc;height:56px;display:flex;align-items:center;padding:0 20px;gap:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);flex-shrink:0;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a;min-width:140px;">ERP System</div>
+        <div style="display:flex;flex:1;">
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Quotations</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Purchase Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Inventory</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#2563eb;border-bottom:3px solid #2563eb;">Tracking</div>
+        </div>
+        <div style="width:28px;height:28px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;">JD</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid #ccc;font-size:14px;font-weight:600;background:#f9f9f9;">Order Status &amp; Timeline Tracking</div>
+      <div style="flex:1;padding:24px;overflow-y:auto;background:#fff;">
+        <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:16px;">Order Timeline · ORD-2024-0562</div>
+        <div style="border:1px solid #ccc;padding:20px;background:#f9f9f9;border-radius:2px;max-width:560px;">
+          <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;gap:12px;margin-bottom:18px;align-items:flex-start;">
+              <div style="width:26px;height:26px;background:{{ t.color }};border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;flex-shrink:0;">{{ t.icon }}</div>
+              <div><div style="font-size:12px;font-weight:600;color:#1a1a1a;">{{ t.label }}</div><div style="font-size:11px;color:#666;">{{ t.date }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: Inventory Receiving -->
+    <section data-label="Inventory Receiving" data-screen-label="Inventory Receiving" data-speaker-notes="Reconcile received stock against expected quantities." style="background:#ccc;display:flex;flex-direction:column;">
+      <div style="background:#fff;border-bottom:1px solid #ccc;height:56px;display:flex;align-items:center;padding:0 20px;gap:24px;box-shadow:0 1px 2px rgba(0,0,0,.05);flex-shrink:0;">
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a;min-width:140px;">ERP System</div>
+        <div style="display:flex;flex:1;">
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Quotations</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Purchase Orders</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#2563eb;border-bottom:3px solid #2563eb;">Inventory</div>
+          <div style="padding:16px 14px;font-size:12px;font-weight:600;color:#666;">Tracking</div>
+        </div>
+        <div style="width:28px;height:28px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;">JD</div>
+      </div>
+      <div style="padding:14px 20px;border-bottom:1px solid #ccc;font-size:14px;font-weight:600;background:#f9f9f9;">Receive Stock &amp; Update Inventory</div>
+      <div style="flex:1;display:flex;overflow:hidden;background:#fff;">
+        <div style="width:25%;border-right:1px solid #ccc;padding:16px;overflow-y:auto;">
+          <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px;">Receipt Details</div>
+          <div style="border:1px solid #ccc;padding:12px;background:#f9f9f9;margin-bottom:10px;border-radius:2px;"><div style="font-size:10px;color:#666;font-weight:600;margin-bottom:6px;">Total Expected</div><div style="font-size:20px;font-weight:700;color:#333;">24</div></div>
+          <div style="border:1px solid #ccc;padding:12px;background:#e0f7e0;border-radius:2px;"><div style="font-size:10px;color:#16a34a;font-weight:600;margin-bottom:6px;">Total Received</div><div style="font-size:20px;font-weight:700;color:#16a34a;">20</div></div>
+        </div>
+        <div style="width:75%;padding:12px 16px;overflow-y:auto;">
+          <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:8px;">Received Items</div>
+          <div style="background:#f0f0f0;padding:8px;font-size:11px;font-weight:600;color:#333;display:grid;grid-template-columns:1.2fr 2fr 1fr 1fr 1fr 1fr;gap:12px;margin-bottom:4px;border-radius:2px;">
+            <div>SKU</div><div>Item Description</div><div>Expected</div><div>Received</div><div>Variance</div><div>Status</div>
+          </div>
+          <div style="background:#e0f7e0;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1fr 1fr 1fr;gap:12px;border-bottom:1px solid #f0f0f0;">
+            <div style="font-weight:600;">SKU-001</div><div>Electronic Component A</div><div style="color:#666;">12</div><div style="color:#16a34a;font-weight:600;">12</div><div style="color:#16a34a;">✓ 0</div><div style="color:#16a34a;font-weight:600;">Complete</div>
+          </div>
+          <div style="background:#fef3c7;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1fr 1fr 1fr;gap:12px;border-bottom:1px solid #f0f0f0;">
+            <div style="font-weight:600;">SKU-002</div><div>Mechanical Part B</div><div style="color:#666;">12</div><div style="color:#92400e;font-weight:600;">8</div><div style="color:#dc2626;">−4</div><div style="color:#92400e;font-weight:600;">Partial</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </x-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    arrangeOpen: false,
+    arrangeSku: '',
+    hasSelection: false,
+    selectedName: '',
+    // confirmed arrangements keyed by sku
+    confirmedBySku: {}
+  };
+
+  renderVals() {
+    const { arrangeOpen, arrangeSku, hasSelection, selectedName, confirmedBySku } = this.state;
+
+    const avatarPool = [
+      { initials: 'AB', color: '#2563eb', name: 'Alice Brown', orderNum: 'ORD-0451', date: 'Jul 12', qty: 4 },
+      { initials: 'JK', color: '#7c3aed', name: 'John Kumar', orderNum: 'ORD-0398', date: 'Jul 18', qty: 3 },
+      { initials: 'SM', color: '#0891b2', name: 'Sara Mehta', orderNum: 'ORD-0512', date: 'Jul 25', qty: 2 }
+    ];
+
+    // item definitions
+    const items = [
+      { sku: 'SKU-001', description: 'Electronic Component A', qty: 12, price: '850', status: 'available' },
+      { sku: 'SKU-002', description: 'Mechanical Part B', qty: 10, price: '1,200', status: 'unavailable' },
+      { sku: 'SKU-003', description: 'Assembly Kit C', qty: 2, price: '2,500', status: 'arrangeable', orderIdStub: 'ORD', avatars: avatarPool },
+      { sku: 'SKU-004', description: 'Connector Module D', qty: 5, price: '3,100', status: 'available' },
+      { sku: 'SKU-005', description: 'Sensor Array E', qty: 3, price: '4,750', status: 'arrangeable', orderIdStub: 'ORD', avatars: avatarPool.slice(0, 2) },
+      { sku: 'SKU-006', description: 'Control Module Pro', qty: 4, price: '6,300', status: 'arrangeable', orderIdStub: 'ORD', avatars: avatarPool.slice(0, 1) }
+    ];
+
+    const tableRows = items.map((it, i) => {
+      const confirmedOrder = confirmedBySku[it.sku];
+      const base = {
+        sku: it.sku,
+        description: it.description,
+        qty: it.qty,
+        price: it.price,
+        rowBg: i % 2 === 0 ? '#fff' : '#f9f9f9',
+        isAvailable: it.status === 'available',
+        isUnavailable: it.status === 'unavailable',
+        isArrangeable: it.status === 'arrangeable'
+      };
+      if (it.status === 'arrangeable') {
+        base.orderIdStub = it.orderIdStub;
+        base.avatars = it.avatars;
+        base.notConfirmed = !confirmedOrder;
+        base.confirmed = !!confirmedOrder;
+        base.openArrange = () => this.setState({ arrangeOpen: true, arrangeSku: it.sku, hasSelection: false, selectedName: '' });
+        if (confirmedOrder) {
+          base.confirmedOrderNum = confirmedOrder.orderNum;
+          base.confirmedName = confirmedOrder.name;
+          base.confirmedAvatarInitials = confirmedOrder.initials;
+          base.confirmedAvatarColor = confirmedOrder.color;
+        }
+      }
+      return base;
+    });
+
+    const arrangeOrders = avatarPool.map(a => {
+      const sel = hasSelection && selectedName === a.name;
+      return {
+        name: a.name,
+        orderNum: a.orderNum,
+        date: a.date,
+        qty: a.qty,
+        initials: a.initials,
+        color: a.color,
+        bg: sel ? '#f0f7ff' : '#fff',
+        accent: sel ? '#2563eb' : 'transparent',
+        radioBorder: sel ? '#2563eb' : '#d1d5db',
+        radioBg: sel ? '#2563eb' : '#fff',
+        select: () => this.setState({ hasSelection: true, selectedName: a.name })
+      };
+    });
+
+    const orderCards = [
+      { id: 'ORD-2024-0562', name: 'Q2 2024 Stock Replenishment', items: 24, status: 'Processing', statusColor: '#f59e0b', statusBg: '#fef3c7', amount: '₹34,500', date: 'Jun 20, 2024', payment: 'Paid', avail: '18 / 24', expected: 'Jul 15, 2024' },
+      { id: 'ORD-2024-0451', name: 'Q1 2024 Stock Refresh', items: 35, status: 'Delivered', statusColor: '#16a34a', statusBg: '#dcfce7', amount: '₹52,800', date: 'May 10, 2024', payment: 'Paid', avail: '35 / 35', expected: 'Jun 5, 2024' },
+      { id: 'ORD-2024-0398', name: 'Urgent Line Parts', items: 12, status: 'Pending', statusColor: '#dc2626', statusBg: '#fee2e2', amount: '₹18,200', date: 'Jul 2, 2024', payment: 'Unpaid', avail: '4 / 12', expected: 'Aug 2, 2024' }
+    ];
+
+    const inventoryRows = [
+      { sku: 'SKU-001', name: 'Electronic Component A', qty: 12, price: '850', total: '10,200', bg: '#fff' },
+      { sku: 'SKU-002', name: 'Mechanical Part B', qty: 6, price: '1,200', total: '7,200', bg: '#f9f9f9' },
+      { sku: 'SKU-003', name: 'Assembly Kit C', qty: 2, price: '2,500', total: '5,000', bg: '#fff' }
+    ];
+
+    const timeline = [
+      { icon: '✓', color: '#16a34a', label: 'Order Confirmed', date: 'June 20, 2024' },
+      { icon: '⟳', color: '#f59e0b', label: 'Processing at Supplier', date: 'June 21, 2024' },
+      { icon: '⟳', color: '#f59e0b', label: 'In Transit', date: 'June 28, 2024' },
+      { icon: '○', color: '#ccc', label: 'Delivered', date: 'Expected July 15, 2024' }
+    ];
+
+    return {
+      tableRows,
+      arrangeOpen,
+      arrangeSku,
+      arrangeOrders,
+      hasSelection,
+      noSelection: !hasSelection,
+      selectedName,
+      closeArrange: () => this.setState({ arrangeOpen: false }),
+      confirmArrange: () => {
+        const chosen = avatarPool.find(a => a.name === this.state.selectedName);
+        if (!chosen) return;
+        this.setState(s => ({
+          arrangeOpen: false,
+          confirmedBySku: { ...s.confirmedBySku, [s.arrangeSku]: chosen }
+        }));
+      },
+      orderCards,
+      inventoryRows,
+      timeline
+    };
+  }
+}
+</script>
+</body>
+</html>

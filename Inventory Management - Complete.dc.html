@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f5f5f5; }
+  </style>
+</helmet>
+
+<!-- Navigation Bar -->
+<nav style="background: #fff; border-bottom: 1px solid #ccc; padding: 0; height: 56px; display: flex; align-items: center; padding: 0 24px; gap: 32px; box-shadow: 0 1px 2px rgba(0,0,0,.05)">
+  <div style="font-size: 16px; font-weight: 700; color: #1a1a1a; min-width: 160px">ERP System</div>
+  <div style="display: flex; gap: 0; flex: 1">
+    <a href="#" style="padding: 16px 16px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer">Orders</a>
+    <a href="#" style="padding: 16px 16px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer">Quotations</a>
+    <a href="#" style="padding: 16px 16px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer">Purchase Orders</a>
+    <a href="#" style="padding: 16px 16px; font-size: 13px; font-weight: 600; color: #2563eb; text-decoration: none; border-bottom: 3px solid #2563eb; cursor: pointer">Inventory</a>
+    <a href="#" style="padding: 16px 16px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; border-bottom: 3px solid transparent; cursor: pointer">Tracking</a>
+  </div>
+  <div style="display: flex; align-items: center; gap: 12px">
+    <div style="width: 32px; height: 32px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700">JD</div>
+    <div style="font-size: 12px; color: #666">John Doe</div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div style="display: flex; height: calc(100vh - 56px); background: #f5f5f5; overflow: hidden">
+  <!-- Left Panel: Add/Update Item -->
+  <div style="width: 50%; border-right: 1px solid #ccc; display: flex; flex-direction: column; overflow-y: auto; background: #fff">
+    <!-- Header -->
+    <div style="background: #fff; border-bottom: 1px solid #ccc; padding: 20px 24px; position: sticky; top: 0; z-index: 10">
+      <div style="font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px">Manage Inventory</div>
+      <div style="font-size: 12px; color: #666">Search, add, or update inventory items</div>
+    </div>
+
+    <!-- SKU Search Block -->
+    <div style="padding: 24px; border-bottom: 1px solid #ccc">
+      <label style="display: block; font-size: 11px; font-weight: 600; color: #333; margin-bottom: 8px">Search by SKU or Item Name *</label>
+      <input type="text" placeholder="Enter SKU (e.g., SKU-001) or item name..." style="width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; margin-bottom: 8px">
+      
+      <!-- Dropdown List (appears when typing) -->
+      <div style="border: 1px solid #ccc; border-radius: 2px; max-height: 150px; overflow-y: auto; background: #fff">
+        <div style="padding: 10px 12px; border-bottom: 1px solid #f0f0f0; cursor: pointer; hover-background: #f9f9f9" style-hover="background: #f9f9f9">
+          <div style="font-size: 11px; font-weight: 600; color: #2563eb">SKU-001</div>
+          <div style="font-size: 10px; color: #666">Electronic Component A</div>
+          <div style="font-size: 9px; color: #999; margin-top: 2px">Current Stock: 12 units</div>
+        </div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #f0f0f0; cursor: pointer" style-hover="background: #f9f9f9">
+          <div style="font-size: 11px; font-weight: 600; color: #2563eb">SKU-002</div>
+          <div style="font-size: 10px; color: #666">Mechanical Part B</div>
+          <div style="font-size: 9px; color: #999; margin-top: 2px">Current Stock: 6 units</div>
+        </div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #f0f0f0; cursor: pointer" style-hover="background: #f9f9f9">
+          <div style="font-size: 11px; font-weight: 600; color: #2563eb">SKU-003</div>
+          <div style="font-size: 10px; color: #666">Assembly Kit C</div>
+          <div style="font-size: 9px; color: #999; margin-top: 2px">Current Stock: 2 units</div>
+        </div>
+        <div style="padding: 10px 12px; background: #f0f7ff; border-top: 1px solid #ccc; cursor: pointer; text-align: center" style-hover="background: #e0f0ff">
+          <div style="font-size: 11px; font-weight: 600; color: #2563eb">+ Add New Item</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Item Details (when item is selected) -->
+    <div style="padding: 24px; flex: 1; overflow-y: auto">
+      <div style="background: #f0f7ff; border-left: 3px solid #2563eb; padding: 12px; margin-bottom: 20px; border-radius: 2px">
+        <div style="font-size: 10px; color: #2563eb; font-weight: 600">SELECTED ITEM</div>
+        <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-top: 4px">SKU-001 - Electronic Component A</div>
+        <div style="font-size: 11px; color: #666; margin-top: 4px">Current Stock: <strong>12 units</strong> @ <strong>₹850</strong></div>
+      </div>
+
+      <!-- Update Item Form -->
+      <div>
+        <div style="font-size: 12px; font-weight: 600; color: #333; margin-bottom: 16px">Update Stock & Price</div>
+
+        <div style="margin-bottom: 20px">
+          <label style="display: block; font-size: 11px; font-weight: 600; color: #333; margin-bottom: 6px">Quantity</label>
+          <div style="display: flex; gap: 12px; align-items: flex-end">
+            <div style="flex: 1">
+              <input type="number" placeholder="Enter new quantity" style="width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px">
+              <div style="font-size: 10px; color: #999; margin-top: 4px">Before: <span style="color: #666; font-weight: 600">12 units</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 24px">
+          <label style="display: block; font-size: 11px; font-weight: 600; color: #333; margin-bottom: 6px">Unit Price (Rs)</label>
+          <div style="display: flex; gap: 12px; align-items: flex-end">
+            <div style="flex: 1">
+              <input type="number" placeholder="Enter new price" style="width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px">
+              <div style="font-size: 10px; color: #999; margin-top: 4px">Before: <span style="color: #666; font-weight: 600">₹850</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 12px">
+          <button style="flex: 1; padding: 10px 16px; background: #2563eb; color: #fff; border: none; border-radius: 2px; font-size: 12px; font-weight: 600; cursor: pointer">Save Changes</button>
+          <button style="flex: 1; padding: 10px 16px; background: #f5f5f5; color: #333; border: 1px solid #ccc; border-radius: 2px; font-size: 12px; font-weight: 600; cursor: pointer">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel: Current Inventory -->
+  <div style="width: 50%; display: flex; flex-direction: column; background: #fff; overflow: hidden">
+    <!-- Header with Expand -->
+    <div style="background: #fff; border-bottom: 1px solid #ccc; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center">
+      <div>
+        <div style="font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px">Current Inventory</div>
+        <div style="font-size: 12px; color: #666">Total Items: 3 | Total Value: ₹22,400</div>
+      </div>
+      <button style="width: 40px; height: 40px; border: 1px solid #ccc; border-radius: 2px; background: #f9f9f9; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600" title="Expand to Full Screen">⇱</button>
+    </div>
+
+    <!-- Search Bar -->
+    <div style="padding: 12px 24px; border-bottom: 1px solid #ccc; background: #f9f9f9">
+      <input type="text" placeholder="Search inventory..." style="width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 2px; font-size: 12px">
+    </div>
+
+    <!-- Inventory Table -->
+    <div style="flex: 1; overflow-y: auto; padding: 16px 12px">
+      <div style="background: #f0f0f0; padding: 10px; font-size: 10px; font-weight: 600; color: #333; display: grid; grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr; gap: 8px; margin-bottom: 4px; border-radius: 2px">
+        <div>SKU</div>
+        <div>Item Name</div>
+        <div>Qty</div>
+        <div>Unit Price</div>
+        <div>Total</div>
+        <div>Action</div>
+      </div>
+
+      <!-- Row 1 -->
+      <div style="background: #fff; padding: 10px; font-size: 10px; display: grid; grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr; gap: 8px; margin-bottom: 2px; border-bottom: 1px solid #f0f0f0; border-radius: 2px; cursor: pointer" style-hover="background: #f9f9f9">
+        <div style="font-weight: 600; color: #2563eb">SKU-001</div>
+        <div style="color: #1a1a1a">Electronic Component A</div>
+        <div style="text-align: center; color: #666">12</div>
+        <div style="text-align: right; color: #666">₹850</div>
+        <div style="text-align: right; font-weight: 600">₹10,200</div>
+        <div style="text-align: center; cursor: pointer; color: #999">✕</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div style="background: #f9f9f9; padding: 10px; font-size: 10px; display: grid; grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr; gap: 8px; margin-bottom: 2px; border-bottom: 1px solid #f0f0f0; border-radius: 2px; cursor: pointer" style-hover="background: #f0f0f0">
+        <div style="font-weight: 600; color: #2563eb">SKU-002</div>
+        <div style="color: #1a1a1a">Mechanical Part B</div>
+        <div style="text-align: center; color: #666">6</div>
+        <div style="text-align: right; color: #666">₹1,200</div>
+        <div style="text-align: right; font-weight: 600">₹7,200</div>
+        <div style="text-align: center; cursor: pointer; color: #999">✕</div>
+      </div>
+
+      <!-- Row 3 -->
+      <div style="background: #fff; padding: 10px; font-size: 10px; display: grid; grid-template-columns: 1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr; gap: 8px; border-radius: 2px; cursor: pointer" style-hover="background: #f9f9f9">
+        <div style="font-weight: 600; color: #2563eb">SKU-003</div>
+        <div style="color: #1a1a1a">Assembly Kit C</div>
+        <div style="text-align: center; color: #666">2</div>
+        <div style="text-align: right; color: #666">₹2,500</div>
+        <div style="text-align: right; font-weight: 600">₹5,000</div>
+        <div style="text-align: center; cursor: pointer; color: #999">✕</div>
+      </div>
+    </div>
+
+    <!-- Footer Stats -->
+    <div style="background: #f9f9f9; border-top: 1px solid #ccc; padding: 12px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+      <div style="text-align: center; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 2px">
+        <div style="font-size: 9px; color: #666; font-weight: 600; margin-bottom: 4px">Total Items</div>
+        <div style="font-size: 14px; font-weight: 700; color: #2563eb">3</div>
+      </div>
+      <div style="text-align: center; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 2px">
+        <div style="font-size: 9px; color: #666; font-weight: 600; margin-bottom: 4px">Units</div>
+        <div style="font-size: 14px; font-weight: 700; color: #2563eb">20</div>
+      </div>
+      <div style="text-align: center; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 2px">
+        <div style="font-size: 9px; color: #666; font-weight: 600; margin-bottom: 4px">Total Value</div>
+        <div style="font-size: 14px; font-weight: 700; color: #2563eb">₹22,400</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { selectedSku: 'SKU-001', searchQuery: '', isExpanded: false };
+
+  renderVals() {
+    return {
+      selectedSku: this.state.selectedSku,
+      toggleExpand: () => this.setState(s => ({ isExpanded: !s.isExpanded })),
+      selectItem: (sku) => this.setState({ selectedSku: sku })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

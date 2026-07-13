@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+    .item-row:has(button:hover) {
+      background: #fee2e2 !important;
+      transition: background 0.3s ease;
+    }
+    /* Zebra striping: alternate between white and light gray for active items only */
+    .table-container > div:nth-child(odd):not([style*="d8d8d8"]) {
+      background: #fff !important;
+    }
+    .table-container > div:nth-child(even):not([style*="d8d8d8"]) {
+      background: #f9f9f9 !important;
+    }
+  </style>
+</helmet>
+
+<div style="display: flex; flex-direction: column; height: 100vh; background: #f8f9fa">
+  
+  <!-- Header -->
+  <div style="background: #fff; border-bottom: 1px solid #e0e0e0; padding: 20px 24px">
+    <div style="max-width: 1600px; margin: 0 auto">
+      <h1 style="font-size: 24px; font-weight: 600; color: #1a1a1a">Quotation Management</h1>
+      <p style="font-size: 14px; color: #666; margin-top: 4px">Upload, edit, and manage quotation items before saving</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div style="flex: 1; display: flex; overflow: hidden">
+    
+    <!-- LEFT: Upload & Metadata -->
+    <div style="width: 35%; background: #fff; border-right: 1px solid #e0e0e0; display: flex; flex-direction: column; overflow: hidden">
+      
+      <!-- Upload Zone -->
+      <sc-if value="{{ !currentFile }}" hint-placeholder-val="{{ true }}">
+        <div style="padding: 20px; border-bottom: 1px solid #e0e0e0">
+          <h2 style="font-size: 14px; font-weight: 600; margin-bottom: 14px">Upload Quotation</h2>
+          
+          <div style="border: 2px dashed #2563eb; border-radius: 8px; padding: 24px 16px; text-align: center; background: #f0f7ff; cursor: pointer; transition: all 0.2s" 
+               onclick="{{ triggerFileInput }}"
+               style-hover="background: #e7f0ff; border-color: #1d4ed8">
+            <div style="font-size: 28px; margin-bottom: 8px">📄</div>
+            <div style="font-size: 13px; font-weight: 600; color: #2563eb">Drop file or click</div>
+            <div style="font-size: 11px; color: #666; margin-top: 6px">PDF, Excel (.xlsx, .xls)</div>
+            <input type="file" accept=".pdf,.xlsx,.xls" style="display: none" id="fileInput" onchange="{{ handleFileSelect }}">
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- File Uploaded State -->
+      <sc-if value="{{ currentFile }}" hint-placeholder-val="{{ false }}">
+        <div style="padding: 16px; border-bottom: 1px solid #e0e0e0; background: #f9f9f9">
+          <h2 style="font-size: 12px; font-weight: 600; color: #333; margin-bottom: 10px; text-transform: uppercase">Quotation File</h2>
+          
+          <div style="padding: 10px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0; margin-bottom: 10px">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <div style="font-size: 18px">📄</div>
+              <div style="flex: 1; min-width: 0">
+                <div style="font-size: 12px; font-weight: 600; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ currentFile.name }}</div>
+                <div style="font-size: 10px; color: #999; margin-top: 2px">{{ currentFile.size }}</div>
+              </div>
+              <button 
+                onclick="{{ clearFile }}"
+                style="padding: 4px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.2s"
+                style-hover="color: #dc2626">
+                ✕
+              </button>
+            </div>
+          </div>
+          
+          <button 
+            onclick="{{ triggerFileInput }}"
+            style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; background: #fff; font-size: 11px; font-weight: 600; color: #333; cursor: pointer; transition: all 0.2s"
+            style-hover="background: #f5f5f5; border-color: #bbb">
+            Change File
+          </button>
+        </div>
+      </sc-if>
+
+      <!-- Order Metadata -->
+      <div style="flex: 1; overflow-y: auto; padding: 24px; border-bottom: 1px solid #e0e0e0">
+        <h2 style="font-size: 14px; font-weight: 600; margin-bottom: 16px">Order Information</h2>
+        
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">Order Name <span style="color: #dc2626">*</span></label>
+            <input 
+              type="text"
+              placeholder="e.g., Customer ABC - Q2 Stock"
+              value="{{ orderName }}"
+              onchange="{{ updateOrderName }}"
+              style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit"
+              style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">Expected Delivery Date <span style="color: #dc2626">*</span></label>
+            <input 
+              type="date"
+              value="{{ deliveryDate }}"
+              onchange="{{ updateDeliveryDate }}"
+              style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit"
+              style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">Payment Status <span style="color: #dc2626">*</span></label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px">
+              <button 
+                onclick="{{ updatePaymentStatus }}"
+                data-status="unpaid"
+                style="padding: 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s"
+                style-hover="border-color: #ddd; background: #f5f5f5">
+                💳 Unpaid
+              </button>
+              <button 
+                onclick="{{ updatePaymentStatus }}"
+                data-status="paid"
+                style="padding: 10px; border: 2px solid #2563eb; border-radius: 6px; background: #e7f0ff; font-size: 13px; font-weight: 600; color: #2563eb; cursor: pointer; transition: all 0.2s"
+                style-hover="background: #d7e8ff">
+                ✓ Paid
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">Preferred Supplier</label>
+            <select 
+              value="{{ supplier }}"
+              onchange="{{ updateSupplier }}"
+              style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fff"
+              style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+              <option value="">Select supplier...</option>
+              <option value="supplier-a">Supplier A</option>
+              <option value="supplier-b">Supplier B</option>
+              <option value="supplier-c">Supplier C</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #333; margin-bottom: 8px">Notes</label>
+            <textarea 
+              placeholder="Add any special notes..."
+              value="{{ notes }}"
+              onchange="{{ updateNotes }}"
+              style="width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; min-height: 80px; resize: vertical"
+              style-focus="border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); outline: none">
+            </textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div style="padding: 16px; background: #f8f9fa; border-top: 1px solid #e0e0e0; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px">
+        <div style="padding: 12px; background: #fff; border-radius: 6px; text-align: center">
+          <div style="font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase">Total Items</div>
+          <div style="font-size: 20px; font-weight: 700; color: #2563eb; margin-top: 4px">{{ totalItems }}</div>
+        </div>
+        <div style="padding: 12px; background: #fff; border-radius: 6px; text-align: center">
+          <div style="font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase">Available</div>
+          <div style="font-size: 20px; font-weight: 700; color: #16a34a; margin-top: 4px">{{ totalAvailable }}</div>
+        </div>
+        <div style="padding: 12px; background: #fff; border-radius: 6px; text-align: center">
+          <div style="font-size: 11px; color: #666; font-weight: 600; text-transform: uppercase">To Order</div>
+          <div style="font-size: 20px; font-weight: 700; color: #dc2626; margin-top: 4px">{{ outOfStockCount }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Items Table with Inline Editing -->
+    <div style="width: 65%; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid #e0e0e0">
+      
+      <!-- Table Header -->
+      <div style="padding: 20px 24px; background: #fff; border-bottom: 1px solid #e0e0e0">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div>
+            <h2 style="font-size: 16px; font-weight: 600">Quotation Items</h2>
+            <p style="font-size: 12px; color: #666; margin-top: 4px">Edit items below, then save changes</p>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button 
+              onclick="{{ addNewItem }}"
+              style="padding: 8px 16px; border: 1px solid #2563eb; border-radius: 6px; background: #e7f0ff; font-size: 13px; font-weight: 600; color: #2563eb; cursor: pointer; transition: all 0.2s"
+              style-hover="background: #d7e8ff">
+              + Add Item
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable Table -->
+      <div style="flex: 1; overflow-y: auto; background: #fff">
+        
+        <sc-if value="{{ items.length }}" hint-placeholder-val="{{ true }}">
+          
+          <!-- Column Headers -->
+          <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #e8e8e8; font-size: 13px; font-weight: 700; color: #1a1a1a; letter-spacing: 0.3px; position: sticky; top: 0; z-index: 10">
+            <div style="text-align: left">SKU</div>
+            <div style="text-align: left">Description</div>
+            <div style="text-align: center">Qty</div>
+            <div style="text-align: right; padding-right: 12px">Unit Price</div>
+            <div style="text-align: center; color: #16a34a">Available</div>
+            <div style="text-align: center; color: #dc2626">OOS</div>
+            <div style="text-align: center">Action</div>
+          </div>
+
+          <!-- Items List -->
+          <div class="table-container">
+            <sc-for list="{{ items }}" as="item" hint-placeholder-count="5">
+            <sc-if value="{{ !item.isDeleted }}" hint-placeholder-val="{{ true }}">
+              <!-- White Row -->
+              <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #fff; align-items: center; height: 48px; transition: background 0.3s ease" 
+                   data-item-id="{{ item.id }}"
+                   class="item-row">
+                  
+                  <!-- SKU (editable) -->
+                  <input 
+                    type="text"
+                    value="{{ item.sku }}"
+                    onchange="{{ updateItemField }}"
+                    data-item-id="{{ item.id }}"
+                    data-field="sku"
+                    style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #2563eb; font-family: 'Courier New', monospace; text-decoration: {{ item.modifiedFields.sku ? 'underline' : 'none' }}; text-decoration-color: #2563eb"
+                    style-focus="outline: 2px solid #2563eb; outline-offset: -2px">
+                  
+                  <!-- Description (editable) -->
+                  <input 
+                    type="text"
+                    value="{{ item.description }}"
+                    onchange="{{ updateItemField }}"
+                    data-item-id="{{ item.id }}"
+                    data-field="description"
+                    style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; color: #333; font-family: inherit; text-decoration: {{ item.modifiedFields.description ? 'underline' : 'none' }}; text-decoration-color: #333"
+                    style-focus="outline: 2px solid #2563eb; outline-offset: -2px">
+                  
+                  <!-- Qty (editable) -->
+                  <input 
+                    type="number"
+                    value="{{ item.qty }}"
+                    onchange="{{ updateItemField }}"
+                    data-item-id="{{ item.id }}"
+                    data-field="qty"
+                    style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #333; font-family: inherit; text-decoration: {{ item.modifiedFields.qty ? 'underline' : 'none' }}; text-decoration-color: #333"
+                    style-focus="outline: 2px solid #2563eb; outline-offset: -2px">
+                  
+                  <!-- Unit Price (editable) -->
+                  <div style="display: flex; gap: 6px; align-items: center; justify-content: flex-end">
+                    <span style="font-size: 13px; color: #666">₹</span>
+                    <input 
+                      type="number"
+                      value="{{ item.unitPrice }}"
+                      onchange="{{ updateItemField }}"
+                      data-item-id="{{ item.id }}"
+                      data-field="unitPrice"
+                      step="0.01"
+                      style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: right; color: #333; font-family: inherit; text-decoration: {{ item.modifiedFields.unitPrice ? 'underline' : 'none' }}; text-decoration-color: #333"
+                      style-focus="outline: 2px solid #2563eb; outline-offset: -2px">
+                  </div>
+                  
+                  <!-- Available (read-only) -->
+                  <input 
+                    type="number"
+                    value="{{ item.inStockQty }}"
+                    disabled
+                    style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #16a34a; font-weight: 700; font-family: inherit; cursor: not-allowed">
+                  
+                  <!-- OOS (read-only) -->
+                  <input 
+                    type="number"
+                    value="{{ item.outStockQty }}"
+                    disabled
+                    style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #dc2626; font-weight: 700; font-family: inherit; cursor: not-allowed">
+                  
+                  <!-- Delete Button -->
+                  <button 
+                    onclick="{{ deleteItem }}"
+                    data-item-id="{{ item.id }}"
+                    style="padding: 4px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 16px; transition: color 0.2s ease; margin: 0 auto; display: block"
+                    style-hover="color: #dc2626">
+                    ✕
+                  </button>
+                </div>
+              </sc-if>
+            </sc-if>
+
+            <!-- Deleted Row (grayed out) -->
+            <sc-if value="{{ item.isDeleted }}" hint-placeholder-val="{{ false }}">
+              <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #d8d8d8; align-items: center; height: 48px; opacity: 0.6; transition: opacity 0.3s ease" data-item-id="{{ item.id }}">
+                <div style="color: #666; font-size: 13px">{{ item.sku }}</div>
+                <div style="color: #666; font-size: 13px">{{ item.description }}</div>
+                <div style="color: #666; font-size: 13px; text-align: center">{{ item.qty }}</div>
+                <div style="color: #666; font-size: 13px; text-align: right">₹{{ item.unitPrice }}</div>
+                <div style="color: #666; font-size: 13px; text-align: center">{{ item.inStockQty }}</div>
+                <div style="color: #666; font-size: 13px; text-align: center">{{ item.outStockQty }}</div>
+                <div style="text-align: center; color: #999; font-size: 11px">(Deleted)</div>
+              </div>
+            </sc-if>
+
+          </sc-for>
+          </div>
+
+        </sc-if>
+
+        <sc-if value="{{ !items.length }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 60px 20px; text-align: center; color: #999">
+            <div style="font-size: 32px; margin-bottom: 12px">📭</div>
+            <div style="font-size: 14px; font-weight: 600; color: #666">No items yet</div>
+            <div style="font-size: 12px; margin-top: 8px">Upload a quotation file to extract items, or add items manually</div>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <!-- Action Bar -->
+      <div style="background: #fff; border-top: 1px solid #e0e0e0; padding: 16px 24px; display: flex; gap: 12px; justify-content: flex-end">
+        <button 
+          style="padding: 12px 24px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 600; color: #333; cursor: pointer; transition: all 0.2s"
+          style-hover="background: #f5f5f5; border-color: #bbb">
+          Discard Changes
+        </button>
+        <button 
+          onclick="{{ saveQuotation }}"
+          style="padding: 12px 24px; border: none; border-radius: 6px; background: #2563eb; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: all 0.2s"
+          style-hover="background: #1d4ed8">
+          Save Quotation
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    currentFile: null,
+    orderName: '',
+    deliveryDate: '',
+    paymentStatus: 'unpaid',
+    supplier: '',
+    notes: '',
+    items: [
+      {
+        id: '1',
+        sku: 'SKU-001',
+        description: 'Steel Rod',
+        qty: 50,
+        unitPrice: 125.50,
+        inStockQty: 35,
+        outStockQty: 15,
+        isDeleted: false,
+        modifiedFields: {}
+      },
+      {
+        id: '2',
+        sku: 'SKU-002',
+        description: 'Copper Wire',
+        qty: 100,
+        unitPrice: 45.00,
+        inStockQty: 100,
+        outStockQty: 0,
+        isDeleted: false,
+        modifiedFields: {}
+      },
+      {
+        id: '3',
+        sku: 'SKU-003',
+        description: 'Aluminum Sheet',
+        qty: 25,
+        unitPrice: 320.75,
+        inStockQty: 10,
+        outStockQty: 15,
+        isDeleted: false,
+        modifiedFields: {}
+      }
+    ]
+  };
+
+  triggerFileInput = () => {
+    document.getElementById('fileInput').click();
+  };
+
+  handleFileSelect = (e) => {
+    const file = e.currentTarget.files[0];
+    if (file) {
+      this.setState({
+        currentFile: {
+          name: file.name,
+          size: (file.size / 1024 / 1024).toFixed(1) + ' MB',
+          uploadDate: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+        }
+      });
+      // In a real app, would trigger extraction here
+    }
+  };
+
+  clearFile = () => {
+    this.setState({ currentFile: null });
+  };
+
+  updateOrderName = (e) => {
+    this.setState({ orderName: e.currentTarget.value });
+  };
+
+  updateDeliveryDate = (e) => {
+    this.setState({ deliveryDate: e.currentTarget.value });
+  };
+
+  updatePaymentStatus = (e) => {
+    this.setState({ paymentStatus: e.currentTarget.getAttribute('data-status') });
+  };
+
+  updateSupplier = (e) => {
+    this.setState({ supplier: e.currentTarget.value });
+  };
+
+  updateNotes = (e) => {
+    this.setState({ notes: e.currentTarget.value });
+  };
+
+  updateItemField = (e) => {
+    const itemId = e.currentTarget.getAttribute('data-item-id');
+    const field = e.currentTarget.getAttribute('data-field');
+    const value = field === 'qty' || field === 'inStockQty' || field === 'outStockQty' 
+      ? parseInt(e.currentTarget.value) || 0 
+      : field === 'unitPrice'
+      ? parseFloat(e.currentTarget.value) || 0
+      : e.currentTarget.value;
+
+    this.setState(s => ({
+      items: s.items.map(item => {
+        if (item.id === itemId) {
+          const updatedItem = { ...item, [field]: value };
+          // Track which fields have been modified
+          const modifiedFields = { ...item.modifiedFields };
+          modifiedFields[field] = true;
+          updatedItem.modifiedFields = modifiedFields;
+          return updatedItem;
+        }
+        return item;
+      })
+    }));
+  };
+
+  deleteItem = (e) => {
+    e.preventDefault();
+    const itemId = e.currentTarget.getAttribute('data-item-id');
+    this.setState(s => ({
+      items: s.items.map(item =>
+        item.id === itemId ? { ...item, isDeleted: true } : item
+      )
+    }));
+  };
+
+  addNewItem = () => {
+    const newId = String(Math.max(...this.state.items.map(i => parseInt(i.id)), 0) + 1);
+    this.setState(s => ({
+      items: [...s.items, {
+        id: newId,
+        sku: '',
+        description: '',
+        qty: 0,
+        unitPrice: 0,
+        inStockQty: 0,
+        outStockQty: 0
+      }]
+    }));
+  };
+
+  saveQuotation = () => {
+    console.log('Quotation saved:', {
+      orderName: this.state.orderName,
+      deliveryDate: this.state.deliveryDate,
+      paymentStatus: this.state.paymentStatus,
+      supplier: this.state.supplier,
+      notes: this.state.notes,
+      items: this.state.items
+    });
+    alert('Quotation saved successfully!');
+  };
+
+  renderVals() {
+    const activeItems = this.state.items.filter(item => !item.isDeleted);
+    const totalItems = activeItems.reduce((sum, item) => sum + item.qty, 0);
+    const totalAvailable = activeItems.reduce((sum, item) => sum + item.inStockQty, 0);
+    const outOfStockCount = activeItems.reduce((sum, item) => sum + item.outStockQty, 0);
+
+    return {
+      currentFile: this.state.currentFile,
+      orderName: this.state.orderName,
+      deliveryDate: this.state.deliveryDate,
+      paymentStatus: this.state.paymentStatus,
+      supplier: this.state.supplier,
+      notes: this.state.notes,
+      items: this.state.items,
+      totalItems,
+      totalAvailable,
+      outOfStockCount,
+      triggerFileInput: this.triggerFileInput,
+      handleFileSelect: this.handleFileSelect,
+      clearFile: this.clearFile,
+      updateOrderName: this.updateOrderName,
+      updateDeliveryDate: this.updateDeliveryDate,
+      updatePaymentStatus: this.updatePaymentStatus,
+      updateSupplier: this.updateSupplier,
+      updateNotes: this.updateNotes,
+      updateItemField: this.updateItemField,
+      deleteItem: this.deleteItem,
+      addNewItem: this.addNewItem,
+      saveQuotation: this.saveQuotation
+    };
+  }
+}
+
+</script>
+</body>
+</html>

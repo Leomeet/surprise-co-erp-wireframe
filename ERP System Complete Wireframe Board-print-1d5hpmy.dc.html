@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0.5in; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #ccc; }
+    .wireframe-card { background: #fff; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,.08); position: relative; display: flex; flex-direction: column; }
+    .wireframe-label { position: absolute; top: -32px; left: 0; font-size: 13px; font-weight: 600; color: #333; data-drags-parent: 1; }
+    .page-title { padding: 14px 20px; border-bottom: 1px solid #ccc; font-size: 14px; font-weight: 600; background: #f9f9f9; }
+    .nav-bar { background: #fff; border-bottom: 1px solid #ccc; padding: 0; height: 56px; display: flex; align-items: center; padding: 0 20px; gap: 24px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+    .nav-logo { font-size: 14px; font-weight: 700; color: #1a1a1a; min-width: 140px; }
+    .nav-menu { display: flex; gap: 0; flex: 1; }
+    .nav-item { padding: 16px 14px; font-size: 12px; font-weight: 600; color: #666; border-bottom: 3px solid transparent; cursor: pointer; }
+    .nav-item.active { color: #2563eb; border-bottom-color: #2563eb; }
+    .wireframe-box { background: #eee; height: 12px; border-radius: 2px; }
+  </style>
+</helmet>
+
+<!-- PAGE 1: Quotation Management -->
+<div style="position:absolute;left:80px;top:80px;width:1920px;height:1080px">
+  <div class="wireframe-label" data-drags-parent="1">01. Quotation Management</div>
+  <div class="wireframe-card" style="height:100%">
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <div class="nav-logo">ERP System</div>
+      <div class="nav-menu">
+        <div class="nav-item">Orders</div>
+        <div class="nav-item active">Quotations</div>
+        <div class="nav-item">Purchase Orders</div>
+        <div class="nav-item">Inventory</div>
+        <div class="nav-item">Tracking</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11px">
+        <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600">JD</div>
+        <div>JD</div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div style="background:#fff;border-bottom:1px solid #ccc;padding:16px 24px">
+      <div style="font-size:20px;font-weight:600;color:#1a1a1a;margin-bottom:6px">Quotation Management</div>
+      <div style="font-size:12px;color:#666">Upload, edit, and manage quotation items before saving</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div style="flex:1;display:flex;overflow:hidden">
+      <!-- Left Panel -->
+      <div style="width:35%;border-right:1px solid #ccc;display:flex;flex-direction:column">
+        <div style="padding:16px;border-bottom:1px solid #ccc">
+          <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px">Upload Quotation</div>
+          <div style="background:#f0f7ff;border:2px dashed #2563eb;padding:24px;text-align:center;margin-bottom:12px;border-radius:4px">
+            <div style="font-size:32px;margin-bottom:8px">📄</div>
+            <div style="font-size:12px;color:#2563eb;font-weight:600;margin-bottom:4px">quotation_2024_06.xlsx</div>
+            <div style="font-size:10px;color:#666">Uploaded successfully</div>
+          </div>
+        </div>
+        
+        <div style="flex:1;overflow-y:auto;padding:16px;border-bottom:1px solid #ccc">
+          <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px">Order Information</div>
+          <div style="background:#fff;border:1px solid #ccc;padding:8px;margin-bottom:8px;border-radius:2px;font-size:11px">
+            <div style="color:#666;font-size:9px;margin-bottom:2px">Order Name</div>
+            <div style="font-weight:600">Q2 2024 Stock Replenishment</div>
+          </div>
+          <div style="background:#fff;border:1px solid #ccc;padding:8px;margin-bottom:8px;border-radius:2px;font-size:11px">
+            <div style="color:#666;font-size:9px;margin-bottom:2px">Expected Delivery</div>
+            <div style="font-weight:600">July 15, 2024</div>
+          </div>
+          <div style="background:#fff;border:1px solid #ccc;padding:8px;border-radius:2px;font-size:11px">
+            <div style="color:#666;font-size:9px;margin-bottom:2px">Payment Status</div>
+            <div style="font-weight:600;color:#16a34a">Paid</div>
+          </div>
+        </div>
+        
+        <div style="padding:12px;background:#f9f9f9;border-top:1px solid #ccc;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;text-align:center">
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">Total Items</div>
+            <div style="font-size:16px;font-weight:700;color:#2563eb">24</div>
+          </div>
+          <div style="padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;text-align:center">
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">Available</div>
+            <div style="font-size:16px;font-weight:700;color:#16a34a">18</div>
+          </div>
+          <div style="padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px;text-align:center">
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">To Order</div>
+            <div style="font-size:16px;font-weight:700;color:#dc2626">6</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Panel: Items Table -->
+      <div style="width:65%;padding:12px;overflow-y:auto;display:flex;flex-direction:column">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px">Quotation Items</div>
+        <div style="font-size:11px;color:#666;margin-bottom:12px">Edit items below, then save changes</div>
+        
+        <div style="background:#f0f0f0;padding:8px;font-size:11px;font-weight:600;color:#333;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1fr 1fr 0.6fr;gap:12px;margin-bottom:4px;border-radius:2px">
+          <div>SKU</div><div>Description</div><div>Qty</div><div>Price (Rs)</div><div>Available</div><div>OOS</div><div>Action</div>
+        </div>
+        
+        <div style="background:#fff;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1fr 1fr 0.6fr;gap:12px;margin-bottom:1px;border-bottom:1px solid #f0f0f0">
+          <div style="font-weight:600">SKU-001</div><div>Electronic Component A</div><div style="text-align:center">12</div><div style="text-align:right">₹850</div><div style="color:#16a34a;font-weight:600">12</div><div style="color:#999">—</div><div style="color:#999">✕</div>
+        </div>
+        
+        <div style="background:#f9f9f9;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1fr 1fr 0.6fr;gap:12px;margin-bottom:1px;border-bottom:1px solid #f0f0f0">
+          <div style="font-weight:600">SKU-002</div><div>Mechanical Part B</div><div style="text-align:center">10</div><div style="text-align:right">₹1,200</div><div style="color:#16a34a;font-weight:600">6</div><div style="color:#dc2626;font-weight:600">4</div><div style="color:#999">✕</div>
+        </div>
+        
+        <div style="background:#fff;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1fr 1fr 0.6fr;gap:12px;margin-bottom:1px;border-bottom:1px solid #f0f0f0">
+          <div style="font-weight:600">SKU-003</div><div>Assembly Kit C</div><div style="text-align:center">2</div><div style="text-align:right">₹2,500</div><div style="color:#999">—</div><div style="color:#dc2626;font-weight:600">2</div><div style="color:#999">✕</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Action Bar -->
+    <div style="background:#fff;border-top:1px solid #ccc;padding:12px 20px;display:flex;gap:10px;justify-content:flex-end">
+      <button style="padding:8px 16px;border:1px solid #ccc;border-radius:2px;background:#f5f5f5;font-size:12px;font-weight:600;color:#333">Discard Changes</button>
+      <button style="padding:8px 16px;border:1px solid #999;border-radius:2px;background:#ddd;font-size:12px;font-weight:600;color:#333">Save Order</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: Customer Orders List -->
+<div style="position:absolute;left:80px;top:1220px;width:1920px;height:1080px">
+  <div class="wireframe-label" data-drags-parent="1">02. Customer Orders List</div>
+  <div class="wireframe-card" style="height:100%">
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <div class="nav-logo">ERP System</div>
+      <div class="nav-menu">
+        <div class="nav-item active">Orders</div>
+        <div class="nav-item">Quotations</div>
+        <div class="nav-item">Purchase Orders</div>
+        <div class="nav-item">Inventory</div>
+        <div class="nav-item">Tracking</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11px">
+        <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600">JD</div>
+        <div>JD</div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div style="background:#fff;border-bottom:1px solid #ccc;padding:20px 24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <div style="font-size:20px;font-weight:600;color:#1a1a1a">Customer Orders</div>
+          <div style="font-size:12px;color:#666">View and manage all customer quotation orders</div>
+        </div>
+        <button style="padding:8px 16px;background:#2563eb;color:#fff;border:none;border-radius:2px;font-size:12px;font-weight:600;cursor:pointer">+ New Order</button>
+      </div>
+      
+      <div style="display:flex;gap:12px;align-items:center">
+        <input type="text" placeholder="Search orders..." style="flex:1;padding:8px 12px;border:1px solid #ccc;border-radius:2px;font-size:12px;background:#f9f9f9">
+        <select style="padding:8px 12px;border:1px solid #ccc;border-radius:2px;font-size:12px;background:#fff;cursor:pointer">
+          <option>Sort: Date (Latest)</option>
+          <option>Sort: Order ID</option>
+          <option>Sort: Status</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Orders List -->
+    <div style="flex:1;overflow-y:auto;padding:16px 24px;background:#f5f5f5">
+      <!-- Order 1 -->
+      <div style="background:#fff;border:1px solid #ccc;border-radius:2px;padding:16px;margin-bottom:12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;align-items:center">
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">ORDER ID</div>
+            <div style="font-size:13px;font-weight:600;color:#2563eb">ORD-2024-0562</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">CUSTOMER</div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">Q2 2024 Stock Replenishment</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">ITEMS</div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">24 items</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">STATUS</div>
+            <div style="font-size:12px;font-weight:600;color:#f59e0b;background:#fef3c7;padding:4px 8px;border-radius:2px;width:fit-content">Processing</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">AMOUNT</div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">₹34,500</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;font-size:11px;color:#666">
+          <div>Date: June 20, 2024</div>
+          <div>Payment: Paid</div>
+          <div>Available: 18 / 24</div>
+          <div>Expected: July 15, 2024</div>
+          <div style="text-align:right;color:#2563eb;font-weight:600">View Details →</div>
+        </div>
+      </div>
+
+      <!-- Order 2 -->
+      <div style="background:#fff;border:1px solid #ccc;border-radius:2px;padding:16px;margin-bottom:12px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;align-items:center">
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">ORDER ID</div>
+            <div style="font-size:13px;font-weight:600;color:#2563eb">ORD-2024-0451</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">CUSTOMER</div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">Q1 2024 Stock Refresh</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">ITEMS</div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">35 items</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">STATUS</div>
+            <div style="font-size:12px;font-weight:600;color:#16a34a;background:#dcfce7;padding:4px 8px;border-radius:2px;width:fit-content">Delivered</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:4px">AMOUNT</div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">₹52,800</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:16px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid #f0f0f0;font-size:11px;color:#666">
+          <div>Date: May 10, 2024</div>
+          <div>Payment: Paid</div>
+          <div>Available: 35 / 35</div>
+          <div>Expected: June 5, 2024</div>
+          <div style="text-align:right;color:#2563eb;font-weight:600">View Details →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: Inventory Management -->
+<div style="position:absolute;left:80px;top:2360px;width:1920px;height:1080px">
+  <div class="wireframe-label" data-drags-parent="1">03. Inventory Management</div>
+  <div class="wireframe-card" style="height:100%;display:flex;flex-direction:column">
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <div class="nav-logo">ERP System</div>
+      <div class="nav-menu">
+        <div class="nav-item">Orders</div>
+        <div class="nav-item">Quotations</div>
+        <div class="nav-item">Purchase Orders</div>
+        <div class="nav-item active">Inventory</div>
+        <div class="nav-item">Tracking</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11px">
+        <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600">JD</div>
+        <div>JD</div>
+      </div>
+    </div>
+
+    <!-- Content: Split View -->
+    <div style="flex:1;display:flex;overflow:hidden">
+      <!-- Left Panel: Search-First Flow (Manage Inventory) -->
+      <div style="width:35%;border-right:1px solid #ccc;display:flex;flex-direction:column;overflow-y:auto;background:#fff">
+        <!-- Header -->
+        <div style="background:#fff;border-bottom:1px solid #ccc;padding:20px 24px;position:sticky;top:0;z-index:10">
+          <div style="font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px">Manage Inventory</div>
+          <div style="font-size:12px;color:#666">Search, add, or update inventory items</div>
+        </div>
+
+        <!-- SKU Search Block — default/resting state -->
+        <div style="padding:24px;border-bottom:1px solid #ccc">
+          <!-- Label row with Add Item shortcut -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <label style="font-size:11px;font-weight:600;color:#333">Search by SKU or Item Name</label>
+            <span style="font-size:11px;font-weight:600;color:#2563eb;cursor:pointer;display:flex;align-items:center;gap:4px">
+              <span style="font-size:14px;line-height:1">+</span> Add Item
+            </span>
+          </div>
+          <!-- Tag-style search input -->
+          <div style="width:100%;min-height:40px;padding:6px 10px;border:1px solid #ccc;border-radius:2px;background:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span style="color:#bbb;font-size:12px">Search SKU or item name…</span>
+          </div>
+          <div style="font-size:10px;color:#bbb;margin-top:6px">Search to select &amp; update an item · <span style="color:#2563eb;font-weight:600">+ Add Item</span> to create new</div>
+        </div>
+
+        <!-- Empty / idle state — no item selected yet -->
+        <div style="padding:24px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="width:48px;height:48px;border:2px solid #e5e5e5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:#ccc;margin-bottom:6px">No item selected</div>
+          <div style="font-size:11px;color:#ddd;line-height:1.6">Search for a SKU or item name above<br>to view and update its stock</div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Current Inventory -->
+      <div style="width:65%;display:flex;flex-direction:column;background:#fff">
+        <div style="background:#fff;border-bottom:1px solid #ccc;padding:20px 24px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:4px">Current Inventory</div>
+            <div style="font-size:12px;color:#666">Total Items: 3 | Total Value: ₹22,400</div>
+          </div>
+          <button style="width:40px;height:40px;border:1px solid #ccc;border-radius:2px;background:#f9f9f9;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600" title="Expand to Full Screen">⇱</button>
+        </div>
+
+        <div style="flex:1;overflow-y:auto;padding:16px 12px">
+          <div style="background:#f0f0f0;padding:10px;font-size:10px;font-weight:600;color:#333;display:grid;grid-template-columns:1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;gap:8px;margin-bottom:4px;border-radius:2px">
+            <div>SKU</div><div>Item Name</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+          </div>
+
+          <div style="background:#fff;padding:10px;font-size:10px;display:grid;grid-template-columns:1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;gap:8px;margin-bottom:2px;border-bottom:1px solid #f0f0f0;border-radius:2px">
+            <div style="font-weight:600;color:#2563eb">SKU-001</div><div style="color:#1a1a1a">Electronic Component A</div><div style="text-align:center;color:#666">12</div><div style="text-align:right;color:#666">₹850</div><div style="text-align:right;font-weight:600">₹10,200</div><div style="text-align:center;cursor:pointer;color:#999">✕</div>
+          </div>
+
+          <div style="background:#f9f9f9;padding:10px;font-size:10px;display:grid;grid-template-columns:1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;gap:8px;margin-bottom:2px;border-bottom:1px solid #f0f0f0;border-radius:2px">
+            <div style="font-weight:600;color:#2563eb">SKU-002</div><div style="color:#1a1a1a">Mechanical Part B</div><div style="text-align:center;color:#666">6</div><div style="text-align:right;color:#666">₹1,200</div><div style="text-align:right;font-weight:600">₹7,200</div><div style="text-align:center;cursor:pointer;color:#999">✕</div>
+          </div>
+
+          <div style="background:#fff;padding:10px;font-size:10px;display:grid;grid-template-columns:1fr 1.5fr 0.8fr 1fr 0.8fr 0.6fr;gap:8px;border-radius:2px">
+            <div style="font-weight:600;color:#2563eb">SKU-003</div><div style="color:#1a1a1a">Assembly Kit C</div><div style="text-align:center;color:#666">2</div><div style="text-align:right;color:#666">₹2,500</div><div style="text-align:right;font-weight:600">₹5,000</div><div style="text-align:center;cursor:pointer;color:#999">✕</div>
+          </div>
+        </div>
+
+        <div style="background:#f9f9f9;border-top:1px solid #ccc;padding:12px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+          <div style="text-align:center;padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px">
+            <div style="font-size:9px;color:#666;font-weight:600;margin-bottom:4px">Total Items</div>
+            <div style="font-size:14px;font-weight:700;color:#2563eb">3</div>
+          </div>
+          <div style="text-align:center;padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px">
+            <div style="font-size:9px;color:#666;font-weight:600;margin-bottom:4px">Units</div>
+            <div style="font-size:14px;font-weight:700;color:#2563eb">20</div>
+          </div>
+          <div style="text-align:center;padding:8px;background:#fff;border:1px solid #ccc;border-radius:2px">
+            <div style="font-size:9px;color:#666;font-weight:600;margin-bottom:4px">Total Value</div>
+            <div style="font-size:14px;font-weight:700;color:#2563eb">₹22,400</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOW STRIP: Inventory Interaction States (right of Slide 03) -->
+<div style="position:absolute;left:2080px;top:2360px;width:2200px">
+  <div class="wireframe-label" data-drags-parent="1">03 — Inventory Workflow Variations</div>
+
+  <!-- Section header: Update Flow -->
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:14px 20px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-bottom:2px">Path A — Update Existing Item</div>
+      <div style="font-size:10px;color:#666">Search → Select → Edit count/price → Review → Save</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#2563eb">
+      <div style="width:10px;height:10px;background:#2563eb;border-radius:50%"></div>
+      5 steps · sequential
+    </div>
+  </div>
+
+  <!-- ROW 1: Update Item Flow — 4 steps sequential -->
+  <div style="display:flex;gap:0;align-items:stretch;margin-bottom:24px">
+
+    <!-- ── STEP 1: Search Focused ── -->
+    <div style="flex:1;background:#fff;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden;min-height:420px">
+      <!-- Step header -->
+      <div style="background:#f0f7ff;border-bottom:2px solid #2563eb;padding:12px 16px;display:flex;align-items:center;gap:10px">
+        <div style="width:24px;height:24px;background:#2563eb;border-radius:50%;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#1a1a1a">Search Focused</div>
+          <div style="font-size:9px;color:#666">User clicks the search box — dropdown opens</div>
+        </div>
+      </div>
+      <!-- Body -->
+      <div style="padding:16px;flex:1;display:flex;flex-direction:column;gap:12px">
+        <!-- Label row -->
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:600;color:#333">Search by SKU or Item Name</span>
+          <span style="font-size:10px;color:#2563eb;font-weight:600;cursor:pointer">+ Add Item</span>
+        </div>
+        <!-- Active search box -->
+        <div style="padding:8px 10px;border:2px solid #2563eb;border-radius:2px;font-size:10px;background:#fff;display:flex;justify-content:space-between;align-items:center">
+          <span style="color:#aaa">Search SKU or item name…</span>
+          <span style="display:inline-block;width:1.5px;height:13px;background:#2563eb;animation:blink 1s step-end infinite"></span>
+        </div>
+        <!-- Dropdown results -->
+        <div style="border:1px solid #e0e0e0;border-radius:2px;overflow:hidden">
+          <div style="padding:8px 10px;border-bottom:1px solid #f0f0f0;background:#f0f7ff">
+            <div style="font-size:10px;font-weight:700;color:#2563eb">SKU-001</div>
+            <div style="font-size:9px;color:#666;margin-top:1px">Electronic Component A · 12 units in stock</div>
+          </div>
+          <div style="padding:8px 10px;border-bottom:1px solid #f0f0f0">
+            <div style="font-size:10px;font-weight:700;color:#2563eb">SKU-002</div>
+            <div style="font-size:9px;color:#666;margin-top:1px">Mechanical Part B · 6 units in stock</div>
+          </div>
+          <div style="padding:8px 10px">
+            <div style="font-size:10px;font-weight:700;color:#2563eb">SKU-003</div>
+            <div style="font-size:9px;color:#666;margin-top:1px">Assembly Kit C · 2 units in stock</div>
+          </div>
+        </div>
+        <!-- Annotation -->
+        <div style="padding:8px 10px;background:#fffbf0;border-left:2px solid #f59e0b;border-radius:2px;margin-top:auto">
+          <div style="font-size:9px;color:#92400e;font-weight:600;margin-bottom:2px">📌 Interaction note</div>
+          <div style="font-size:8px;color:#92400e;line-height:1.5">Clicking the search box opens a full dropdown listing all existing SKUs. User can type to filter.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="width:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="font-size:18px;color:#ccc">→</div>
+    </div>
+
+    <!-- ── STEP 2: Item Selected — qty stepper shown but grayed ── -->
+    <div style="flex:1;background:#fff;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden;min-height:420px">
+      <div style="background:#f0f7ff;border-bottom:2px solid #2563eb;padding:12px 16px;display:flex;align-items:center;gap:10px">
+        <div style="width:24px;height:24px;background:#2563eb;border-radius:50%;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#1a1a1a">Item Selected</div>
+          <div style="font-size:9px;color:#666">Item chosen — current stock shown, stepper inactive</div>
+        </div>
+      </div>
+      <div style="padding:16px;flex:1;display:flex;flex-direction:column;gap:12px">
+        <!-- Label row -->
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:600;color:#333">Search by SKU or Item Name</span>
+          <span style="font-size:10px;color:#2563eb;font-weight:600;cursor:pointer">+ Add Item</span>
+        </div>
+        <!-- Search box locked with selection -->
+        <div style="padding:8px 10px;border:1px solid #2563eb;border-radius:2px;font-size:10px;background:#f0f7ff;display:flex;justify-content:space-between;align-items:center">
+          <span style="color:#2563eb;font-weight:600">SKU-001 — Electronic Component A</span>
+          <span style="font-size:9px;color:#2563eb">✓</span>
+        </div>
+        <!-- Current stock info — 3 stat chips -->
+        <div>
+          <div style="font-size:9px;font-weight:700;color:#2563eb;margin-bottom:6px;letter-spacing:0.04em">CURRENT STOCK</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
+            <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:2px;padding:8px 10px;text-align:center">
+              <div style="font-size:8px;color:#2563eb;font-weight:600;margin-bottom:3px">STOCK</div>
+              <div style="font-size:15px;font-weight:800;color:#1a1a1a;line-height:1">12</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">units</div>
+            </div>
+            <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:2px;padding:8px 10px;text-align:center">
+              <div style="font-size:8px;color:#2563eb;font-weight:600;margin-bottom:3px">UNIT PRICE</div>
+              <div style="font-size:13px;font-weight:800;color:#1a1a1a;line-height:1">₹850</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">per unit</div>
+            </div>
+            <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:2px;padding:8px 10px;text-align:center">
+              <div style="font-size:8px;color:#2563eb;font-weight:600;margin-bottom:3px">TOTAL VALUE</div>
+              <div style="font-size:12px;font-weight:800;color:#1a1a1a;line-height:1">₹10,200</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">in stock</div>
+            </div>
+          </div>
+          <!-- Edit button -->
+          <button style="width:100%;padding:7px 12px;background:#fff;color:#2563eb;border:1.5px solid #2563eb;border-radius:2px;font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.02em">✎ Edit Stock &amp; Price</button>
+        </div>
+
+        <!-- Annotation -->
+        <div style="padding:8px 10px;background:#fffbf0;border-left:2px solid #f59e0b;border-radius:2px;margin-top:auto">
+          <div style="font-size:9px;color:#92400e;font-weight:600;margin-bottom:2px">📌 Interaction note</div>
+          <div style="font-size:8px;color:#92400e;line-height:1.5">Selecting an item reveals current stock details. Stepper is grayed — user must tap +/− to activate editing mode.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="width:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="font-size:18px;color:#ccc">→</div>
+    </div>
+
+    <!-- ── STEP 3: Count editing active — before/after shown ── -->
+    <div style="flex:1;background:#fff;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden;min-height:420px">
+      <div style="background:#f0f7ff;border-bottom:2px solid #2563eb;padding:12px 16px;display:flex;align-items:center;gap:10px">
+        <div style="width:24px;height:24px;background:#2563eb;border-radius:50%;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#1a1a1a">Editing Count</div>
+          <div style="font-size:9px;color:#666">Stepper active — before &amp; after units shown</div>
+        </div>
+      </div>
+      <div style="padding:16px;flex:1;display:flex;flex-direction:column;gap:12px">
+        <!-- Label row -->
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:600;color:#333">Search by SKU or Item Name</span>
+          <span style="font-size:10px;color:#2563eb;font-weight:600;cursor:pointer">+ Add Item</span>
+        </div>
+        <!-- Search box locked -->
+        <div style="padding:8px 10px;border:1px solid #2563eb;border-radius:2px;font-size:10px;background:#f0f7ff;display:flex;justify-content:space-between;align-items:center">
+          <span style="color:#2563eb;font-weight:600">SKU-001 — Electronic Component A</span>
+          <span style="font-size:9px;color:#2563eb">✓</span>
+        </div>
+        <!-- Current stock info — 3 stat chips -->
+        <div>
+          <div style="font-size:9px;font-weight:700;color:#2563eb;margin-bottom:6px;letter-spacing:0.04em">CURRENT STOCK</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
+            <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:2px;padding:8px 10px;text-align:center">
+              <div style="font-size:8px;color:#2563eb;font-weight:600;margin-bottom:3px">STOCK</div>
+              <div style="font-size:15px;font-weight:800;color:#1a1a1a;line-height:1">12</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">units</div>
+            </div>
+            <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:2px;padding:8px 10px;text-align:center">
+              <div style="font-size:8px;color:#2563eb;font-weight:600;margin-bottom:3px">UNIT PRICE</div>
+              <div style="font-size:13px;font-weight:800;color:#1a1a1a;line-height:1">₹850</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">per unit</div>
+            </div>
+            <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:2px;padding:8px 10px;text-align:center">
+              <div style="font-size:8px;color:#2563eb;font-weight:600;margin-bottom:3px">TOTAL VALUE</div>
+              <div style="font-size:12px;font-weight:800;color:#1a1a1a;line-height:1">₹10,200</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">in stock</div>
+            </div>
+          </div>
+          <!-- Edit button — active state -->
+          <button style="width:100%;padding:7px 12px;background:#2563eb;color:#fff;border:1.5px solid #2563eb;border-radius:2px;font-size:10px;font-weight:600;cursor:pointer;letter-spacing:0.02em">✎ Editing Stock &amp; Price</button>
+        </div>
+        <!-- Qty stepper ACTIVE -->
+        <div>
+          <div style="font-size:10px;font-weight:600;color:#333;margin-bottom:6px">Quantity</div>
+          <div style="display:flex;align-items:center;border:2px solid #2563eb;border-radius:2px;overflow:hidden">
+            <button style="padding:6px 14px;background:#f0f7ff;border:none;border-right:1px solid #2563eb;font-size:16px;font-weight:700;color:#2563eb;cursor:pointer">−</button>
+            <div style="flex:1;padding:6px 8px;font-size:14px;font-weight:700;color:#2563eb;text-align:center">15</div>
+            <button style="padding:6px 14px;background:#f0f7ff;border:none;border-left:1px solid #2563eb;font-size:16px;font-weight:700;color:#2563eb;cursor:pointer">+</button>
+          </div>
+          <!-- Before / After -->
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <div style="font-size:9px;color:#999">Before: <span style="font-weight:700;color:#666;text-decoration:line-through">12 units</span></div>
+            <div style="font-size:10px;color:#ccc">→</div>
+            <div style="font-size:9px;color:#2563eb;font-weight:700">After: 15 units</div>
+          </div>
+        </div>
+        <!-- Unit price -->
+        <div>
+          <div style="font-size:10px;font-weight:600;color:#333;margin-bottom:4px">Unit Price (Rs)</div>
+          <input type="number" value="900" style="width:100%;padding:6px 10px;border:2px solid #2563eb;border-radius:2px;font-size:11px;font-weight:600;color:#2563eb">
+          <div style="font-size:9px;color:#999;margin-top:4px">Before: <span style="text-decoration:line-through">₹850</span> → <span style="color:#2563eb;font-weight:700">₹900</span></div>
+        </div>
+        <!-- Annotation -->
+        <div style="padding:8px 10px;background:#fffbf0;border-left:2px solid #f59e0b;border-radius:2px;margin-top:auto">
+          <div style="font-size:9px;color:#92400e;font-weight:600;margin-bottom:2px">📌 Interaction note</div>
+          <div style="font-size:8px;color:#92400e;line-height:1.5">Stepper turns blue when active. Before/after units appear inline below as user changes value.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="width:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="font-size:18px;color:#ccc">→</div>
+    </div>
+
+    <!-- ── STEP 4: Save Changes appears ── -->
+    <div style="flex:1;background:#fff;border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.1);display:flex;flex-direction:column;overflow:hidden;min-height:420px">
+      <div style="background:#fef3c7;border-bottom:2px solid #f59e0b;padding:12px 16px;display:flex;align-items:center;gap:10px">
+        <div style="width:24px;height:24px;background:#f59e0b;border-radius:50%;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:#1a1a1a">Save Changes</div>
+          <div style="font-size:9px;color:#666">Update confirmed — Save Changes CTA appears</div>
+        </div>
+      </div>
+      <div style="padding:16px;flex:1;display:flex;flex-direction:column;gap:12px">
+        <!-- Label row -->
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:10px;font-weight:600;color:#333">Search by SKU or Item Name</span>
+          <span style="font-size:10px;color:#2563eb;font-weight:600;cursor:pointer">+ Add Item</span>
+        </div>
+        <!-- Search box locked -->
+        <div style="padding:8px 10px;border:1px solid #2563eb;border-radius:2px;font-size:10px;background:#f0f7ff;display:flex;justify-content:space-between;align-items:center">
+          <span style="color:#2563eb;font-weight:600">SKU-001 — Electronic Component A</span>
+          <span style="font-size:9px;color:#2563eb">✓</span>
+        </div>
+        <!-- Change summary -->
+        <div style="background:#fef3c7;border-left:3px solid #f59e0b;padding:10px 12px;border-radius:2px">
+          <div style="font-size:9px;color:#92400e;font-weight:700;margin-bottom:6px">⚠ CHANGE SUMMARY</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:9px;color:#92400e;font-weight:600;margin-bottom:4px">
+            <div>Field</div><div>Before</div><div>After</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:10px;margin-bottom:3px">
+            <div style="color:#666">Quantity</div>
+            <div style="color:#bbb;text-decoration:line-through">12 units</div>
+            <div style="color:#2563eb;font-weight:700">15 units</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:10px;margin-bottom:6px">
+            <div style="color:#666">Unit Price</div>
+            <div style="color:#bbb;text-decoration:line-through">₹850</div>
+            <div style="color:#2563eb;font-weight:700">₹900</div>
+          </div>
+          <div style="border-top:1px solid #fcd34d;padding-top:6px;font-size:10px;color:#92400e;font-weight:700">New Total: ₹13,500 <span style="font-weight:400">(was ₹10,200)</span></div>
+        </div>
+        <!-- Save CTA -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button style="padding:9px 12px;background:#f5f5f5;color:#555;border:1px solid #ccc;border-radius:2px;font-size:10px;font-weight:600;cursor:pointer">Cancel</button>
+          <button style="padding:9px 12px;background:#2563eb;color:#fff;border:none;border-radius:2px;font-size:10px;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(37,99,235,.35)">Save Changes</button>
+        </div>
+        <!-- Annotation -->
+        <div style="padding:8px 10px;background:#fffbf0;border-left:2px solid #f59e0b;border-radius:2px;margin-top:auto">
+          <div style="font-size:9px;color:#92400e;font-weight:600;margin-bottom:2px">📌 Interaction note</div>
+          <div style="font-size:8px;color:#92400e;line-height:1.5">Once user finishes editing, Save Changes CTA appears with full before/after summary. Cancel resets the form.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Path B placeholder -->
+  <div style="background:#f9f9f9;border:2px dashed #ccc;border-radius:2px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-size:13px;font-weight:700;color:#999;margin-bottom:3px">Path B — Add New Item</div>
+      <div style="font-size:10px;color:#bbb">+ Add Item clicked → Blank form → Fill details → Confirm → Saved</div>
+    </div>
+    <div style="font-size:11px;font-weight:600;color:#bbb;background:#f0f0f0;padding:6px 14px;border-radius:2px">Coming next →</div>
+  </div>
+
+</div>
+
+<!-- PAGE 4: Supplier Purchase Order -->
+<div style="position:absolute;left:80px;top:3500px;width:1920px;height:1080px">
+  <div class="wireframe-label" data-drags-parent="1">04. Supplier Purchase Order</div>
+  <div class="wireframe-card" style="height:100%">
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <div class="nav-logo">ERP System</div>
+      <div class="nav-menu">
+        <div class="nav-item">Orders</div>
+        <div class="nav-item">Quotations</div>
+        <div class="nav-item active">Purchase Orders</div>
+        <div class="nav-item">Inventory</div>
+        <div class="nav-item">Tracking</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11px">
+        <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600">JD</div>
+        <div>JD</div>
+      </div>
+    </div>
+
+    <div class="page-title">Create & Manage Supplier Purchase Orders</div>
+    <div style="flex:1;display:flex;overflow:hidden">
+      <div style="width:30%;border-right:1px solid #ccc;padding:16px;overflow-y:auto">
+        <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px">Supplier Details</div>
+        <div style="background:#fff;border:1px solid #ccc;padding:8px;margin-bottom:8px;border-radius:2px;font-size:11px">
+          <div style="color:#666;font-size:9px;margin-bottom:2px">Supplier Name</div>
+          <div style="font-weight:600">TechParts International Ltd</div>
+        </div>
+        <div style="border:1px solid #ccc;padding:10px;background:#f9f9f9;margin-bottom:8px;border-radius:2px">
+          <div style="font-size:10px;color:#666;margin-bottom:4px">Total Items</div>
+          <div style="font-size:18px;font-weight:700;color:#2563eb">6</div>
+        </div>
+      </div>
+      <div style="width:70%;padding:12px;overflow-y:auto;display:flex;flex-direction:column">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px">PO Line Items</div>
+        <div style="background:#f0f0f0;padding:8px;font-size:11px;font-weight:600;color:#333;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;gap:12px;margin-bottom:4px;border-radius:2px">
+          <div>SKU</div><div>Item</div><div>Qty</div><div>Unit Price</div><div>Total</div><div>Action</div>
+        </div>
+        <div style="background:#fff;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1.2fr 1.4fr 0.8fr;gap:12px;margin-bottom:1px;border-bottom:1px solid #f0f0f0">
+          <div style="font-weight:600">SKU-002</div><div>Mechanical Part B</div><div style="text-align:center;color:#666">4</div><div style="text-align:right;color:#666">₹1,200</div><div style="font-weight:600;text-align:right">₹4,800</div><div style="color:#999">✕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5: Order Tracking -->
+<div style="position:absolute;left:80px;top:4640px;width:1920px;height:1080px">
+  <div class="wireframe-label" data-drags-parent="1">05. Order Tracking</div>
+  <div class="wireframe-card" style="height:100%">
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <div class="nav-logo">ERP System</div>
+      <div class="nav-menu">
+        <div class="nav-item">Orders</div>
+        <div class="nav-item">Quotations</div>
+        <div class="nav-item">Purchase Orders</div>
+        <div class="nav-item">Inventory</div>
+        <div class="nav-item active">Tracking</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11px">
+        <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600">JD</div>
+        <div>JD</div>
+      </div>
+    </div>
+
+    <div class="page-title">Order Status & Timeline Tracking</div>
+    <div style="flex:1;padding:20px;overflow-y:auto">
+      <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px">Order Timeline</div>
+      <div style="border:1px solid #ccc;padding:16px;background:#f9f9f9;border-radius:2px">
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <div style="width:24px;height:24px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">✓</div>
+          <div>
+            <div style="font-size:11px;font-weight:600">Order Confirmed</div>
+            <div style="font-size:10px;color:#666">June 20, 2024</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <div style="width:24px;height:24px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">⟳</div>
+          <div>
+            <div style="font-size:11px;font-weight:600">Processing at Supplier</div>
+            <div style="font-size:10px;color:#666">June 21, 2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 6: Inventory Receiving -->
+<div style="position:absolute;left:80px;top:5780px;width:1920px;height:1080px">
+  <div class="wireframe-label" data-drags-parent="1">06. Inventory Receiving</div>
+  <div class="wireframe-card" style="height:100%">
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <div class="nav-logo">ERP System</div>
+      <div class="nav-menu">
+        <div class="nav-item">Orders</div>
+        <div class="nav-item">Quotations</div>
+        <div class="nav-item">Purchase Orders</div>
+        <div class="nav-item active">Inventory</div>
+        <div class="nav-item">Tracking</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; font-size: 11px">
+        <div style="width: 28px; height: 28px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600">JD</div>
+        <div>JD</div>
+      </div>
+    </div>
+
+    <div class="page-title">Receive Stock & Update Inventory</div>
+    <div style="flex:1;display:flex;overflow:hidden">
+      <div style="width:25%;border-right:1px solid #ccc;padding:16px;overflow-y:auto">
+        <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:12px">Receipt Details</div>
+        <div style="border:1px solid #ccc;padding:12px;background:#f9f9f9;margin-bottom:10px;border-radius:2px">
+          <div style="font-size:10px;color:#666;font-weight:600;margin-bottom:6px">Total Expected</div>
+          <div style="font-size:20px;font-weight:700;color:#333">24</div>
+        </div>
+        <div style="border:1px solid #ccc;padding:12px;background:#e0f7e0;margin-bottom:10px;border-radius:2px">
+          <div style="font-size:10px;color:#16a34a;font-weight:600;margin-bottom:6px">Total Received</div>
+          <div style="font-size:20px;font-weight:700;color:#16a34a">20</div>
+        </div>
+      </div>
+      <div style="width:75%;padding:12px;overflow-y:auto;display:flex;flex-direction:column">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px">Received Items</div>
+        <div style="background:#f0f0f0;padding:8px;font-size:11px;font-weight:600;color:#333;display:grid;grid-template-columns:1.2fr 2fr 1fr 1fr 1fr 1fr;gap:12px;margin-bottom:4px;border-radius:2px">
+          <div>SKU</div><div>Item Description</div><div>Expected</div><div>Received</div><div>Variance</div><div>Status</div>
+        </div>
+        <div style="background:#e0f7e0;padding:8px;font-size:10px;display:grid;grid-template-columns:1.2fr 2fr 1fr 1fr 1fr 1fr;gap:12px;margin-bottom:1px;border-bottom:1px solid #f0f0f0">
+          <div style="font-weight:600">SKU-001</div><div>Electronic Component A</div><div style="color:#666">12</div><div style="color:#16a34a;font-weight:600">12</div><div style="color:#16a34a">✓ 0</div><div style="color:#16a34a;font-weight:600">Complete</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div style="position:absolute;left:80px;top:6920px;width:1760px;background:#fff;padding:24px;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08)">
+  <h2 style="font-size:16px;font-weight:600;margin-bottom:12px">ERP System with Navigation Menu</h2>
+  <p style="font-size:13px;color:#666;line-height:1.8">
+    All 6 pages now include a consistent navigation menu bar with the ERP System logo, main menu items (Orders, Quotations, Purchase Orders, Inventory, Tracking), and user profile section. The active menu item is highlighted in blue to show which page the user is currently viewing. Page 2 has been redesigned as a Customer Orders List with advanced filtering, search, and sort capabilities, showing a card-based list view of all quotation orders with status indicators and quick action links.
+  </p>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "ERP System Complete Wireframe Board";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

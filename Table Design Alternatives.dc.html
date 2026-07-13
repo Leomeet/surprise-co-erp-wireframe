@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+  </style>
+</helmet>
+
+<div style="padding: 40px; background: #f5f5f5; min-height: 100vh">
+  <div style="max-width: 1800px; margin: 0 auto">
+    <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 8px">Table Design Alternatives</h1>
+    <p style="font-size: 14px; color: #666; margin-bottom: 40px">Compare 3 approaches for the quotation items table</p>
+
+    <!-- OPTION 1: Minimal Separator Lines -->
+    <div style="background: #fff; margin-bottom: 60px; box-shadow: 0 1px 3px rgba(0,0,0,.08)">
+      <div style="padding: 20px; border-bottom: 1px solid #e8e8e8; background: #fafafa">
+        <h2 style="font-size: 16px; font-weight: 600">Option 1: Minimal Separator Lines</h2>
+        <p style="font-size: 12px; color: #666; margin-top: 4px">Only horizontal lines between rows, no borders on inputs</p>
+      </div>
+
+      <div style="overflow-x: auto">
+        <div style="padding: 16px; min-width: 900px">
+          <!-- Header -->
+          <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px 0; border-bottom: 2px solid #333; margin-bottom: 4px; font-size: 11px; font-weight: 600; color: #333">
+            <div>SKU</div>
+            <div>Description</div>
+            <div style="text-align: center">Qty</div>
+            <div style="text-align: right">Unit Price</div>
+            <div style="text-align: center; color: #16a34a">Available</div>
+            <div style="text-align: center; color: #dc2626">OOS</div>
+            <div style="text-align: center">Del</div>
+          </div>
+
+          <!-- Row 1 -->
+          <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e8e8e8; align-items: center">
+            <input type="text" value="SKU-001" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; font-weight: 600; color: #2563eb; font-family: monospace">
+            <input type="text" value="Steel Rod" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px">
+            <input type="number" value="50" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center">
+            <div style="display: flex; gap: 4px; align-items: center"><span style="font-size: 11px">₹</span><input type="number" value="125.50" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: right"></div>
+            <input type="number" value="35" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #16a34a; font-weight: 600">
+            <input type="number" value="15" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #dc2626; font-weight: 600">
+            <button style="padding: 6px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.15s" style-hover="color: #dc2626">✕</button>
+          </div>
+
+          <!-- Row 2 -->
+          <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e8e8e8; align-items: center">
+            <input type="text" value="SKU-002" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; font-weight: 600; color: #2563eb; font-family: monospace">
+            <input type="text" value="Copper Wire" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px">
+            <input type="number" value="100" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center">
+            <div style="display: flex; gap: 4px; align-items: center"><span style="font-size: 11px">₹</span><input type="number" value="45.00" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: right"></div>
+            <input type="number" value="100" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #16a34a; font-weight: 600">
+            <input type="number" value="0" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #dc2626; font-weight: 600">
+            <button style="padding: 6px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.15s" style-hover="color: #dc2626">✕</button>
+          </div>
+
+          <!-- Row 3 -->
+          <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e8e8e8; align-items: center">
+            <input type="text" value="SKU-003" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; font-weight: 600; color: #2563eb; font-family: monospace">
+            <input type="text" value="Aluminum Sheet" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px">
+            <input type="number" value="25" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center">
+            <div style="display: flex; gap: 4px; align-items: center"><span style="font-size: 11px">₹</span><input type="number" value="320.75" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: right"></div>
+            <input type="number" value="10" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #16a34a; font-weight: 600">
+            <input type="number" value="15" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #dc2626; font-weight: 600">
+            <button style="padding: 6px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.15s" style-hover="color: #dc2626">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 2: Alternating Row Backgrounds (Zebra Stripes - Refined) -->
+    <div style="background: #fff; margin-bottom: 60px; box-shadow: 0 1px 3px rgba(0,0,0,.08)">
+      <div style="padding: 20px; border-bottom: 1px solid #e8e8e8; background: #fafafa">
+        <h2 style="font-size: 16px; font-weight: 600">Option 2: Alternating Row Backgrounds (Zebra Stripes - Refined)</h2>
+        <p style="font-size: 12px; color: #666; margin-top: 4px">Better typography, centered alignment, prominent delete button</p>
+      </div>
+
+      <div style="overflow-x: auto">
+        <div style="padding: 0; min-width: 950px">
+          <!-- Header -->
+          <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #e8e8e8; font-size: 13px; font-weight: 700; color: #1a1a1a; letter-spacing: 0.3px">
+            <div style="text-align: left">SKU</div>
+            <div style="text-align: left">Description</div>
+            <div style="text-align: center">Qty</div>
+            <div style="text-align: right; padding-right: 12px">Unit Price</div>
+            <div style="text-align: center; color: #16a34a">Available</div>
+            <div style="text-align: center; color: #dc2626">OOS</div>
+            <div style="text-align: center">Action</div>
+          </div>
+
+          <!-- Row 1 (white) -->
+          <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #fff; align-items: center; height: 48px">
+            <input type="text" value="SKU-001" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #2563eb; font-family: 'Courier New', monospace">
+            <input type="text" value="Steel Rod" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; color: #333">
+            <input type="number" value="50" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #333">
+            <div style="display: flex; gap: 6px; align-items: center; justify-content: flex-end"><span style="font-size: 13px; color: #666">₹</span><input type="number" value="125.50" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: right; color: #333"></div>
+            <input type="number" value="35" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #16a34a; font-weight: 700">
+            <input type="number" value="15" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #dc2626; font-weight: 700">
+            <button style="padding: 6px 12px; border: 1px solid #dc2626; border-radius: 4px; background: #fff; color: #dc2626; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; margin: 0 auto; display: block" style-hover="background: #fef2f2; border-color: #b91c1c">Delete</button>
+          </div>
+
+          <!-- Row 2 (light gray) -->
+          <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #f9f9f9; align-items: center; height: 48px">
+            <input type="text" value="SKU-002" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #2563eb; font-family: 'Courier New', monospace">
+            <input type="text" value="Copper Wire" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; color: #333">
+            <input type="number" value="100" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #333">
+            <div style="display: flex; gap: 6px; align-items: center; justify-content: flex-end"><span style="font-size: 13px; color: #666">₹</span><input type="number" value="45.00" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: right; color: #333"></div>
+            <input type="number" value="100" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #16a34a; font-weight: 700">
+            <input type="number" value="0" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #dc2626; font-weight: 700">
+            <button style="padding: 6px 12px; border: 1px solid #dc2626; border-radius: 4px; background: #fff; color: #dc2626; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; margin: 0 auto; display: block" style-hover="background: #fef2f2; border-color: #b91c1c">Delete</button>
+          </div>
+
+          <!-- Row 3 (white) -->
+          <div style="display: grid; grid-template-columns: 90px 220px 70px 110px 110px 110px 70px; gap: 16px; padding: 14px 20px; background: #fff; align-items: center; height: 48px">
+            <input type="text" value="SKU-003" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; font-weight: 600; color: #2563eb; font-family: 'Courier New', monospace">
+            <input type="text" value="Aluminum Sheet" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; color: #333">
+            <input type="number" value="25" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #333">
+            <div style="display: flex; gap: 6px; align-items: center; justify-content: flex-end"><span style="font-size: 13px; color: #666">₹</span><input type="number" value="320.75" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: right; color: #333"></div>
+            <input type="number" value="10" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #16a34a; font-weight: 700">
+            <input type="number" value="15" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 13px; text-align: center; color: #dc2626; font-weight: 700">
+            <button style="padding: 6px 12px; border: 1px solid #dc2626; border-radius: 4px; background: #fff; color: #dc2626; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; margin: 0 auto; display: block" style-hover="background: #fef2f2; border-color: #b91c1c">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 3: Floating Cards / Row Groups -->
+    <div style="background: #fff; margin-bottom: 60px; box-shadow: 0 1px 3px rgba(0,0,0,.08)">
+      <div style="padding: 20px; border-bottom: 1px solid #e8e8e8; background: #fafafa">
+        <h2 style="font-size: 16px; font-weight: 600">Option 3: Spaced Row Groups (Subtle Separation)</h2>
+        <p style="font-size: 12px; color: #666; margin-top: 4px">Light background with spacing between rows, no borders on inputs</p>
+      </div>
+
+      <div style="overflow-x: auto; padding: 16px">
+        <!-- Header -->
+        <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px; background: #f5f5f5; margin-bottom: 12px; font-size: 11px; font-weight: 600; color: #333">
+          <div>SKU</div>
+          <div>Description</div>
+          <div style="text-align: center">Qty</div>
+          <div style="text-align: right">Unit Price</div>
+          <div style="text-align: center; color: #16a34a">Available</div>
+          <div style="text-align: center; color: #dc2626">OOS</div>
+          <div style="text-align: center">Del</div>
+        </div>
+
+        <!-- Row 1 -->
+        <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px; background: #fafafa; margin-bottom: 8px; align-items: center">
+          <input type="text" value="SKU-001" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; font-weight: 600; color: #2563eb; font-family: monospace">
+          <input type="text" value="Steel Rod" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px">
+          <input type="number" value="50" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center">
+          <div style="display: flex; gap: 4px; align-items: center"><span style="font-size: 11px">₹</span><input type="number" value="125.50" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: right"></div>
+          <input type="number" value="35" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #16a34a; font-weight: 600">
+          <input type="number" value="15" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #dc2626; font-weight: 600">
+          <button style="padding: 6px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.15s" style-hover="color: #dc2626">✕</button>
+        </div>
+
+        <!-- Row 2 -->
+        <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px; background: #fafafa; margin-bottom: 8px; align-items: center">
+          <input type="text" value="SKU-002" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; font-weight: 600; color: #2563eb; font-family: monospace">
+          <input type="text" value="Copper Wire" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px">
+          <input type="number" value="100" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center">
+          <div style="display: flex; gap: 4px; align-items: center"><span style="font-size: 11px">₹</span><input type="number" value="45.00" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: right"></div>
+          <input type="number" value="100" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #16a34a; font-weight: 600">
+          <input type="number" value="0" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #dc2626; font-weight: 600">
+          <button style="padding: 6px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.15s" style-hover="color: #dc2626">✕</button>
+        </div>
+
+        <!-- Row 3 -->
+        <div style="display: grid; grid-template-columns: 80px 200px 60px 100px 100px 100px 50px; gap: 12px; padding: 12px; background: #fafafa; margin-bottom: 8px; align-items: center">
+          <input type="text" value="SKU-003" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; font-weight: 600; color: #2563eb; font-family: monospace">
+          <input type="text" value="Aluminum Sheet" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px">
+          <input type="number" value="25" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center">
+          <div style="display: flex; gap: 4px; align-items: center"><span style="font-size: 11px">₹</span><input type="number" value="320.75" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: right"></div>
+          <input type="number" value="10" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #16a34a; font-weight: 600">
+          <input type="number" value="15" style="width: 100%; padding: 6px 8px; border: none; background: transparent; font-size: 12px; text-align: center; color: #dc2626; font-weight: 600">
+          <button style="padding: 6px 8px; border: none; background: transparent; color: #999; cursor: pointer; font-size: 14px; transition: color 0.15s" style-hover="color: #dc2626">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div style="background: #fff; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.08)">
+      <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px">Comparison</h3>
+      <ul style="font-size: 12px; color: #666; line-height: 1.8">
+        <li><strong>Option 1 (Minimal Lines):</strong> Clean & minimal. Only top/bottom separators. Feels modern. Best for quick scanning.</li>
+        <li><strong>Option 2 (Zebra Stripes):</strong> Classic data table look. Alternating rows help eye tracking. Traditional but effective.</li>
+        <li><strong>Option 3 (Row Spacing):</strong> Airy, modern feel. Clear separation without visual noise. Best readability. Slightly more compact than cards.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+
+</script>
+</body>
+</html>

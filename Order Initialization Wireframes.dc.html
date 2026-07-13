@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</helmet>
+
+<!-- VARIANT A: Vertical Step-by-Step Wizard -->
+<div style="position:absolute;left:80px;top:80px;width:420px">
+  <div data-drags-parent="1" style="position:absolute;top:-22px;font:500 11px system-ui;color:rgba(60,50,40,.7)">Variant A: Wizard Flow (Step-by-step)</div>
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0">
+    <!-- Header -->
+    <div style="padding:16px;border-bottom:1px solid #e0e0e0;background:#f9f9f9">
+      <div style="font:600 14px system-ui;color:#333">Order Initialization</div>
+      <div style="font:12px system-ui;color:#666;margin-top:4px">Step 1 of 3: Upload Quotation</div>
+    </div>
+    
+    <!-- Step Progress -->
+    <div style="padding:16px;display:flex;gap:8px;align-items:center">
+      <div style="width:28px;height:28px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font:600 12px system-ui">1</div>
+      <div style="flex:1;height:2px;background:#e0e0e0"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#e0e0e0;color:#999;display:flex;align-items:center;justify-content:center;font:600 12px system-ui">2</div>
+      <div style="flex:1;height:2px;background:#e0e0e0"></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:#e0e0e0;color:#999;display:flex;align-items:center;justify-content:center;font:600 12px system-ui">3</div>
+    </div>
+    
+    <!-- Upload Area -->
+    <div style="padding:24px;text-align:center">
+      <div style="border:2px dashed #2563eb;border-radius:8px;padding:32px;background:#f0f7ff">
+        <div style="font:600 14px system-ui;color:#2563eb">📄 Upload Quotation</div>
+        <div style="font:12px system-ui;color:#666;margin-top:8px">PDF or Excel file</div>
+        <div style="font:12px system-ui;color:#999;margin-top:12px">Drag & drop or click to browse</div>
+      </div>
+    </div>
+    
+    <!-- Order Metadata -->
+    <div style="padding:16px;border-top:1px solid #e0e0e0;background:#f9f9f9">
+      <div style="font:600 12px system-ui;color:#333;margin-bottom:12px">Order Information</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div>
+          <label style="font:11px system-ui;color:#666;display:block;margin-bottom:4px">Order Name</label>
+          <div style="border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;background:#fff">Customer ABC - Q2 Stock</div>
+        </div>
+        <div>
+          <label style="font:11px system-ui;color:#666;display:block;margin-bottom:4px">Expected Delivery</label>
+          <div style="border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;background:#fff">2026-07-15</div>
+        </div>
+        <div>
+          <label style="font:11px system-ui;color:#666;display:block;margin-bottom:4px">Payment Status</label>
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;background:#fff;text-align:center">Unpaid</div>
+            <div style="flex:1;border:1px solid #2563eb;border-radius:4px;padding:8px;font:12px system-ui;background:#e7f0ff;text-align:center;color:#2563eb">Paid</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Actions -->
+    <div style="padding:16px;border-top:1px solid #e0e0e0;display:flex;gap:8px">
+      <button style="flex:1;padding:10px;border:1px solid #ddd;border-radius:4px;background:#fff;font:600 12px system-ui;color:#333;cursor:pointer">Cancel</button>
+      <button style="flex:1;padding:10px;border:none;border-radius:4px;background:#2563eb;font:600 12px system-ui;color:#fff;cursor:pointer">Next</button>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT B: Single Page with Sections -->
+<div style="position:absolute;left:560px;top:80px;width:420px">
+  <div data-drags-parent="1" style="position:absolute;top:-22px;font:500 11px system-ui;color:rgba(60,50,40,.7)">Variant B: Compact Single Page</div>
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0">
+    <!-- Header -->
+    <div style="padding:16px;border-bottom:1px solid #e0e0e0;background:#f9f9f9">
+      <div style="font:600 14px system-ui;color:#333">New Order</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div style="padding:20px;display:flex;flex-direction:column;gap:20px">
+      
+      <!-- Upload Section -->
+      <div>
+        <div style="font:600 12px system-ui;color:#333;margin-bottom:12px">1. Upload Quotation File</div>
+        <div style="border:2px dashed #ccc;border-radius:6px;padding:24px;text-align:center;background:#fafafa">
+          <div style="font:14px system-ui;color:#666">📄</div>
+          <div style="font:12px system-ui;color:#666;margin-top:8px">Upload PDF or Excel</div>
+        </div>
+      </div>
+      
+      <!-- Order Details Section -->
+      <div>
+        <div style="font:600 12px system-ui;color:#333;margin-bottom:12px">2. Order Details</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <label style="font:11px system-ui;color:#666;display:block;margin-bottom:4px">Order Name *</label>
+            <input style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;box-sizing:border-box" placeholder="e.g., Customer ABC Order">
+          </div>
+          <div>
+            <label style="font:11px system-ui;color:#666;display:block;margin-bottom:4px">Expected Delivery *</label>
+            <input style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;box-sizing:border-box" placeholder="DD/MM/YYYY">
+          </div>
+          <div>
+            <label style="font:11px system-ui;color:#666;display:block;margin-bottom:4px">Payment Status *</label>
+            <select style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;box-sizing:border-box">
+              <option>Select status...</option>
+              <option>Paid</option>
+              <option>Unpaid</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- Actions -->
+    <div style="padding:16px;border-top:1px solid #e0e0e0;display:flex;gap:8px;background:#f9f9f9">
+      <button style="flex:1;padding:10px;border:1px solid #ddd;border-radius:4px;background:#fff;font:600 12px system-ui;color:#333;cursor:pointer">Cancel</button>
+      <button style="flex:1;padding:10px;border:none;border-radius:4px;background:#2563eb;font:600 12px system-ui;color:#fff;cursor:pointer">Process & Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT C: Two-Column Layout (Upload + Preview) -->
+<div style="position:absolute;left:1040px;top:80px;width:460px">
+  <div data-drags-parent="1" style="position:absolute;top:-22px;font:500 11px system-ui;color:rgba(60,50,40,.7)">Variant C: Two-Column (Upload + Info)</div>
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0;display:flex;flex-direction:column;height:600px">
+    <!-- Header -->
+    <div style="padding:16px;border-bottom:1px solid #e0e0e0;background:#f9f9f9">
+      <div style="font:600 14px system-ui;color:#333">New Customer Order</div>
+      <div style="font:12px system-ui;color:#666;margin-top:4px">Upload & Configure</div>
+    </div>
+    
+    <div style="display:flex;flex:1;overflow:hidden">
+      <!-- Left: Upload -->
+      <div style="flex:1;padding:20px;border-right:1px solid #e0e0e0;display:flex;flex-direction:column">
+        <div style="font:600 12px system-ui;color:#333;margin-bottom:16px">Quotation File</div>
+        <div style="flex:1;border:2px dashed #2563eb;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;background:#f0f7ff;flex-direction:column">
+          <div style="font:32px">📁</div>
+          <div style="font:12px system-ui;color:#2563eb;margin-top:8px;font-weight:600">Drop file here</div>
+          <div style="font:11px system-ui;color:#666;margin-top:4px">PDF, XLS, XLSX</div>
+        </div>
+      </div>
+      
+      <!-- Right: Order Info -->
+      <div style="flex:1;padding:20px;display:flex;flex-direction:column">
+        <div style="font:600 12px system-ui;color:#333;margin-bottom:12px">Order Information</div>
+        <div style="display:flex;flex-direction:column;gap:12px;flex:1">
+          <div>
+            <label style="font:10px system-ui;color:#999;text-transform:uppercase;display:block;margin-bottom:4px">Name</label>
+            <input style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;box-sizing:border-box" placeholder="Order name">
+          </div>
+          <div>
+            <label style="font:10px system-ui;color:#999;text-transform:uppercase;display:block;margin-bottom:4px">Delivery Date</label>
+            <input style="width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;font:12px system-ui;box-sizing:border-box" type="date">
+          </div>
+          <div>
+            <label style="font:10px system-ui;color:#999;text-transform:uppercase;display:block;margin-bottom:4px">Payment</label>
+            <div style="display:flex;gap:6px">
+              <button style="flex:1;padding:8px;border:1px solid #ddd;border-radius:4px;background:#fff;font:11px system-ui;color:#666;cursor:pointer">Unpaid</button>
+              <button style="flex:1;padding:8px;border:2px solid #2563eb;border-radius:4px;background:#e7f0ff;font:11px system-ui;color:#2563eb;cursor:pointer;font-weight:600">Paid</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Actions -->
+    <div style="padding:16px;border-top:1px solid #e0e0e0;display:flex;gap:8px;background:#f9f9f9">
+      <button style="flex:1;padding:10px;border:1px solid #ddd;border-radius:4px;background:#fff;font:600 12px system-ui;color:#333;cursor:pointer">Back</button>
+      <button style="flex:1;padding:10px;border:none;border-radius:4px;background:#2563eb;font:600 12px system-ui;color:#fff;cursor:pointer">Extract & Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT D: Detailed Summary (Post-Upload) -->
+<div style="position:absolute;left:80px;top:740px;width:420px">
+  <div data-drags-parent="1" style="position:absolute;top:-22px;font:500 11px system-ui;color:rgba(60,50,40,.7)">Variant D: Post-Upload Summary</div>
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0">
+    <!-- Header -->
+    <div style="padding:16px;border-bottom:1px solid #e0e0e0;background:#f9f9f9">
+      <div style="font:600 14px system-ui;color:#333">Order Summary</div>
+      <div style="font:12px system-ui;color:#666;margin-top:4px">Customer ABC - Q2 Stock | Uploaded: 24 Jun 2026</div>
+    </div>
+    
+    <!-- Key Metrics -->
+    <div style="padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#f9f9f9;border-bottom:1px solid #e0e0e0">
+      <div style="border:1px solid #e0e0e0;border-radius:4px;padding:12px;background:#fff">
+        <div style="font:11px system-ui;color:#666">Total Items</div>
+        <div style="font:24px;font-weight:600;color:#333;margin-top:4px">24</div>
+      </div>
+      <div style="border:1px solid #e0e0e0;border-radius:4px;padding:12px;background:#fff">
+        <div style="font:11px system-ui;color:#666">In Stock</div>
+        <div style="font:24px;font-weight:600;color:#16a34a;margin-top:4px">18</div>
+      </div>
+      <div style="border:1px solid #e0e0e0;border-radius:4px;padding:12px;background:#fff">
+        <div style="font:11px system-ui;color:#666">Out of Stock</div>
+        <div style="font:24px;font-weight:600;color:#dc2626;margin-top:4px">6</div>
+      </div>
+      <div style="border:1px solid #e0e0e0;border-radius:4px;padding:12px;background:#fff">
+        <div style="font:11px system-ui;color:#666">To Order</div>
+        <div style="font:24px;font-weight:600;color:#ea580c;margin-top:4px">6</div>
+      </div>
+    </div>
+    
+    <!-- Order Details Card -->
+    <div style="padding:16px;border-bottom:1px solid #e0e0e0">
+      <div style="font:600 12px system-ui;color:#333;margin-bottom:12px">Order Details</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font:12px system-ui">
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:#666">Name:</span>
+          <span style="color:#333;font-weight:600">Customer ABC - Q2 Stock</span>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:#666">Expected Delivery:</span>
+          <span style="color:#333;font-weight:600">15 Jul 2026</span>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="color:#666">Payment Status:</span>
+          <span style="color:#16a34a;font-weight:600">✓ Paid</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div style="padding:16px;display:flex;gap:8px">
+      <button style="flex:1;padding:10px;border:1px solid #ddd;border-radius:4px;background:#fff;font:600 12px system-ui;color:#333;cursor:pointer">Edit</button>
+      <button style="flex:1;padding:10px;border:none;border-radius:4px;background:#2563eb;font:600 12px system-ui;color:#fff;cursor:pointer">View Items →</button>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT E: Mobile-Friendly Stack -->
+<div style="position:absolute;left:560px;top:740px;width:360px">
+  <div data-drags-parent="1" style="position:absolute;top:-22px;font:500 11px system-ui;color:rgba(60,50,40,.7)">Variant E: Mobile-First Stack</div>
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0">
+    <!-- Header -->
+    <div style="padding:14px;border-bottom:1px solid #e0e0e0;background:#f9f9f9">
+      <div style="font:600 13px system-ui;color:#333">New Order</div>
+    </div>
+    
+    <!-- Content -->
+    <div style="padding:16px;display:flex;flex-direction:column;gap:16px">
+      
+      <!-- Upload -->
+      <div>
+        <div style="font:600 12px system-ui;color:#333;margin-bottom:10px">Quotation</div>
+        <div style="border:2px dashed #ccc;border-radius:6px;padding:20px;text-align:center;background:#fafafa">
+          <div style="font:20px">📤</div>
+          <div style="font:11px system-ui;color:#666;margin-top:6px">Tap to upload</div>
+        </div>
+      </div>
+      
+      <!-- Input Fields -->
+      <div>
+        <label style="font:11px system-ui;color:#666;display:block;margin-bottom:6px;font-weight:600">Order Name</label>
+        <input style="width:100%;border:1px solid #ddd;border-radius:4px;padding:10px;font:12px system-ui;box-sizing:border-box" placeholder="Enter name">
+      </div>
+      
+      <div>
+        <label style="font:11px system-ui;color:#666;display:block;margin-bottom:6px;font-weight:600">Delivery Date</label>
+        <input style="width:100%;border:1px solid #ddd;border-radius:4px;padding:10px;font:12px system-ui;box-sizing:border-box" type="date">
+      </div>
+      
+      <div>
+        <label style="font:11px system-ui;color:#666;display:block;margin-bottom:8px;font-weight:600">Payment Status</label>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button style="width:100%;padding:12px;border:1px solid #ddd;border-radius:4px;background:#fff;font:12px system-ui;color:#666;cursor:pointer">Unpaid</button>
+          <button style="width:100%;padding:12px;border:2px solid #2563eb;border-radius:4px;background:#e7f0ff;font:12px system-ui;color:#2563eb;cursor:pointer;font-weight:600">Paid</button>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- CTA -->
+    <div style="padding:16px;border-top:1px solid #e0e0e0;display:flex;flex-direction:column;gap:8px;background:#f9f9f9">
+      <button style="width:100%;padding:12px;border:none;border-radius:4px;background:#2563eb;font:600 12px system-ui;color:#fff;cursor:pointer">Process Order</button>
+      <button style="width:100%;padding:12px;border:1px solid #ddd;border-radius:4px;background:#fff;font:600 12px system-ui;color:#333;cursor:pointer">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Annotations -->
+<div style="position:absolute;left:80px;top:1440px;width:840px">
+  <div style="font:600 12px system-ui;color:#333;margin-bottom:12px">📋 Key Flows & Data Points</div>
+  <div style="background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:16px;font:12px system-ui;color:#666;line-height:1.6">
+    <strong>User Journey:</strong> 1) Upload quotation file (PDF/Excel) → 2) Enter order metadata (name, delivery date, payment status) → 3) System extracts items & checks current stock → 4) Display summary (total items, in stock, out of stock, to order)
+    <br><br>
+    <strong>Key Data to Show:</strong> Order name, expected delivery date, payment status (paid/unpaid), total items from quotation, items in stock count, items out of stock count, items to procure from supplier
+    <br><br>
+    <strong>Variant Tradeoffs:</strong>
+    <br>• <strong>A (Wizard):</strong> Linear, step-by-step for less experienced users; more clicks but clear flow
+    <br>• <strong>B (Compact Single):</strong> All-in-one form; faster for power users; may feel cramped
+    <br>• <strong>C (Two-Column):</strong> Upload focus on left, info on right; balanced layout; requires wider screens
+    <br>• <strong>D (Post-Upload Summary):</strong> Shows extraction results with metrics; good for confirmation and next actions
+    <br>• <strong>E (Mobile Stack):</strong> Vertical layout; touch-friendly buttons; works on any device
+  </div>
+</div>
+
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+
+</script>
+</body>
+</html>
